@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/discovery"
+        android:id="@+id/discoveryFragment"
+        android:icon="@drawable/discovery"/>
+    <item android:title="@string/restaurant"
+        android:id="@+id/restaurantFragment"
+        android:icon="@drawable/restaurant_icon"/>
+    <item android:title="@string/stores"
+        android:id="@+id/storeFragment"
+        android:icon="@drawable/store_icon"/>
+    <item android:title="@string/search"
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/search_icon"/>
+    <item android:title="@string/profile"
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile_24"/>
+</menu>
