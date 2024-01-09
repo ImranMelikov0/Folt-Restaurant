@@ -6,4 +6,8 @@
     <string name="stores">Stores</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="categories">Categories</string>
+    <string name="btn_see_all">See all</string>
+    <string name="all_restaurants">All restaurants</string>
+    <string name="all_stores">All stores</string>
 </resources>
