@@ -9,21 +9,12 @@
         motion:duration="1000">
        <KeyFrameSet>
        </KeyFrameSet>
-        <OnSwipe />
-        <OnSwipe
-            motion:touchAnchorId="@+id/nested_scroll"
-            motion:dragDirection="dragDown" />
+        <OnSwipe motion:dragDirection="dragDown"
+            motion:touchAnchorId="@id/scroll_view"
+            />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint
-            android:id="@+id/appBarLayout"
-            motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:translationY="-80dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -36,9 +27,10 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
-            android:id="@+id/store_textview"
+            android:id="@+id/profile_hi_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:translationY="-80dp" />
     </ConstraintSet>
 </MotionScene>

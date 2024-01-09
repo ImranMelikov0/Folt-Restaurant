@@ -9,41 +9,41 @@
     app:layoutDescription="@xml/fragment_store_scene"
     tools:context=".presentation.stores.StoreFragment">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/appBarLayout"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:background="@color/white"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:translationY="-80dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:translationY="-80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            app:contentInsetStart="0dp"-->
-<!--            app:titleTextColor="@color/black">-->
-<!--            <LinearLayout-->
-<!--                android:id="@+id/toolbar_linear"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical">-->
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/stores"-->
-<!--                    android:textSize="20dp"-->
-<!--                    android:layout_marginLeft="8dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textStyle="bold"/>-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStart="0dp"
+            app:titleTextColor="@color/black">
+            <LinearLayout
+                android:id="@+id/toolbar_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stores"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--        </androidx.appcompat.widget.Toolbar>-->
+        </androidx.appcompat.widget.Toolbar>
 
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/store_textview"

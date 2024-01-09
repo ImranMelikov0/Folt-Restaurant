@@ -12,4 +12,19 @@
     <string name="all_stores">All stores</string>
     <string name="search_restaurants_stores">Search restaurants and stores</string>
     <string name="no_results_found">No results found</string>
+    <string name="hi_user">Hi User!</string>
+    <string name="no_orders">No orders</string>
+    <string name="tokens">Tokens</string>
+    <string name="credits">Credits</string>
+    <string name="your_favs">Your favorites</string>
+    <string name="quick_links">Quick links</string>
+    <string name="invite_friends">Invite friends</string>
+    <string name="enter_promo">Enter promo code</string>
+    <string name="customer_support">Customer support</string>
+    <string name="order_history">Order history</string>
+    <string name="settings">Settings</string>
+    <string name="account">Account</string>
+    <string name="credits_and_tokens">Credits and Tokens</string>
+    <string name="payment_methods">Payment methods</string>
+    <string name="my_addresses">My addresses</string>
 </resources>
