@@ -34,8 +34,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/restaurant"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="8dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="8sp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
 
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/restaurant"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_margin="10dp"
@@ -59,6 +59,7 @@
         android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +119,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/categories"
-                        android:textSize="24dp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
                     <Button
                         android:id="@+id/see_all_btn"
@@ -139,7 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/all_restaurants"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:layout_margin="8dp"
                     android:textStyle="bold" />
                 <androidx.recyclerview.widget.RecyclerView

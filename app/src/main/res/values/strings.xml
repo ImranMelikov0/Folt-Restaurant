@@ -10,4 +10,6 @@
     <string name="btn_see_all">See all</string>
     <string name="all_restaurants">All restaurants</string>
     <string name="all_stores">All stores</string>
+    <string name="search_restaurants_stores">Search restaurants and stores</string>
+    <string name="no_results_found">No results found</string>
 </resources>
