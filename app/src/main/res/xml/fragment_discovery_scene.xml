@@ -2,18 +2,35 @@
 <MotionScene 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
-
     <Transition
+        android:id="@+id/transition_Id"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         motion:duration="1000">
-       <KeyFrameSet>
-       </KeyFrameSet>
+        <KeyFrameSet>
+        </KeyFrameSet>
+        <OnSwipe />
+        <OnSwipe
+
+            motion:dragDirection="dragDown"/>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/appBarLayout"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/category_main_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:translationY="-300dp" />
     </ConstraintSet>
 </MotionScene>
