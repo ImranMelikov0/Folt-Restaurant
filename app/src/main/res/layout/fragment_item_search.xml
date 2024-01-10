@@ -1,14 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".presentation.itemsearch.ItemSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStart="0dp"
+            app:titleTextColor="@color/black">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:elevation="4dp">
+                <LinearLayout
+                    android:id="@+id/back_btn"
+                    android:padding="5dp"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="start|center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_linear_background"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/arrow_back"
+                        />
+                </LinearLayout>
+
+
+                    <EditText
+                        android:background="@null"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:hint="@string/search"
+                        android:id="@+id/search_edittext"
+                        android:layout_width="265dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text" />
+
+                    <LinearLayout
+                        android:layout_gravity="end|center"
+                        android:id="@+id/search_close"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/close_circle"/>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_search_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appBarLayout"/>
+</RelativeLayout>
