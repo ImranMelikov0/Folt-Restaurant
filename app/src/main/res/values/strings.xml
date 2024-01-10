@@ -39,4 +39,10 @@
     <string name="last_name">Last name</string>
     <string name="delete_account">Delete account</string>
     <string name="delete_text">User,we\'re really sorry to see you go.Are you sure you want to delete your account? Once you confirm, your data will be gone forever. </string>
+    <string name="system_default_appearance">Use system default (light)</string>
+    <string name="appearance_text">Choose a color mode above to change the system default appearance in the app.</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="change_appearance">Change appearance</string>
+    <string name="appearance">Appearance</string>
 </resources>

@@ -10,4 +10,5 @@
     <color name="delete_btn_bg_color">#fff0f3</color>
     <color name="delete_btn_text_color">#d00000</color>
     <color name="delete_btn_text_disabled_color">#74D00000</color>
+    <color name="switch_color_green">#29bf12</color>
 </resources>
