@@ -23,58 +23,65 @@
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStart="0dp"
             app:titleTextColor="@color/black">
-            <LinearLayout
-                android:id="@+id/search_linear"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:background="@drawable/search_linear_background"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/search_icon_24"/>
-                <EditText
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/dark_gray"
-                    android:textStyle="bold"
-                    android:hint="@string/search_restaurants_stores"
-                    android:id="@+id/search_edittext"
-                    android:layout_width="245dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="text" />
-
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:elevation="4dp">
                 <LinearLayout
-                    android:id="@+id/search_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_marginStart="15dp"
-                  >
+                    android:id="@+id/search_linear"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:background="@drawable/search_linear_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/close_circle"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/search_filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:visibility="gone"
-                >
-                    <ImageView
+                        android:src="@drawable/search_icon_24"/>
+                    <EditText
+                        android:layout_marginStart="8dp"
+                        android:background="@null"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/dark_gray"
+                        android:textStyle="bold"
+                        android:hint="@string/search_restaurants_stores"
+                        android:id="@+id/search_edittext"
+                        android:layout_width="245dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text" />
+
+                    <LinearLayout
+                        android:id="@+id/search_close"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/filter_icon"/>
+                        android:visibility="gone"
+                        android:layout_marginStart="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/close_circle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/search_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:visibility="gone"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/filter_icon"/>
+                    </LinearLayout>
+
+
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-
-            </LinearLayout>
 
 
         </androidx.appcompat.widget.Toolbar>

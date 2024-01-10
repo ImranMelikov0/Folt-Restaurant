@@ -27,4 +27,6 @@
     <string name="credits_and_tokens">Credits and Tokens</string>
     <string name="payment_methods">Payment methods</string>
     <string name="my_addresses">My addresses</string>
+    <string name="saved_addresses">Saved addresses</string>
+    <string name="add_new_address">Add new address</string>
 </resources>

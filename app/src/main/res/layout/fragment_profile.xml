@@ -25,21 +25,29 @@
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStart="0dp"
             app:titleTextColor="@color/black">
-            <LinearLayout
-                android:id="@+id/toolbar_linear"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:elevation="4dp">
+                <LinearLayout
+                    android:id="@+id/toolbar_linear"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile"
-                    android:textSize="20sp"
-                    android:layout_margin="8dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textSize="20sp"
+                        android:layout_margin="8dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
 
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
 
         </androidx.appcompat.widget.Toolbar>
 

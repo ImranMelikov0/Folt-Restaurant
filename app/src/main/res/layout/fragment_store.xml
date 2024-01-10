@@ -25,21 +25,29 @@
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStart="0dp"
             app:titleTextColor="@color/black">
-            <LinearLayout
-                android:id="@+id/toolbar_linear"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:elevation="4dp">
+                <LinearLayout
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/toolbar_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/stores"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stores"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
 
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -147,6 +155,32 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+    <TextView
+        android:id="@+id/no_result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results_found"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:textSize="30sp"/>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/store_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:progress="0"
+        android:indeterminateTint="@color/open_blue"
+        />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
