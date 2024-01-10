@@ -34,7 +34,7 @@
         android:layout_margin="10dp"
         />
     <androidx.cardview.widget.CardView
-        android:id="@+id/new_address_cardView"
+        android:id="@+id/email_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_new_address_textview"

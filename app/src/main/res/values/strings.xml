@@ -34,4 +34,7 @@
     <string name="next">Next</string>
     <string name="email">Email</string>
     <string name="save">Save</string>
+    <string name="name">Name</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
 </resources>
