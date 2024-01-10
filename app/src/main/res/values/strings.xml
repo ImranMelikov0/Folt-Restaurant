@@ -29,4 +29,7 @@
     <string name="my_addresses">My addresses</string>
     <string name="saved_addresses">Saved addresses</string>
     <string name="add_new_address">Add new address</string>
+    <string name="country">Country</string>
+    <string name="street_address">Street name and number</string>
+    <string name="next">Next</string>
 </resources>

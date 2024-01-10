@@ -66,16 +66,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/appBarLayout"
         android:layout_above="@id/add_new_address_btn"/>
+
     <Button
         android:id="@+id/add_new_address_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_new_address"
-        android:backgroundTint="@color/open_blue"
-        app:cornerRadius="4dp"
-        android:layout_margin="8dp"
         android:layout_alignParentBottom="true"
-        />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/open_blue"
+        android:text="@string/add_new_address"
+        app:cornerRadius="4dp" />
 
 
 
