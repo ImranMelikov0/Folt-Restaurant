@@ -32,4 +32,6 @@
     <string name="country">Country</string>
     <string name="street_address">Street name and number</string>
     <string name="next">Next</string>
+    <string name="email">Email</string>
+    <string name="save">Save</string>
 </resources>
