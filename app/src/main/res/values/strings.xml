@@ -37,4 +37,6 @@
     <string name="name">Name</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_text">User,we\'re really sorry to see you go.Are you sure you want to delete your account? Once you confirm, your data will be gone forever. </string>
 </resources>
