@@ -45,4 +45,5 @@
     <string name="dark">Dark</string>
     <string name="change_appearance">Change appearance</string>
     <string name="appearance">Appearance</string>
+    <string name="choose_language">Choose language</string>
 </resources>
