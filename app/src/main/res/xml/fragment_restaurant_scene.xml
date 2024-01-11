@@ -12,7 +12,6 @@
        </KeyFrameSet>
         <OnSwipe
             motion:touchAnchorId="@id/nested_scroll"
-            motion:dragDirection="dragDown"
             />
 
     </Transition>
@@ -38,9 +37,12 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
-            android:id="@+id/restaurant_textview"
+            android:id="@+id/nested_scroll"
+            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:translationY="-80dp" />
+            android:layout_height="match_parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            motion:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 </MotionScene>

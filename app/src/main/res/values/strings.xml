@@ -46,4 +46,24 @@
     <string name="change_appearance">Change appearance</string>
     <string name="appearance">Appearance</string>
     <string name="choose_language">Choose language</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="send_receipts">Send receipts to email</string>
+    <string name="clear_auto_translation">Clear auto-translation settings</string>
+    <string name="reset">Reset</string>
+    <string name="term_service">Term of Service</string>
+    <string name="accessibility">Accessibility statement</string>
+    <string name="data_protection">Data protection</string>
+    <string name="privacy_statement">Privacy Statement</string>
+    <string name="notifications">Notifications</string>
+    <string name="allow_notifications">Allow marketing notifications</string>
+    <string name="device_settings">Device settings</string>
+    <string name="limit_tracking">Limit tracking</string>
+    <string name="language">Language</string>
+    <string name="about">About</string>
+    <string name="folt_version">Folt version</string>
+    <string name="android_version">Android version</string>
+    <string name="licenses">Licenses</string>
+    <string name="share">Share</string>
+    <string name="log_out">Log out</string>
 </resources>
