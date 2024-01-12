@@ -83,4 +83,16 @@
     <string name="open_chat">Open chat</string>
     <string name="fastest_delivery">Fastest delivery</string>
     <string name="more">More</string>
+    <string name="edit_delivery_location">Edit delivery location</string>
+    <string name="location_type">Location type</string>
+    <string name="location_tip">The location type helps us to find you better.</string>
+    <string name="address_details">Address details</string>
+    <string name="building_name">Building name</string>
+    <string name="optional">Optional</string>
+    <string name="entrance_staircase">Entrance / Staircase</string>
+    <string name="floor">Floor</string>
+    <string name="apartment">Apartment</string>
+    <string name="door_code">Door code</string>
+    <string name="other_instructions">Other instructions for the courier</string>
+    <string name="save_address">Save address</string>
 </resources>
