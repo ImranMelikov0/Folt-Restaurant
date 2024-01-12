@@ -2,19 +2,17 @@
 <MotionScene 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
+
     <Transition
-        android:id="@+id/transition_Id"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         motion:duration="1000">
-        <KeyFrameSet>
-        </KeyFrameSet>
-
-        <OnSwipe/>
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnSwipe motion:touchAnchorId="@+id/nested_scroll" />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
-
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -23,12 +21,16 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:translationY="0dp"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
-            android:id="@+id/category_main_linear"
+            android:id="@+id/nested_scroll"
+            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:translationY="-300dp" />
+            android:layout_height="match_parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            motion:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 </MotionScene>

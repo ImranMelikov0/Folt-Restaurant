@@ -66,4 +66,19 @@
     <string name="licenses">Licenses</string>
     <string name="share">Share</string>
     <string name="log_out">Log out</string>
+    <string name="address">Address</string>
+    <string name="opening_now">Not it is open</string>
+    <string name="opening_time">Opening time</string>
+    <string name="direction">Directions</string>
+    <string name="delivery_information">Delivery information</string>
+    <string name="delivery_cost">Delivery cost</string>
+    <string name="small_order_limit">Small order surcharge limit</string>
+    <string name="delivery_time">Estimated delivery time</string>
+    <string name="contact_info">Contact info</string>
+    <string name="venue_information_text">If you have allergies or dietary restrictions, please contact the restaurant for dish-specific information.</string>
+    <string name="restaurant_">Restaurant</string>
+    <string name="website">Website</string>
+    <string name="folt_support">Folt support</string>
+    <string name="open_site">Open site</string>
+    <string name="open_chat">Open chat</string>
 </resources>

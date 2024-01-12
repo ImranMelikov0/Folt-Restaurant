@@ -2,6 +2,7 @@ package com.imranmelikov.folt.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -25,5 +26,8 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         bottomNav.setupWithNavController(navController)
 //        NavigationUI.setupWithNavController(bottomNav,navController)
+    }
+    fun hideBottomNav(){
+        binding.bottomNav.visibility=View.GONE
     }
 }
