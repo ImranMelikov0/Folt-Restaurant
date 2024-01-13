@@ -96,4 +96,12 @@
     <string name="other_instructions">Other instructions for the courier</string>
     <string name="save_address">Save address</string>
     <string name="go_to_checkout">Go to checkout</string>
+    <string name="no_contact_delivery">No-contact delivery</string>
+    <string name="no_contact_text">Please leave the order in front of my door</string>
+    <string name="prices_in">Prices in</string>
+    <string name="item_subtotal">Item subtotal</string>
+    <string name="delivery">Delivery</string>
+    <string name="service_fee">Service fee</string>
+    <string name="total">Total</string>
+    <string name="complete">Complete</string>
 </resources>
