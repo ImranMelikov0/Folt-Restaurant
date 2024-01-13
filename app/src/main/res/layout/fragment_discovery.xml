@@ -9,15 +9,58 @@
     app:layoutDescription="@xml/fragment_discovery_scene"
     tools:context=".presentation.discovery.DiscoveryFragment">
 
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:id="@+id/nested_discovery_linear"
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/category_main_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_category_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_each"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/category_main_linear">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/each_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="0dp"
         android:background="@color/white"
+        android:translationY="-140dp"
         android:layout_height="wrap_content"
-        android:translationY="-80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/discovery_cardView"
+  >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,27 +74,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
                 android:elevation="4dp">
+
                 <LinearLayout
                     android:id="@+id/toolbar_linear"
                     android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/discovery"
-                        android:textSize="20sp"
-                        android:layout_margin="8dp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/toolbar_main_category_rv"
+                        android:id="@+id/toolbar_store_categories_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
 
@@ -59,32 +95,35 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <LinearLayout
-        android:id="@+id/category_main_linear"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/discovery_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_category_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linear_each"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:elevation="4dp"
+        android:translationY="-80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_main_linear">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/each_rv"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/discovery_linear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:textColor="@color/black"
+               android:textSize="20sp"
+               android:textStyle="bold"
+               android:text="@string/discovery"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/no_result_text"
         android:layout_width="match_parent"
