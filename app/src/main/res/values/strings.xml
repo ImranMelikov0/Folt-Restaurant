@@ -95,4 +95,5 @@
     <string name="door_code">Door code</string>
     <string name="other_instructions">Other instructions for the courier</string>
     <string name="save_address">Save address</string>
+    <string name="go_to_checkout">Go to checkout</string>
 </resources>
