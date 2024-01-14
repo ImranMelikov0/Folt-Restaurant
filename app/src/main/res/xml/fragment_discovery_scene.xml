@@ -10,7 +10,9 @@
         <KeyFrameSet>
         </KeyFrameSet>
 
-        <OnSwipe/>
+        <OnSwipe
+            motion:touchAnchorId="@+id/nested_scroll"
+            />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
