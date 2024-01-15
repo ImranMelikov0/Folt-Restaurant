@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +12,7 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentRestaurantBinding
 import com.imranmelikov.folt.presentation.categories.VenueCategoryAdapter
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
+import com.imranmelikov.folt.util.ArgumentConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class RestaurantFragment : Fragment() {
@@ -35,7 +35,7 @@ class RestaurantFragment : Fragment() {
 
     private fun getFunctions(){
         viewModelRestaurant.getVenues()
-        viewModelVenueCategory.getVenueCategories()
+        viewModelVenueCategory.getRestaurantCategories()
         initialiseRestaurantRv()
         initialiseVenueCategoryRv()
         observeVenueCategories()
@@ -44,7 +44,10 @@ class RestaurantFragment : Fragment() {
     }
   private fun clickSeeAllBtn(){
         binding.seeAllBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_restaurantFragment_to_categoriesFragment)
+            val data = VenueCategoryConstants.Restaurant
+            val bundle = Bundle()
+            bundle.putString(ArgumentConstants.venues, data)
+            findNavController().navigate(R.id.action_restaurantFragment_to_categoriesFragment,bundle)
         }
     }
     private fun initialiseVenueCategoryRv(){
@@ -60,15 +63,15 @@ class RestaurantFragment : Fragment() {
     }
 
     private fun observeVenues(){
-        viewModelRestaurant.venueLiveData.observe(viewLifecycleOwner, Observer {
+        viewModelRestaurant.venueLiveData.observe(viewLifecycleOwner) {
             restaurantAdapter.venueList=it
             venueCategoryAdapter.venueList=it
-        })
+        }
     }
     private fun observeVenueCategories(){
-        viewModelVenueCategory.venueCategoryLiveData.observe(viewLifecycleOwner, Observer {
+        viewModelVenueCategory.restaurantCategoryLiveData.observe(viewLifecycleOwner) {
             venueCategoryAdapter.venueCategoryList=it
             venueCategoryAdapter.viewType=VenueCategoryConstants.Restaurant
-        })
+        }
     }
 }

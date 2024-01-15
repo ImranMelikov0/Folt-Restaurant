@@ -3,7 +3,6 @@ package com.imranmelikov.folt.presentation.restaurants
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -14,7 +13,7 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
 
-class RestaurantAdapter():RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
+class RestaurantAdapter:RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
     class RestaurantViewHolder(val binding:VenuesRvBinding):RecyclerView.ViewHolder(binding.root)
 
     // DiffUtil for efficient RecyclerView updates

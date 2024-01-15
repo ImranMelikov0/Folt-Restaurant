@@ -12,7 +12,7 @@ import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
-class VenueCategoryAdapter():RecyclerView.Adapter<VenueCategoryAdapter.VenueCategoryViewHolder>() {
+class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCategoryViewHolder>() {
     class VenueCategoryViewHolder(val binding:VenueCategoryRvBinding):RecyclerView.ViewHolder(binding.root)
 
      var venueList= listOf<Venue>()
@@ -52,10 +52,16 @@ class VenueCategoryAdapter():RecyclerView.Adapter<VenueCategoryAdapter.VenueCate
         holder.binding.categoryCount.text=filteredVenueList.size.toString()
 
         holder.itemView.setOnClickListener {
-            if (viewType==VenueCategoryConstants.Restaurant){
-                Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueFragment)
-            }else{
-                Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment)
+            when (viewType) {
+                VenueCategoryConstants.Restaurant -> {
+                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueFragment)
+                }
+                VenueCategoryConstants.Category -> {
+                    Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment)
+                }
+                VenueCategoryConstants.Store -> {
+                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueFragment)
+                }
             }
         }
     }

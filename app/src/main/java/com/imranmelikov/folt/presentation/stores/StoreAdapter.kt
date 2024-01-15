@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.presentation.restaurants.RestaurantAdapter
 
-class StoreAdapter():RecyclerView.Adapter<StoreAdapter.StoreViewHolder>() {
+class StoreAdapter:RecyclerView.Adapter<StoreAdapter.StoreViewHolder>() {
     class StoreViewHolder(val binding:VenuesRvBinding):RecyclerView.ViewHolder(binding.root)
 
     // DiffUtil for efficient RecyclerView updates
