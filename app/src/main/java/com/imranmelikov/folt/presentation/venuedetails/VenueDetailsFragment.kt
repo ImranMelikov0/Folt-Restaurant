@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentVenueDetailsBinding
 import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.util.ArgumentConstants
 
 @Suppress("DEPRECATION")
@@ -28,6 +29,7 @@ class VenueDetailsFragment : Fragment() {
 
     private fun getFunctions(){
         getControlArguments()
+        (activity as MainActivity).hideBottomNav()
     }
 
     private fun clickBtn(venue: Venue){
@@ -41,6 +43,7 @@ class VenueDetailsFragment : Fragment() {
     private fun clickBackBtn(){
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
+            (activity as MainActivity).showBottomNav()
         }
     }
     private fun clickDeliveryBtn(){

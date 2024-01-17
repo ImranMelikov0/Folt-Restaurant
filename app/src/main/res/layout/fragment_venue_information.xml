@@ -47,7 +47,7 @@
                 android:id="@+id/restaurant_address_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/my_addresses"
+                android:text="@string/address"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -133,31 +133,31 @@
                     android:textColor="@color/black"
                     />
             </LinearLayout>
-            <LinearLayout
-                android:layout_margin="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_weight="1"
-                    android:id="@+id/small_order_limit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/small_order_limit"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    />
-                <TextView
-                    android:layout_weight="3"
-                    android:textAlignment="textEnd"
-                    android:id="@+id/small_order_amount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="6.00m"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    />
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <TextView-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:id="@+id/small_order_limit"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/small_order_limit"-->
+<!--                    android:textSize="17sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_weight="3"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:id="@+id/small_order_amount"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="6.00m"-->
+<!--                    android:textSize="17sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
             <LinearLayout
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
@@ -324,6 +324,7 @@
 
 
                     <TextView
+                        android:id="@+id/toolbar_venue_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="60dp"
