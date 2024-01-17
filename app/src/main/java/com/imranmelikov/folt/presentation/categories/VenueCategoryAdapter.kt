@@ -1,5 +1,6 @@
 package com.imranmelikov.folt.presentation.categories
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -10,6 +11,7 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenueCategoryRvBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
+import com.imranmelikov.folt.util.ArgumentConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCategoryViewHolder>() {
@@ -30,7 +32,7 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
     }
     private val recyclerDiffer= AsyncListDiffer(this,diffUtil)
 
-    // Getter and setter for the list of Notes
+    // Getter and setter for the list of Venue
     var venueCategoryList:List<VenueCategory>
         get() = recyclerDiffer.currentList
         set(value) = recyclerDiffer.submitList(value)
@@ -51,16 +53,20 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
             val filteredVenueList=venueList.filter {it.type==venueCategoryArraylist.title && it.venueInformation.isOpen}
         holder.binding.categoryCount.text=filteredVenueList.size.toString()
 
+        val bundle = Bundle().apply {
+            putSerializable(ArgumentConstants.venues, ArrayList(filteredVenueList))
+            putSerializable(ArgumentConstants.venueCategories,venueCategoryArraylist)
+        }
         holder.itemView.setOnClickListener {
             when (viewType) {
                 VenueCategoryConstants.Restaurant -> {
-                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueFragment)
+                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueFragment,bundle)
                 }
                 VenueCategoryConstants.Category -> {
-                    Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment)
+                    Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundle)
                 }
                 VenueCategoryConstants.Store -> {
-                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueFragment)
+                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueFragment,bundle)
                 }
             }
         }

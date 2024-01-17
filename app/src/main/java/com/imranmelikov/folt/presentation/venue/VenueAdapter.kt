@@ -1,4 +1,4 @@
-package com.imranmelikov.folt.presentation.stores
+package com.imranmelikov.folt.presentation.venue
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.util.VenueCategoryConstants
 
-class StoreAdapter:RecyclerView.Adapter<StoreAdapter.StoreViewHolder>() {
-    class StoreViewHolder(val binding:VenuesRvBinding):RecyclerView.ViewHolder(binding.root)
+class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
+    class VenueViewHolder(val binding:VenuesRvBinding):RecyclerView.ViewHolder(binding.root)
 
+    var viewType:String=""
     // DiffUtil for efficient RecyclerView updates
     private val diffUtil=object : DiffUtil.ItemCallback<Venue>(){
         override fun areItemsTheSame(oldItem: Venue, newItem: Venue): Boolean {
@@ -27,20 +29,20 @@ class StoreAdapter:RecyclerView.Adapter<StoreAdapter.StoreViewHolder>() {
     }
     private val recyclerDiffer= AsyncListDiffer(this,diffUtil)
 
-    // Getter and setter for the list of Notes
+    // Getter and setter for the list of Venue
     var venueList:List<Venue>
         get() = recyclerDiffer.currentList
         set(value) = recyclerDiffer.submitList(value)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenueViewHolder {
         val binding=VenuesRvBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return StoreViewHolder(binding)
+        return VenueViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return venueList.size
     }
 
-    override fun onBindViewHolder(holder: StoreViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VenueViewHolder, position: Int) {
         val venueArraylist=venueList[position]
         holder.binding.restaurantName.text=venueArraylist.venueName
         holder.binding.restaurantText.text=venueArraylist.venueText
@@ -53,7 +55,17 @@ class StoreAdapter:RecyclerView.Adapter<StoreAdapter.StoreViewHolder>() {
         setDeliveryTextColor(venueArraylist,holder)
 
         holder.itemView.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueDetailsFragment)
+            when(viewType){
+                VenueCategoryConstants.Restaurant->{
+                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueDetailsFragment)
+                }
+                VenueCategoryConstants.Store->{
+                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueDetailsFragment)
+                }
+                VenueCategoryConstants.Venue->{
+                    Navigation.findNavController(it).navigate(R.id.action_venueFragment_to_venueDetailsFragment)
+                }
+            }
         }
     }
 
@@ -89,13 +101,17 @@ class StoreAdapter:RecyclerView.Adapter<StoreAdapter.StoreViewHolder>() {
         }
     }
     // set deliveryTextColor
-    private fun setDeliveryTextColor(venueArraylist: Venue,holder: StoreViewHolder){
+    private fun setDeliveryTextColor(venueArraylist: Venue,holder: VenueViewHolder){
         // DeliveryPrice more than 0,00
         if (venueArraylist.delivery.deliveryPrice.toDouble()>0.00){
-            holder.binding.deliveryText.setTextColor(ContextCompat.getColor(holder.itemView.context,R.color.black))
+            holder.binding.deliveryText.setTextColor(
+                ContextCompat.getColor(holder.itemView.context,
+                    R.color.black))
         }else{
             // DeliveryPrice equal 0,00
-            holder.binding.deliveryText.setTextColor(ContextCompat.getColor(holder.itemView.context,R.color.open_blue))
+            holder.binding.deliveryText.setTextColor(
+                ContextCompat.getColor(holder.itemView.context,
+                    R.color.open_blue))
         }
     }
 }

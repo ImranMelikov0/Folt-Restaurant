@@ -12,6 +12,7 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentStoreBinding
 import com.imranmelikov.folt.presentation.categories.VenueCategoryAdapter
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
+import com.imranmelikov.folt.presentation.venue.VenueAdapter
 import com.imranmelikov.folt.util.ArgumentConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
@@ -19,8 +20,9 @@ class StoreFragment : Fragment() {
   private lateinit var binding:FragmentStoreBinding
     private lateinit var viewModel:StoreViewModel
     private lateinit var viewModelVenueCategory:VenueCategoryViewModel
-    private lateinit var storeAdapter: StoreAdapter
+    private lateinit var venueAdapter: VenueAdapter
     private lateinit var venueCategoryAdapter: VenueCategoryAdapter
+    private lateinit var bundle:Bundle
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +30,7 @@ class StoreFragment : Fragment() {
         binding=FragmentStoreBinding.inflate(inflater,container,false)
         viewModel= ViewModelProvider(requireActivity())[StoreViewModel::class.java]
         viewModelVenueCategory=ViewModelProvider(requireActivity())[VenueCategoryViewModel::class.java]
-
+        bundle=Bundle()
         getFunctions()
         return binding.root
     }
@@ -44,16 +46,13 @@ class StoreFragment : Fragment() {
     }
     private fun clickSeeAllBtn(){
         binding.seeAllBtn.setOnClickListener {
-            val data = VenueCategoryConstants.Store
-            val bundle = Bundle()
-            bundle.putString(ArgumentConstants.venues, data)
             findNavController().navigate(R.id.action_storeFragment_to_categoriesFragment,bundle)
         }
     }
     private fun initialiseStoreRv(){
-        storeAdapter= StoreAdapter()
+        venueAdapter= VenueAdapter()
         binding.storesRv.layoutManager= LinearLayoutManager(requireContext())
-        binding.storesRv.adapter=storeAdapter
+        binding.storesRv.adapter=venueAdapter
     }
     private fun initialiseVenueCategoryRv(){
         venueCategoryAdapter= VenueCategoryAdapter()
@@ -62,14 +61,17 @@ class StoreFragment : Fragment() {
     }
     private fun observeVenues(){
         viewModel.venueLiveData.observe(viewLifecycleOwner) {
-            storeAdapter.venueList=it
+            venueAdapter.venueList=it
+            venueAdapter.viewType=VenueCategoryConstants.Store
             venueCategoryAdapter.venueList=it
+            bundle.putSerializable(ArgumentConstants.venues, ArrayList(it))
         }
     }
     private fun observeVenueCategories(){
         viewModelVenueCategory.storeCategoryLiveData.observe(viewLifecycleOwner) {
             venueCategoryAdapter.venueCategoryList=it
             venueCategoryAdapter.viewType= VenueCategoryConstants.Store
+            bundle.putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
         }
     }
 }
