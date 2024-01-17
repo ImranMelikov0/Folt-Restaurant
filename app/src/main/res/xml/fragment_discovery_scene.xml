@@ -12,6 +12,7 @@
 
         <OnSwipe
             motion:touchAnchorId="@+id/nested_scroll"
+            motion:dragDirection="dragDown"
             />
     </Transition>
 

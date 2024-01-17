@@ -35,12 +35,12 @@
                     android:layout_height="250dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <ImageView
                         android:id="@+id/main_image"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:background="@drawable/img_rounded_corner"
+                        android:src="@drawable/image_area"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -234,6 +234,7 @@
                 android:padding="5dp">
 
                 <ImageView
+                    android:id="@+id/fav_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/heart_outline" />

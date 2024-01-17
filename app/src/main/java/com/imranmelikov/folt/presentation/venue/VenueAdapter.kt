@@ -1,5 +1,6 @@
 package com.imranmelikov.folt.presentation.venue
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.util.ArgumentConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
@@ -54,16 +56,19 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
         setRatingIcon(venueArraylist,holder.binding.ratingIcon)
         setDeliveryTextColor(venueArraylist,holder)
 
+        val bundle = Bundle().apply {
+            putSerializable(ArgumentConstants.venues,venueArraylist)
+        }
         holder.itemView.setOnClickListener {
             when(viewType){
                 VenueCategoryConstants.Restaurant->{
-                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueDetailsFragment)
+                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueDetailsFragment,bundle)
                 }
                 VenueCategoryConstants.Store->{
-                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueDetailsFragment)
+                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueDetailsFragment,bundle)
                 }
                 VenueCategoryConstants.Venue->{
-                    Navigation.findNavController(it).navigate(R.id.action_venueFragment_to_venueDetailsFragment)
+                    Navigation.findNavController(it).navigate(R.id.action_venueFragment_to_venueDetailsFragment,bundle)
                 }
             }
         }

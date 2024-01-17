@@ -9,7 +9,8 @@
         motion:duration="1000">
        <KeyFrameSet>
        </KeyFrameSet>
-        <OnSwipe motion:touchAnchorId="@+id/nested_scroll" />
+        <OnSwipe motion:touchAnchorId="@+id/nested_scroll"
+            motion:dragDirection="dragDown"/>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
