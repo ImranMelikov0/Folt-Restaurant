@@ -5,17 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.imranmelikov.folt.databinding.FragmentCategoriesBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
-import com.imranmelikov.folt.presentation.restaurants.RestaurantViewModel
-import com.imranmelikov.folt.presentation.stores.StoreViewModel
 import com.imranmelikov.folt.util.ArgumentConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
+@Suppress("DEPRECATION")
 class CategoriesFragment : Fragment() {
    private lateinit var binding:FragmentCategoriesBinding
     private lateinit var venueCategoryAdapter: VenueCategoryAdapter
@@ -43,6 +41,13 @@ class CategoriesFragment : Fragment() {
     }
     private fun getControlArguments(){
         val receiveArgs = arguments
+
+        val receivedVenueString=receiveArgs?.getString(VenueCategoryConstants.Venue)
+        if (receivedVenueString==VenueCategoryConstants.Restaurant){
+            venueCategoryAdapter.viewTypeVenue=VenueCategoryConstants.Restaurant
+        }else if (receivedVenueString==VenueCategoryConstants.Store){
+            venueCategoryAdapter.viewTypeVenue=VenueCategoryConstants.Store
+        }
 
         val receivedVenueList = receiveArgs?.getSerializable(ArgumentConstants.venues) as? ArrayList<*>
         venueList = receivedVenueList?.filterIsInstance<Venue>() ?: emptyList()

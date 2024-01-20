@@ -6,28 +6,46 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentVenueDetailsBinding
+import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.util.ArgumentConstants
+import com.imranmelikov.folt.util.DataViewTypes
+import com.imranmelikov.folt.util.StoreCategoryTitle
+import com.imranmelikov.folt.util.VenueCategoryConstants
 
 @Suppress("DEPRECATION")
 class VenueDetailsFragment : Fragment() {
     private lateinit var binding:FragmentVenueDetailsBinding
-     val bundle=Bundle()
+    private lateinit var viewModelVenueDetails: VenueDetailsViewModel
+    private lateinit var venueDetailsAdapter:VenueDetailsAdapter
+    val bundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentVenueDetailsBinding.inflate(inflater,container,false)
-        getFunctions()
+        viewModelVenueDetails=ViewModelProvider(requireActivity())[VenueDetailsViewModel::class.java]
+
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getFunctions()
+    }
+
     private fun getFunctions(){
+        viewModelVenueDetails.getRestaurantMenuList()
+        viewModelVenueDetails.getRestaurantMenuCategoryList()
+        viewModelVenueDetails.getStoreMenuCategoryList()
+        initialiseVenueDetailsRv()
         getControlArguments()
         (activity as MainActivity).hideBottomNav()
     }
@@ -99,20 +117,65 @@ class VenueDetailsFragment : Fragment() {
     private fun getControlArguments(){
         val receiveArgs = arguments
 
+        val receivedVenueString=receiveArgs?.getString(VenueCategoryConstants.Venue)
+
         val receivedVenue = receiveArgs?.getSerializable(ArgumentConstants.venues) as? Venue
         receivedVenue?.let {venue->
             "Delivery : ${venue.delivery.deliveryPrice} AZN".also { binding.deliveryTextview.text = it }
             binding.venueNameTextview.text=venue.venueName
             "Rating : ${venue.venuePopularity.rating}".also { binding.ratingTextview.text=it }
             "Delivery ${venue.delivery.deliveryTime} min    ▾".also { binding.deliveryBtn.text=it }
-            Glide.with(requireActivity())
-                .load(venue.image)
-                .into(binding.logo)
+
             Glide.with(requireActivity())
                 .load(venue.image)
                 .into(binding.mainImage)
 
+            if (receivedVenueString==VenueCategoryConstants.Restaurant){
+                observeRestaurantViewModel(venue)
+            }else if(receivedVenueString==VenueCategoryConstants.Store){
+                observeStoreViewModel(venue)
+                binding.toolbarVenueRv.visibility=View.GONE
+            }
             clickBtn(venue)
         }
+    }
+    private fun observeRestaurantViewModel(venue: Venue){
+        val mutableMenuList:MutableList<VenueDetailsItem> = mutableListOf()
+        viewModelVenueDetails.restaurantMenuCategoryLiveData.observe(viewLifecycleOwner){restaurantMenuCategoryList->
+            viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){venueDetails->
+                val filteredRestaurantMenuCategory=restaurantMenuCategoryList.filter {
+                    it.parentId==venue.id }
+                filteredRestaurantMenuCategory.map {restaurantMenuCategory ->
+                    val filteredMenuList=venueDetails.filter { it.parentId==restaurantMenuCategory.id }
+                    if(filteredMenuList.isNotEmpty()){
+                       val venueDetailsItem=VenueDetailsItem(restaurantMenuCategory.title,filteredMenuList)
+                        mutableMenuList.add(venueDetailsItem)
+                        venueDetailsAdapter.viewType=DataViewTypes.RestaurantMenu
+                        venueDetailsAdapter.venueDetailsItemList= mutableMenuList.toList()
+                    }
+                }
+            }
+        }
+    }
+    private fun observeStoreViewModel(venue: Venue){
+        val mutableCategoryList:MutableList<VenueDetailsItem> = mutableListOf()
+        viewModelVenueDetails.storeMenuCategoryLiveData.observe(viewLifecycleOwner){storeMenuCategoryList->
+                val filteredStoreMenuCategory=storeMenuCategoryList.filter {
+                    it.restaurantMenuCategory.parentId==venue.id }
+                    if (filteredStoreMenuCategory.isNotEmpty()){
+                        val venueDetailsItem=VenueDetailsItem(StoreCategoryTitle.storeCategoryTitle,filteredStoreMenuCategory,false)
+                        mutableCategoryList.add(venueDetailsItem)
+                        venueDetailsAdapter.viewType=DataViewTypes.StoreMenuCategory
+                        venueDetailsAdapter.venueDetailsItemList= mutableCategoryList.toList()
+            }
+        }
+    }
+    private fun initialiseVenueDetailsRv(){
+        venueDetailsAdapter= VenueDetailsAdapter()
+        binding.venueDetailRv.layoutManager=LinearLayoutManager(requireContext())
+        binding.venueDetailRv.adapter=venueDetailsAdapter
+    }
+    private fun initialiseCategoryRv(){
+
     }
 }

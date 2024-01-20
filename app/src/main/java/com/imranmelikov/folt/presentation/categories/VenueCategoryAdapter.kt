@@ -18,7 +18,10 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
     class VenueCategoryViewHolder(val binding:VenueCategoryRvBinding):RecyclerView.ViewHolder(binding.root)
 
      var venueList= listOf<Venue>()
+    // viewType for Fragment
     var viewType:String=""
+    // viewType for Venue
+    var viewTypeVenue:String=""
 
     // DiffUtil for efficient RecyclerView updates
     private val diffUtil=object : DiffUtil.ItemCallback<VenueCategory>(){
@@ -32,7 +35,7 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
     }
     private val recyclerDiffer= AsyncListDiffer(this,diffUtil)
 
-    // Getter and setter for the list of Venue
+    // Getter and setter for the list of VenueList
     var venueCategoryList:List<VenueCategory>
         get() = recyclerDiffer.currentList
         set(value) = recyclerDiffer.submitList(value)
@@ -53,20 +56,33 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
             val filteredVenueList=venueList.filter {it.type==venueCategoryArraylist.title && it.venueInformation.isOpen}
         holder.binding.categoryCount.text=filteredVenueList.size.toString()
 
-        val bundle = Bundle().apply {
+        val bundleRestaurant = Bundle().apply {
             putSerializable(ArgumentConstants.venues, ArrayList(filteredVenueList))
             putSerializable(ArgumentConstants.venueCategories,venueCategoryArraylist)
+            putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
+        }
+        val bundleStore = Bundle().apply {
+            putSerializable(ArgumentConstants.venues, ArrayList(filteredVenueList))
+            putSerializable(ArgumentConstants.venueCategories,venueCategoryArraylist)
+            putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Store)
         }
         holder.itemView.setOnClickListener {
             when (viewType) {
                 VenueCategoryConstants.Restaurant -> {
-                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueFragment,bundle)
+                    Navigation.findNavController(it).navigate(R.id.action_restaurantFragment_to_venueFragment,bundleRestaurant)
                 }
                 VenueCategoryConstants.Category -> {
-                    Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundle)
+                    when(viewTypeVenue){
+                        VenueCategoryConstants.Restaurant->{
+                            Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundleRestaurant)
+                        }
+                        VenueCategoryConstants.Store->{
+                            Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundleStore)
+                        }
+                    }
                 }
                 VenueCategoryConstants.Store -> {
-                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueFragment,bundle)
+                    Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueFragment,bundleStore)
                 }
             }
         }

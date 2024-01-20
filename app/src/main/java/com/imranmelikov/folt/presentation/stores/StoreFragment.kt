@@ -71,7 +71,10 @@ class StoreFragment : Fragment() {
         viewModelVenueCategory.storeCategoryLiveData.observe(viewLifecycleOwner) {
             venueCategoryAdapter.venueCategoryList=it
             venueCategoryAdapter.viewType= VenueCategoryConstants.Store
-            bundle.putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
+            bundle.apply {
+                putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
+                putString(VenueCategoryConstants.Venue, VenueCategoryConstants.Store)
+            }
         }
     }
 }

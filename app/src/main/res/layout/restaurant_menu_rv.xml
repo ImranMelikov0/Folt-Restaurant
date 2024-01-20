@@ -55,6 +55,23 @@
                         android:maxLines="1"
                         android:textColor="@color/open_blue"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/count_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:visibility="gone"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/open_blue"/>
+                </LinearLayout>
 
             </LinearLayout>
             <ImageView

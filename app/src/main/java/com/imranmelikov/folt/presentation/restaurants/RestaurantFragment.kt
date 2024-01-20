@@ -66,14 +66,19 @@ class RestaurantFragment : Fragment() {
             venueAdapter.venueList=it
             venueAdapter.viewType=VenueCategoryConstants.Restaurant
             venueCategoryAdapter.venueList=it
-            bundle.putSerializable(ArgumentConstants.venues, ArrayList(it))
+            bundle.apply{
+                putSerializable(ArgumentConstants.venues, ArrayList(it))
+            }
         }
     }
     private fun observeVenueCategories(){
         viewModelVenueCategory.restaurantCategoryLiveData.observe(viewLifecycleOwner) {
             venueCategoryAdapter.venueCategoryList=it
             venueCategoryAdapter.viewType=VenueCategoryConstants.Restaurant
-            bundle.putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
+            bundle.apply {
+                putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
+                putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
+            }
         }
     }
 }

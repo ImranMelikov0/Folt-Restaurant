@@ -127,16 +127,11 @@
                 app:cornerRadius="8dp"
                 android:textColor="@color/open_blue"
                 android:text="@string/share"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/venue_detail_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-            </LinearLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -269,6 +264,19 @@
         android:progress="0"
         android:indeterminateTint="@color/open_blue"
         />
+    <Button
+        android:id="@+id/order_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/open_blue"
+        app:cornerRadius="8dp"
+        android:textColor="@color/white"
+        android:text="1   View order    30Azn"/>
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

@@ -40,6 +40,14 @@ class VenueFragment : Fragment() {
     }
 
     private fun getControlArguments(){
+        val receiveVenueString=arguments?.getString(VenueCategoryConstants.Venue)
+
+        if (receiveVenueString==VenueCategoryConstants.Restaurant){
+            venueAdapter.viewTypeVenue=VenueCategoryConstants.Restaurant
+        }else if (receiveVenueString==VenueCategoryConstants.Store){
+            venueAdapter.viewTypeVenue=VenueCategoryConstants.Store
+        }
+
         val receivedVenueList = arguments?.getSerializable(ArgumentConstants.venues) as? ArrayList<*>
         venueList = receivedVenueList?.filterIsInstance<Venue>() ?: emptyList()
         venueAdapter.venueList=venueList
