@@ -25,6 +25,7 @@ class VenueDetailsFragment : Fragment() {
     private lateinit var binding:FragmentVenueDetailsBinding
     private lateinit var viewModelVenueDetails: VenueDetailsViewModel
     private lateinit var venueDetailsAdapter:VenueDetailsAdapter
+    private lateinit var restaurantMenuCategoryAdp: RestaurantMenuCategoryAdp
     val bundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +47,7 @@ class VenueDetailsFragment : Fragment() {
         viewModelVenueDetails.getRestaurantMenuCategoryList()
         viewModelVenueDetails.getStoreMenuCategoryList()
         initialiseVenueDetailsRv()
+        initialiseCategoryRv()
         getControlArguments()
         (activity as MainActivity).hideBottomNav()
     }
@@ -134,13 +136,17 @@ class VenueDetailsFragment : Fragment() {
                 observeRestaurantViewModel(venue)
             }else if(receivedVenueString==VenueCategoryConstants.Store){
                 observeStoreViewModel(venue)
-                binding.toolbarVenueRv.visibility=View.GONE
+                binding.toolbarLinear.visibility=View.GONE
+                binding.toolbarCardView.visibility=View.GONE
+                binding.appBarLayout.visibility=View.GONE
+                binding.toolbar.visibility=View.GONE
             }
             clickBtn(venue)
         }
     }
     private fun observeRestaurantViewModel(venue: Venue){
         val mutableMenuList:MutableList<VenueDetailsItem> = mutableListOf()
+        val mutableStringList:MutableList<String> = mutableListOf()
         viewModelVenueDetails.restaurantMenuCategoryLiveData.observe(viewLifecycleOwner){restaurantMenuCategoryList->
             viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){venueDetails->
                 val filteredRestaurantMenuCategory=restaurantMenuCategoryList.filter {
@@ -152,6 +158,8 @@ class VenueDetailsFragment : Fragment() {
                         mutableMenuList.add(venueDetailsItem)
                         venueDetailsAdapter.viewType=DataViewTypes.RestaurantMenu
                         venueDetailsAdapter.venueDetailsItemList= mutableMenuList.toList()
+                        mutableStringList.add(restaurantMenuCategory.title)
+                        restaurantMenuCategoryAdp.categoryNameList=mutableStringList
                     }
                 }
             }
@@ -176,6 +184,8 @@ class VenueDetailsFragment : Fragment() {
         binding.venueDetailRv.adapter=venueDetailsAdapter
     }
     private fun initialiseCategoryRv(){
-
+        restaurantMenuCategoryAdp= RestaurantMenuCategoryAdp()
+        binding.toolbarVenueRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.toolbarVenueRv.adapter=restaurantMenuCategoryAdp
     }
 }

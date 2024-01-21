@@ -1,14 +1,18 @@
 package com.imranmelikov.folt.presentation.venuedetails
 
+import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.StoreMenuCategoryRvBinding
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
+import com.imranmelikov.folt.util.StoreCategoryName
+import com.imranmelikov.folt.util.StoreCategoryTitle
 
 class StoreMenuCategoryAdp:RecyclerView.Adapter<StoreMenuCategoryAdp.StoreMenuCategoryViewHolder>() {
     class StoreMenuCategoryViewHolder(val binding:StoreMenuCategoryRvBinding):RecyclerView.ViewHolder(binding.root)
@@ -41,9 +45,17 @@ class StoreMenuCategoryAdp:RecyclerView.Adapter<StoreMenuCategoryAdp.StoreMenuCa
     override fun onBindViewHolder(holder: StoreMenuCategoryViewHolder, position: Int) {
         val categoryList=storeMenuCategoryList[position]
         holder.binding.categoryName.text=categoryList.restaurantMenuCategory.title
-        holder.binding.itemPrice.visibility=View.GONE
         Glide.with(holder.itemView.context)
             .load(categoryList.image)
             .into(holder.binding.categoryImage)
+        val bundle=Bundle()
+        bundle.apply {
+            putInt(StoreCategoryTitle.storeCategoryTitle,categoryList.restaurantMenuCategory.id)
+            putString(StoreCategoryName.categoryName,categoryList.restaurantMenuCategory.title)
+        }
+
+        holder.itemView.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_venueDetailsFragment_to_storeItemsFragment,bundle)
+        }
     }
 }

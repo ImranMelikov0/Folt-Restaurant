@@ -23,14 +23,23 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/category_image"
+                android:id="@+id/menu_image"
                 android:layout_width="198dp"
                 android:layout_gravity="center"
                 android:layout_height="130dp"
                 android:src="@drawable/image_area" />
 
             <TextView
-                android:id="@+id/category_name"
+                android:id="@+id/item_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/categories"
+                android:textColor="@color/open_blue"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/menu_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"

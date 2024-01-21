@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@id/store_items_cardView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/store_item_name"
+                        android:id="@+id/store_category_name"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,47 +61,7 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="0dp"
-        android:background="@color/white"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/store_items_cardView">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            app:titleTextColor="@color/black">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
-                android:elevation="4dp">
-
-                <LinearLayout
-                    android:id="@+id/toolbar_linear"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/toolbar_store_categories_rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/store_items_cardView"

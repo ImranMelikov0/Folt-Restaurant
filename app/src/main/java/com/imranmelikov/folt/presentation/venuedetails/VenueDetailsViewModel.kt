@@ -20,9 +20,6 @@ class VenueDetailsViewModel:ViewModel() {
     val restaurantMenuLiveData:LiveData<List<VenueDetails>>
         get() = restaurantMenuMutableList
 
-    private val storeMenuMutableList=MutableLiveData<List<VenueDetails>>()
-    val storeMenuLiveData:LiveData<List<VenueDetails>>
-        get() = storeMenuMutableList
 
     fun getRestaurantMenuCategoryList(){
         val restaurantMenuCategory=RestaurantMenuCategory(1,"title",2)
@@ -48,11 +45,4 @@ class VenueDetailsViewModel:ViewModel() {
         val storeMenuCategoryList= listOf(storeMenuCategory,storeMenuCategory2,storeMenuCategory3)
         storeMenuCategoryMutableList.value=storeMenuCategoryList
     }
-//    fun getStoreMenuList(){
-//        val storeMenu=VenueDetails(1,"",4.00,"menu","faksdjfja",1,false,4,0,false)
-//        val storeMenu2=VenueDetails(2,"",4.00,"menu","faksdjfja",3,false,4,0,false)
-//        val storeMenu3=VenueDetails(3,"",4.00,"menu","faksdjfja",2,false,4,0,false)
-//        val menuList= listOf(storeMenu,storeMenu2,storeMenu3)
-//         storeMenuMutableList.value=menuList
-//    }
 }
