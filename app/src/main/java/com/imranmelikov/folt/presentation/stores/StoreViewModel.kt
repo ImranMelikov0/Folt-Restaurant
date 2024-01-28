@@ -19,7 +19,7 @@ class StoreViewModel:ViewModel() {
         val delivery2=Delivery("2.00","30-40 min")
         val location=Location(2,2)
         val venueInformation=VenueInformation("address","239023920","www",true)
-        val venuePopularity=VenuePopularity(9.00,false,false,false)
+        val venuePopularity=VenuePopularity(9.00,true,false,false)
         val venuePopularity2=VenuePopularity(7.00,false,false,false)
         val venuePopularity3=VenuePopularity(4.00,false,false,false)
         val venue=Venue(1,"Stores","Venue","",delivery,location,venueInformation,venuePopularity,false,"Sweets",2.00,2)

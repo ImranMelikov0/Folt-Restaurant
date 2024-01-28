@@ -148,7 +148,7 @@ class VenueDetailsFragment : Fragment() {
     }
     private fun observeRestaurantViewModel(venue: Venue){
         val mutableMenuList:MutableList<VenueDetailsItem> = mutableListOf()
-        val mutableStringList:MutableList<String> = mutableListOf()
+//        val mutableStringList:MutableList<String> = mutableListOf()
         viewModelVenueDetails.restaurantMenuCategoryLiveData.observe(viewLifecycleOwner){restaurantMenuCategoryList->
             viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){venueDetails->
                 val filteredRestaurantMenuCategory=restaurantMenuCategoryList.filter {
