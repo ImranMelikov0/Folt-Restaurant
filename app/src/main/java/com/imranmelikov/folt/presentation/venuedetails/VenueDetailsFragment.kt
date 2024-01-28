@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ahmadhamwi.tabsync.TabbedListMediator
 import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentVenueDetailsBinding
+import com.imranmelikov.folt.domain.model.RestaurantMenuCategory
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
@@ -47,7 +49,7 @@ class VenueDetailsFragment : Fragment() {
         viewModelVenueDetails.getRestaurantMenuCategoryList()
         viewModelVenueDetails.getStoreMenuCategoryList()
         initialiseVenueDetailsRv()
-        initialiseCategoryRv()
+//        initialiseCategoryRv()
         getControlArguments()
         (activity as MainActivity).hideBottomNav()
     }
@@ -158,8 +160,10 @@ class VenueDetailsFragment : Fragment() {
                         mutableMenuList.add(venueDetailsItem)
                         venueDetailsAdapter.viewType=DataViewTypes.RestaurantMenu
                         venueDetailsAdapter.venueDetailsItemList= mutableMenuList.toList()
-                        mutableStringList.add(restaurantMenuCategory.title)
-                        restaurantMenuCategoryAdp.categoryNameList=mutableStringList
+                        initTabLayout(restaurantMenuCategory)
+                        initMediator(mutableMenuList.toList())
+//                        mutableStringList.add(restaurantMenuCategory.title)
+//                        restaurantMenuCategoryAdp.categoryNameList=mutableStringList
                     }
                 }
             }
@@ -183,9 +187,20 @@ class VenueDetailsFragment : Fragment() {
         binding.venueDetailRv.layoutManager=LinearLayoutManager(requireContext())
         binding.venueDetailRv.adapter=venueDetailsAdapter
     }
-    private fun initialiseCategoryRv(){
-        restaurantMenuCategoryAdp= RestaurantMenuCategoryAdp()
-        binding.toolbarVenueRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        binding.toolbarVenueRv.adapter=restaurantMenuCategoryAdp
+    private fun initMediator(venueDetailsItem: List<VenueDetailsItem>) {
+        TabbedListMediator(
+            binding.venueDetailRv,
+            binding.tabLayout,
+            venueDetailsItem.indices.toList(),
+            true
+        ).attach()
     }
+    private fun initTabLayout(restaurantMenuCategory: RestaurantMenuCategory) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(restaurantMenuCategory.title))
+    }
+//    private fun initialiseCategoryRv(){
+//        restaurantMenuCategoryAdp= RestaurantMenuCategoryAdp()
+//        binding.toolbarVenueRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+//        binding.toolbarVenueRv.adapter=restaurantMenuCategoryAdp
+//    }
 }

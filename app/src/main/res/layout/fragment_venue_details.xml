@@ -165,10 +165,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/toolbar_venue_rv"
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/toolbar_venue_rv"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"/>-->
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        app:tabTextColor="@color/black"
+                        app:tabSelectedTextColor="@color/open_blue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:background="@color/white"
+                        app:tabIndicatorAnimationMode="elastic"
+                        app:tabMode="scrollable"
+                        android:layout_height="match_parent">
+                    </com.google.android.material.tabs.TabLayout>
 
                 </LinearLayout>
 
