@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.databinding.FragmentVenueBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
 
 @Suppress("DEPRECATION")
 class VenueFragment : Fragment() {

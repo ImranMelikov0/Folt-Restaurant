@@ -14,8 +14,8 @@ import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.presentation.restaurants.RestaurantViewModel
 import com.imranmelikov.folt.presentation.stores.StoreViewModel
-import com.imranmelikov.folt.util.DiscoveryTitles
-import com.imranmelikov.folt.util.ViewTypeDiscovery
+import com.imranmelikov.folt.constants.DiscoveryTitles
+import com.imranmelikov.folt.constants.ViewTypeDiscovery
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class DiscoveryFragment : Fragment() {

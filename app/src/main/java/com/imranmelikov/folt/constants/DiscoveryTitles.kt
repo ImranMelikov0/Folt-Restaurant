@@ -1,4 +1,4 @@
-package com.imranmelikov.folt.util
+package com.imranmelikov.folt.constants
 
 object DiscoveryTitles {
     const val deliveryFee="0 Azn delivery fee with Folt+"

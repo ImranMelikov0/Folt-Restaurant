@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.databinding.FragmentVenueInformationBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.util.VenueInformationConstants
+import com.imranmelikov.folt.constants.VenueInformationConstants
 
 @Suppress("DEPRECATION")
 class VenueInformationFragment : Fragment() {

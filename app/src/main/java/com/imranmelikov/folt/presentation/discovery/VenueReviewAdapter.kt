@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.RestaurantReviewRvBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
-import com.imranmelikov.folt.util.ViewTypeDiscovery
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
+import com.imranmelikov.folt.constants.ViewTypeDiscovery
 
 class VenueReviewAdapter:RecyclerView.Adapter<VenueReviewAdapter.VenueReviewViewHolder>() {
     class VenueReviewViewHolder(val binding:RestaurantReviewRvBinding):RecyclerView.ViewHolder(binding.root)

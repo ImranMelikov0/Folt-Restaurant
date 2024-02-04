@@ -17,11 +17,11 @@ import com.imranmelikov.folt.domain.model.RestaurantMenuCategory
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.VenueMenuConstants
-import com.imranmelikov.folt.util.StoreCategoryTitle
-import com.imranmelikov.folt.util.VenueCategoryConstants
-import com.imranmelikov.folt.util.VenueInformationConstants
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.VenueMenuConstants
+import com.imranmelikov.folt.constants.StoreCategoryTitle
+import com.imranmelikov.folt.constants.VenueCategoryConstants
+import com.imranmelikov.folt.constants.VenueInformationConstants
 
 @Suppress("DEPRECATION")
 class VenueDetailsFragment : Fragment() {

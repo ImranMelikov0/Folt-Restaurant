@@ -1,4 +1,4 @@
-package com.imranmelikov.folt.util
+package com.imranmelikov.folt.constants
 
 object VenueMenuConstants {
     const val RestaurantMenu=0

@@ -14,8 +14,8 @@ import com.imranmelikov.folt.domain.model.DiscoveryItem
 import com.imranmelikov.folt.presentation.discovery.DiscoveryAdapter
 import com.imranmelikov.folt.presentation.restaurants.RestaurantViewModel
 import com.imranmelikov.folt.presentation.stores.StoreViewModel
-import com.imranmelikov.folt.util.DiscoveryTitles
-import com.imranmelikov.folt.util.ViewTypeDiscovery
+import com.imranmelikov.folt.constants.DiscoveryTitles
+import com.imranmelikov.folt.constants.ViewTypeDiscovery
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding

@@ -1,4 +1,4 @@
-package com.imranmelikov.folt.util
+package com.imranmelikov.folt.constants
 
 object ParentVenueConstants {
     const val Discovery="Discovery"

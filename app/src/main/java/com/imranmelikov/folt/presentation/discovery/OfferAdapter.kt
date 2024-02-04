@@ -12,10 +12,10 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.OfferRvBinding
 import com.imranmelikov.folt.domain.model.Offer
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.ParentVenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
-import com.imranmelikov.folt.util.ViewTypeDiscovery
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.ParentVenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
+import com.imranmelikov.folt.constants.ViewTypeDiscovery
 
 class OfferAdapter:RecyclerView.Adapter<OfferAdapter.OfferViewHolder>() {
     class OfferViewHolder(val binding:OfferRvBinding):RecyclerView.ViewHolder(binding.root)

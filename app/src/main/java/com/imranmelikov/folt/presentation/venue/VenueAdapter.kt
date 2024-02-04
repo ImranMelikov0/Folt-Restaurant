@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
 
 class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
     class VenueViewHolder(val binding:VenuesRvBinding):RecyclerView.ViewHolder(binding.root)

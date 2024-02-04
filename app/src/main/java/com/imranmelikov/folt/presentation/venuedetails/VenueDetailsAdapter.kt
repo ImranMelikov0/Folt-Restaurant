@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.databinding.VenueDetailsCategoryRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
-import com.imranmelikov.folt.util.VenueMenuConstants
+import com.imranmelikov.folt.constants.VenueMenuConstants
 
 class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentStoreItemsBinding
-import com.imranmelikov.folt.util.StoreCategoryName
-import com.imranmelikov.folt.util.StoreCategoryTitle
+import com.imranmelikov.folt.constants.StoreCategoryName
+import com.imranmelikov.folt.constants.StoreCategoryTitle
 
 class StoreItemsFragment : Fragment() {
    private lateinit var binding:FragmentStoreItemsBinding

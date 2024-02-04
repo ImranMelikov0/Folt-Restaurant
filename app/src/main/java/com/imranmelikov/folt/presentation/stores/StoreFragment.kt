@@ -13,8 +13,8 @@ import com.imranmelikov.folt.databinding.FragmentStoreBinding
 import com.imranmelikov.folt.presentation.categories.VenueCategoryAdapter
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.presentation.venue.VenueAdapter
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
 
 class StoreFragment : Fragment() {
   private lateinit var binding:FragmentStoreBinding

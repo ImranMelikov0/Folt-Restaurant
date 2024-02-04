@@ -11,8 +11,8 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenueCategoryRvBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
 
 class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCategoryViewHolder>() {
     class VenueCategoryViewHolder(val binding:VenueCategoryRvBinding):RecyclerView.ViewHolder(binding.root)

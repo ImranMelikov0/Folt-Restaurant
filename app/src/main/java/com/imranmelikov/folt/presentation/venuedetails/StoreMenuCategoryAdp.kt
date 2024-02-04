@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.StoreMenuCategoryRvBinding
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
-import com.imranmelikov.folt.util.StoreCategoryName
-import com.imranmelikov.folt.util.StoreCategoryTitle
+import com.imranmelikov.folt.constants.StoreCategoryName
+import com.imranmelikov.folt.constants.StoreCategoryTitle
 
 class StoreMenuCategoryAdp:RecyclerView.Adapter<StoreMenuCategoryAdp.StoreMenuCategoryViewHolder>() {
     class StoreMenuCategoryViewHolder(val binding:StoreMenuCategoryRvBinding):RecyclerView.ViewHolder(binding.root)

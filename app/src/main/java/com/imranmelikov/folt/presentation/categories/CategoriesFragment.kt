@@ -15,11 +15,11 @@ import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
 import com.imranmelikov.folt.presentation.discovery.OfferAdapter
 import com.imranmelikov.folt.presentation.discovery.ParentVenueAdapter
-import com.imranmelikov.folt.util.VenueConstants
-import com.imranmelikov.folt.util.OfferConstants
-import com.imranmelikov.folt.util.ParentVenueConstants
-import com.imranmelikov.folt.util.VenueCategoryConstants
-import com.imranmelikov.folt.util.ViewTypeDiscovery
+import com.imranmelikov.folt.constants.VenueConstants
+import com.imranmelikov.folt.constants.OfferConstants
+import com.imranmelikov.folt.constants.ParentVenueConstants
+import com.imranmelikov.folt.constants.VenueCategoryConstants
+import com.imranmelikov.folt.constants.ViewTypeDiscovery
 
 @Suppress("DEPRECATION")
 class CategoriesFragment : Fragment() {
