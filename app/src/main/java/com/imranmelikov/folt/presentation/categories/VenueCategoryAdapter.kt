@@ -11,7 +11,7 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenueCategoryRvBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
-import com.imranmelikov.folt.util.ArgumentConstants
+import com.imranmelikov.folt.util.VenueConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCategoryViewHolder>() {
@@ -53,17 +53,17 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
          holder.binding.categoryName.text=venueCategoryArraylist.title
 //         Glide.with(holder.itemView.context).load(venueCategoryArraylist.image)
 //             .into(holder.binding.categoryImage)
-            val filteredVenueList=venueList.filter {it.type==venueCategoryArraylist.title && it.venueInformation.isOpen}
+            val filteredVenueList=venueList.filter {it.type==venueCategoryArraylist.title}
         holder.binding.categoryCount.text=filteredVenueList.size.toString()
 
         val bundleRestaurant = Bundle().apply {
-            putSerializable(ArgumentConstants.venues, ArrayList(filteredVenueList))
-            putSerializable(ArgumentConstants.venueCategories,venueCategoryArraylist)
+            putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
+            putSerializable(VenueCategoryConstants.venueCategories,venueCategoryArraylist)
             putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
         }
         val bundleStore = Bundle().apply {
-            putSerializable(ArgumentConstants.venues, ArrayList(filteredVenueList))
-            putSerializable(ArgumentConstants.venueCategories,venueCategoryArraylist)
+            putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
+            putSerializable(VenueCategoryConstants.venueCategories,venueCategoryArraylist)
             putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Store)
         }
         holder.itemView.setOnClickListener {
@@ -83,6 +83,9 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
                 }
                 VenueCategoryConstants.Store -> {
                     Navigation.findNavController(it).navigate(R.id.action_storeFragment_to_venueFragment,bundleStore)
+                }
+                VenueCategoryConstants.Discovery->{
+                    Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundleRestaurant)
                 }
             }
         }

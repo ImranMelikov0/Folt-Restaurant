@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.databinding.FragmentVenueBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
-import com.imranmelikov.folt.util.ArgumentConstants
+import com.imranmelikov.folt.util.VenueConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 @Suppress("DEPRECATION")
@@ -48,12 +48,19 @@ class VenueFragment : Fragment() {
             venueAdapter.viewTypeVenue=VenueCategoryConstants.Store
         }
 
-        val receivedVenueList = arguments?.getSerializable(ArgumentConstants.venues) as? ArrayList<*>
+        val receivedVenueList = arguments?.getSerializable(VenueConstants.venues) as? ArrayList<*>
         venueList = receivedVenueList?.filterIsInstance<Venue>() ?: emptyList()
         venueAdapter.venueList=venueList
        venueAdapter.viewType=VenueCategoryConstants.Venue
 
-        val receivedVenueCategory = arguments?.getSerializable(ArgumentConstants.venueCategories) as? VenueCategory
+        val receiveDiscoveryTitleString=arguments?.getString(VenueCategoryConstants.DiscoveryTitle)
+
+        if (receiveDiscoveryTitleString!=null){
+            binding.fastestDelivery.text=receiveDiscoveryTitleString
+            binding.toolbarVenueText.text=receiveDiscoveryTitleString
+        }
+
+        val receivedVenueCategory = arguments?.getSerializable(VenueCategoryConstants.venueCategories) as? VenueCategory
 
         if (receivedVenueCategory!=null){
                 binding.fastestDelivery.text=receivedVenueCategory.title

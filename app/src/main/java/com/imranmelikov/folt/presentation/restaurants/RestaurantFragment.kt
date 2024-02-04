@@ -13,7 +13,7 @@ import com.imranmelikov.folt.databinding.FragmentRestaurantBinding
 import com.imranmelikov.folt.presentation.categories.VenueCategoryAdapter
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.presentation.venue.VenueAdapter
-import com.imranmelikov.folt.util.ArgumentConstants
+import com.imranmelikov.folt.util.VenueConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class RestaurantFragment : Fragment() {
@@ -67,7 +67,8 @@ class RestaurantFragment : Fragment() {
             venueAdapter.viewType=VenueCategoryConstants.Restaurant
             venueCategoryAdapter.venueList=it
             bundle.apply{
-                putSerializable(ArgumentConstants.venues, ArrayList(it))
+                putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                putSerializable(VenueConstants.venues, ArrayList(it))
             }
         }
     }
@@ -76,7 +77,8 @@ class RestaurantFragment : Fragment() {
             venueCategoryAdapter.venueCategoryList=it
             venueCategoryAdapter.viewType=VenueCategoryConstants.Restaurant
             bundle.apply {
-                putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
+                putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                putSerializable(VenueCategoryConstants.venueCategories, ArrayList(it))
                 putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
             }
         }

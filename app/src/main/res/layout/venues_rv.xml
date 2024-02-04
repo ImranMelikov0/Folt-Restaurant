@@ -32,6 +32,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/restaurant"
                         android:layout_margin="8dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"/>

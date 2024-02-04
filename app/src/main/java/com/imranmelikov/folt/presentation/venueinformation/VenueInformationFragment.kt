@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.databinding.FragmentVenueInformationBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.util.ArgumentConstants
 import com.imranmelikov.folt.util.VenueInformationConstants
 
 @Suppress("DEPRECATION")
@@ -29,7 +28,7 @@ class VenueInformationFragment : Fragment() {
     }
 
     private fun getControlArguments(){
-        val receivedVenueList = arguments?.getSerializable(ArgumentConstants.venueInformation) as? Venue
+        val receivedVenueList = arguments?.getSerializable(VenueInformationConstants.venueInformation) as? Venue
         receivedVenueList?.let {
             binding.addressText.text=it.venueInformation.address
             binding.tel.text=it.venueInformation.tel

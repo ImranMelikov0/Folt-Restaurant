@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.databinding.VenueDetailsCategoryRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
-import com.imranmelikov.folt.util.DataViewTypes
+import com.imranmelikov.folt.util.VenueMenuConstants
 
 class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -67,10 +67,10 @@ class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val venueDetailsItem=venueDetailsItemList[position]
         when(viewType){
-            DataViewTypes.RestaurantMenu->{
+            VenueMenuConstants.RestaurantMenu->{
                 (holder as VenueDetailsCategoryViewHolder).bindRestaurantMenu(venueDetailsItem)
             }
-            DataViewTypes.StoreMenuCategory->{
+            VenueMenuConstants.StoreMenuCategory->{
                 (holder as VenueDetailsCategoryViewHolder).bindStoreMenuCategory(venueDetailsItem)
             }
         }

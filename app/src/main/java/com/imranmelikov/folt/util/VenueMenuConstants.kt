@@ -1,6 +1,6 @@
 package com.imranmelikov.folt.util
 
-object DataViewTypes {
+object VenueMenuConstants {
     const val RestaurantMenu=0
     const val StoreMenuCategory=1
 }

@@ -17,17 +17,18 @@ import com.imranmelikov.folt.domain.model.RestaurantMenuCategory
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
-import com.imranmelikov.folt.util.ArgumentConstants
-import com.imranmelikov.folt.util.DataViewTypes
+import com.imranmelikov.folt.util.VenueConstants
+import com.imranmelikov.folt.util.VenueMenuConstants
 import com.imranmelikov.folt.util.StoreCategoryTitle
 import com.imranmelikov.folt.util.VenueCategoryConstants
+import com.imranmelikov.folt.util.VenueInformationConstants
 
 @Suppress("DEPRECATION")
 class VenueDetailsFragment : Fragment() {
     private lateinit var binding:FragmentVenueDetailsBinding
     private lateinit var viewModelVenueDetails: VenueDetailsViewModel
     private lateinit var venueDetailsAdapter:VenueDetailsAdapter
-    private lateinit var restaurantMenuCategoryAdp: RestaurantMenuCategoryAdp
+//    private lateinit var restaurantMenuCategoryAdp: RestaurantMenuCategoryAdp
     val bundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,7 +95,7 @@ class VenueDetailsFragment : Fragment() {
     private fun clickSearchBtn(venue: Venue){
         binding.searchBtn.setOnClickListener {
             bundle.apply {
-                putSerializable(ArgumentConstants.venues,venue)
+                putSerializable(VenueConstants.venues,venue)
             }
             findNavController().navigate(R.id.action_venueDetailsFragment_to_itemSearchFragment)
         }
@@ -102,7 +103,7 @@ class VenueDetailsFragment : Fragment() {
     private fun clickMoreBtn(venue: Venue){
         binding.moreTextview.setOnClickListener {
            bundle.apply {
-                putSerializable(ArgumentConstants.venueInformation,venue)
+                putSerializable(VenueInformationConstants.venueInformation,venue)
             }
             findNavController().navigate(R.id.action_venueDetailsFragment_to_venueInformationFragment,bundle)
         }
@@ -123,7 +124,7 @@ class VenueDetailsFragment : Fragment() {
 
         val receivedVenueString=receiveArgs?.getString(VenueCategoryConstants.Venue)
 
-        val receivedVenue = receiveArgs?.getSerializable(ArgumentConstants.venues) as? Venue
+        val receivedVenue = receiveArgs?.getSerializable(VenueConstants.venues) as? Venue
         receivedVenue?.let {venue->
             "Delivery : ${venue.delivery.deliveryPrice} AZN".also { binding.deliveryTextview.text = it }
             binding.venueNameTextview.text=venue.venueName
@@ -158,7 +159,7 @@ class VenueDetailsFragment : Fragment() {
                     if(filteredMenuList.isNotEmpty()){
                        val venueDetailsItem=VenueDetailsItem(restaurantMenuCategory.title,filteredMenuList)
                         mutableMenuList.add(venueDetailsItem)
-                        venueDetailsAdapter.viewType=DataViewTypes.RestaurantMenu
+                        venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
                         venueDetailsAdapter.venueDetailsItemList= mutableMenuList.toList()
                         initTabLayout(restaurantMenuCategory)
                         initMediator(mutableMenuList.toList())
@@ -177,7 +178,7 @@ class VenueDetailsFragment : Fragment() {
                     if (filteredStoreMenuCategory.isNotEmpty()){
                         val venueDetailsItem=VenueDetailsItem(StoreCategoryTitle.storeCategoryTitle,filteredStoreMenuCategory,false)
                         mutableCategoryList.add(venueDetailsItem)
-                        venueDetailsAdapter.viewType=DataViewTypes.StoreMenuCategory
+                        venueDetailsAdapter.viewType=VenueMenuConstants.StoreMenuCategory
                         venueDetailsAdapter.venueDetailsItemList= mutableCategoryList.toList()
             }
         }

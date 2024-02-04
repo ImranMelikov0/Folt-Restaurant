@@ -13,7 +13,7 @@ import com.imranmelikov.folt.databinding.FragmentStoreBinding
 import com.imranmelikov.folt.presentation.categories.VenueCategoryAdapter
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.presentation.venue.VenueAdapter
-import com.imranmelikov.folt.util.ArgumentConstants
+import com.imranmelikov.folt.util.VenueConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class StoreFragment : Fragment() {
@@ -64,7 +64,10 @@ class StoreFragment : Fragment() {
             venueAdapter.venueList=it
             venueAdapter.viewType=VenueCategoryConstants.Store
             venueCategoryAdapter.venueList=it
-            bundle.putSerializable(ArgumentConstants.venues, ArrayList(it))
+            bundle.apply {
+                putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                putSerializable(VenueConstants.venues, ArrayList(it))
+            }
         }
     }
     private fun observeVenueCategories(){
@@ -72,7 +75,8 @@ class StoreFragment : Fragment() {
             venueCategoryAdapter.venueCategoryList=it
             venueCategoryAdapter.viewType= VenueCategoryConstants.Store
             bundle.apply {
-                putSerializable(ArgumentConstants.venueCategories, ArrayList(it))
+                putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                putSerializable(VenueCategoryConstants.venueCategories, ArrayList(it))
                 putString(VenueCategoryConstants.Venue, VenueCategoryConstants.Store)
             }
         }

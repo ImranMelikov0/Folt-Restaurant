@@ -10,15 +10,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentProfileBinding
-import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.domain.model.DiscoveryItem
+import com.imranmelikov.folt.presentation.discovery.DiscoveryAdapter
 import com.imranmelikov.folt.presentation.restaurants.RestaurantViewModel
 import com.imranmelikov.folt.presentation.stores.StoreViewModel
+import com.imranmelikov.folt.util.DiscoveryTitles
+import com.imranmelikov.folt.util.ViewTypeDiscovery
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var viewModelRestaurant: RestaurantViewModel
     private lateinit var storeViewModel: StoreViewModel
-    private lateinit var profileAdapter: ProfileAdapter
+    private lateinit var discoveryAdapter: DiscoveryAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,20 +42,21 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeVenues(){
-        val combinedList: MutableList<Venue> = mutableListOf()
         viewModelRestaurant.venueLiveData.observe(viewLifecycleOwner) {restaurantVenues->
             storeViewModel.venueLiveData.observe(viewLifecycleOwner) {storeVenues->
-                combinedList.addAll(restaurantVenues)
-                combinedList.addAll(storeVenues)
-                val filteredFavVenues=combinedList.filter { it.venuePopularity.favorite }
-                profileAdapter.venueList=filteredFavVenues
+                val filteredFavRestaurants=restaurantVenues.filter { it.venuePopularity.favorite }
+                val filteredFavStores=storeVenues.filter { it.venuePopularity.favorite }
+                val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFavRestaurants,ViewTypeDiscovery.ProfileRestaurant,filteredFavRestaurants)
+                val discoveryItemStore=DiscoveryItem(DiscoveryTitles.yourFavStores,ViewTypeDiscovery.ProfileStore,filteredFavStores)
+                val discoveryItemList= listOf(discoveryItemRestaurant,discoveryItemStore)
+                discoveryAdapter.discoveryItemList=discoveryItemList
             }
         }
 
     }
     private fun initialiseRv(){
-        profileAdapter= ProfileAdapter()
-        binding.profileRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        binding.profileRv.adapter=profileAdapter
+        discoveryAdapter= DiscoveryAdapter()
+        binding.profileRv.layoutManager=LinearLayoutManager(requireContext())
+        binding.profileRv.adapter=discoveryAdapter
     }
 }

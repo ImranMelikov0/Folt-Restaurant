@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.util.ArgumentConstants
+import com.imranmelikov.folt.util.VenueConstants
 import com.imranmelikov.folt.util.VenueCategoryConstants
 
 class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
@@ -52,7 +52,7 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
         val venueArraylist=venueList[position]
         holder.binding.restaurantName.text=venueArraylist.venueName
         holder.binding.restaurantText.text=venueArraylist.venueText
-        holder.binding.venuesDeliveryTimeBtn.text=venueArraylist.delivery.deliveryTime
+        "${venueArraylist.delivery.deliveryTime} min".also { holder.binding.venuesDeliveryTimeBtn.text = it }
         "${venueArraylist.delivery.deliveryPrice} Azn".also { holder.binding.deliveryText.text = it }
         holder.binding.ratingText.text=venueArraylist.venuePopularity.rating.toString()
 
@@ -61,11 +61,11 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
         setDeliveryTextColor(venueArraylist,holder)
 
         val bundleRestaurant = Bundle().apply {
-            putSerializable(ArgumentConstants.venues,venueArraylist)
+            putSerializable(VenueConstants.venues,venueArraylist)
             putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
         }
         val bundleStore = Bundle().apply {
-            putSerializable(ArgumentConstants.venues,venueArraylist)
+            putSerializable(VenueConstants.venues,venueArraylist)
             putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Store)
         }
         holder.itemView.setOnClickListener {
