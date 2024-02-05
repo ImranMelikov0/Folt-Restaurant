@@ -16,6 +16,7 @@ import com.imranmelikov.folt.presentation.restaurants.RestaurantViewModel
 import com.imranmelikov.folt.presentation.stores.StoreViewModel
 import com.imranmelikov.folt.constants.DiscoveryTitles
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
+import com.imranmelikov.folt.domain.model.VenueCategory
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class DiscoveryFragment : Fragment() {
@@ -36,6 +37,8 @@ class DiscoveryFragment : Fragment() {
     private lateinit var discoveryItemYourFavStores:DiscoveryItem
     private lateinit var discoveryItemRating:DiscoveryItem
     private lateinit var discoveryItemParentRestaurant:DiscoveryItem
+    private lateinit var mainCategoryAdapter: MainCategoryAdapter
+    private lateinit var mainCategoryHorizontalAdapter: MainCategoryHorizontalAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +61,7 @@ class DiscoveryFragment : Fragment() {
         discoveryViewModel.getOfferRestaurant()
         discoveryViewModel.getSliderImageList()
         venueCategoryViewModel.getRestaurantCategories()
+        venueCategoryViewModel.getStoreCategories()
         restaurantViewModel.getVenues()
         storeViewModel.getVenues()
         observeRestaurant()
@@ -123,12 +127,12 @@ class DiscoveryFragment : Fragment() {
              discoveryItemRating=DiscoveryItem(DiscoveryTitles.top_rated,ViewTypeDiscovery.VenueRestaurant,filteredTopRatedList)
 
             observeStore(restaurants)
-
         }
     }
     private fun observeStore(venueList: List<Venue>){
         storeViewModel.venueLiveData.observe(viewLifecycleOwner){stores->
             observeOfferStore(stores,venueList)
+            initialiseMainCategoryRv(stores)
         }
     }
     private fun initialiseDiscoveryRv(){
@@ -139,5 +143,22 @@ class DiscoveryFragment : Fragment() {
             discoveryItemYourFavRestaurants,discoveryItemYourFavStores,discoveryItemCategory,discoveryItemRating)
         discoveryAdapter.discoveryItemList=discoveryItemList
         binding.eachRv.adapter=discoveryAdapter
+    }
+    private fun initialiseMainCategoryRv(stores: List<Venue>){
+        mainCategoryAdapter= MainCategoryAdapter()
+        binding.mainCategoryRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        venueCategoryViewModel.storeCategoryLiveData.observe(viewLifecycleOwner){categories->
+            mainCategoryAdapter.venueCategoryList=categories
+            mainCategoryAdapter.venueList=stores
+            binding.mainCategoryRv.adapter=mainCategoryAdapter
+            initialiseToolbarRv(stores,categories)
+        }
+    }
+    private fun initialiseToolbarRv(stores: List<Venue>, categoryList: List<VenueCategory>){
+        mainCategoryHorizontalAdapter= MainCategoryHorizontalAdapter()
+        binding.toolbarStoreCategoriesRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        mainCategoryHorizontalAdapter.venueCategoryList=categoryList
+        mainCategoryHorizontalAdapter.venueList=stores
+        binding.toolbarStoreCategoriesRv.adapter=mainCategoryHorizontalAdapter
     }
 }

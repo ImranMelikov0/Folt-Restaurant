@@ -35,7 +35,7 @@ class VenueCategoryAdapter:RecyclerView.Adapter<VenueCategoryAdapter.VenueCatego
     }
     private val recyclerDiffer= AsyncListDiffer(this,diffUtil)
 
-    // Getter and setter for the list of VenueList
+    // Getter and setter for the list of VenueCategoryList
     var venueCategoryList:List<VenueCategory>
         get() = recyclerDiffer.currentList
         set(value) = recyclerDiffer.submitList(value)
