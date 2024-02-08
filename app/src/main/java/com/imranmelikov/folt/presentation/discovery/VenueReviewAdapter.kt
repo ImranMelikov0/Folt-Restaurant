@@ -75,6 +75,12 @@ class VenueReviewAdapter:RecyclerView.Adapter<VenueReviewAdapter.VenueReviewView
                 ViewTypeDiscovery.VenueStore->{
                     Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueDetailsFragment,bundleStore)
                 }
+                ViewTypeDiscovery.ProfileRestaurant->{
+                    Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_venueDetailsFragment,bundleRestaurant)
+                }
+                ViewTypeDiscovery.ProfileStore->{
+                    Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_venueDetailsFragment,bundleStore)
+                }
             }
         }
     }

@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ahmadhamwi.tabsync.TabbedListMediator
 import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentVenueDetailsBinding
-import com.imranmelikov.folt.domain.model.RestaurantMenuCategory
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
@@ -28,7 +26,6 @@ class VenueDetailsFragment : Fragment() {
     private lateinit var binding:FragmentVenueDetailsBinding
     private lateinit var viewModelVenueDetails: VenueDetailsViewModel
     private lateinit var venueDetailsAdapter:VenueDetailsAdapter
-//    private lateinit var restaurantMenuCategoryAdp: RestaurantMenuCategoryAdp
     val bundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +47,6 @@ class VenueDetailsFragment : Fragment() {
         viewModelVenueDetails.getRestaurantMenuCategoryList()
         viewModelVenueDetails.getStoreMenuCategoryList()
         initialiseVenueDetailsRv()
-//        initialiseCategoryRv()
         getControlArguments()
         (activity as MainActivity).hideBottomNav()
     }
@@ -135,21 +131,17 @@ class VenueDetailsFragment : Fragment() {
                 .load(venue.image)
                 .into(binding.mainImage)
 
+            // If you are using tabLayout for menus, you will need to use this distinction
             if (receivedVenueString==VenueCategoryConstants.Restaurant){
                 observeRestaurantViewModel(venue)
             }else if(receivedVenueString==VenueCategoryConstants.Store){
                 observeStoreViewModel(venue)
-                binding.toolbarLinear.visibility=View.GONE
-                binding.toolbarCardView.visibility=View.GONE
-                binding.appBarLayout.visibility=View.GONE
-                binding.toolbar.visibility=View.GONE
             }
             clickBtn(venue)
         }
     }
     private fun observeRestaurantViewModel(venue: Venue){
         val mutableMenuList:MutableList<VenueDetailsItem> = mutableListOf()
-//        val mutableStringList:MutableList<String> = mutableListOf()
         viewModelVenueDetails.restaurantMenuCategoryLiveData.observe(viewLifecycleOwner){restaurantMenuCategoryList->
             viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){venueDetails->
                 val filteredRestaurantMenuCategory=restaurantMenuCategoryList.filter {
@@ -161,10 +153,6 @@ class VenueDetailsFragment : Fragment() {
                         mutableMenuList.add(venueDetailsItem)
                         venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
                         venueDetailsAdapter.venueDetailsItemList= mutableMenuList.toList()
-                        initTabLayout(restaurantMenuCategory)
-                        initMediator(mutableMenuList.toList())
-//                        mutableStringList.add(restaurantMenuCategory.title)
-//                        restaurantMenuCategoryAdp.categoryNameList=mutableStringList
                     }
                 }
             }
@@ -188,20 +176,4 @@ class VenueDetailsFragment : Fragment() {
         binding.venueDetailRv.layoutManager=LinearLayoutManager(requireContext())
         binding.venueDetailRv.adapter=venueDetailsAdapter
     }
-    private fun initMediator(venueDetailsItem: List<VenueDetailsItem>) {
-        TabbedListMediator(
-            binding.venueDetailRv,
-            binding.tabLayout,
-            venueDetailsItem.indices.toList(),
-            true
-        ).attach()
-    }
-    private fun initTabLayout(restaurantMenuCategory: RestaurantMenuCategory) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(restaurantMenuCategory.title))
-    }
-//    private fun initialiseCategoryRv(){
-//        restaurantMenuCategoryAdp= RestaurantMenuCategoryAdp()
-//        binding.toolbarVenueRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-//        binding.toolbarVenueRv.adapter=restaurantMenuCategoryAdp
-//    }
 }

@@ -135,61 +135,6 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="0dp"
-        android:background="@color/white"
-        android:layout_height="wrap_content"
-        android:translationY="-160dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/venue_detail_cardView">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            app:titleTextColor="@color/black">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/toolbar_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
-                android:elevation="4dp">
-
-                <LinearLayout
-                    android:id="@+id/toolbar_linear"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/toolbar_venue_rv"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"/>-->
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tabLayout"
-                        app:tabTextColor="@color/black"
-                        app:tabSelectedTextColor="@color/open_blue"
-                        android:layout_width="match_parent"
-                        android:background="@color/white"
-                        app:tabIndicatorAnimationMode="elastic"
-                        app:tabMode="scrollable"
-                        android:layout_height="match_parent">
-                    </com.google.android.material.tabs.TabLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/venue_detail_cardView"
         android:layout_width="match_parent"

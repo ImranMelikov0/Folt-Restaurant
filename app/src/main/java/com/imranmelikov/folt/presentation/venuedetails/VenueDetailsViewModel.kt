@@ -25,7 +25,7 @@ class VenueDetailsViewModel:ViewModel() {
         val restaurantMenuCategory=RestaurantMenuCategory(1,"title",3)
         val restaurantMenuCategory2=RestaurantMenuCategory(2,"title2",3)
         val restaurantMenuCategory3=RestaurantMenuCategory(3,"title",3)
-        val categoryList= listOf(restaurantMenuCategory,restaurantMenuCategory2,restaurantMenuCategory3,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory2)
+        val categoryList= listOf(restaurantMenuCategory,restaurantMenuCategory2,restaurantMenuCategory3,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory,restaurantMenuCategory,restaurantMenuCategory2,restaurantMenuCategory,restaurantMenuCategory3)
         restaurantMenuCategoryMutableList.value=categoryList
     }
     fun getRestaurantMenuList(){

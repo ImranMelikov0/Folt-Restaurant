@@ -56,6 +56,7 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
         "${venueArraylist.delivery.deliveryPrice} Azn".also { holder.binding.deliveryText.text = it }
         holder.binding.ratingText.text=venueArraylist.venuePopularity.rating.toString()
 
+        favIconView(venueArraylist,holder.binding.favIcon)
         clickFavIcon(venueArraylist,holder.binding.favIcon)
         setRatingIcon(venueArraylist,holder.binding.ratingIcon)
         setDeliveryTextColor(venueArraylist,holder)
@@ -88,6 +89,15 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
                 }
             }
         }
+    }
+
+    // favIcon view
+    private fun favIconView(venueArraylist:Venue,favIcon: ImageView){
+            if (venueArraylist.venuePopularity.favorite){
+                favIcon.setImageResource(R.drawable.heart_inline)
+            }else{
+                favIcon.setImageResource(R.drawable.heart_outline)
+            }
     }
 
     // click favIcon

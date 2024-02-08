@@ -30,15 +30,27 @@ class ProfileFragment : Fragment() {
         viewModelRestaurant= ViewModelProvider(requireActivity())[RestaurantViewModel::class.java]
         storeViewModel= ViewModelProvider(requireActivity())[StoreViewModel::class.java]
 
-        binding.accountLinear.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_accountFragment)
-        }
 
+        clickToFragments()
         initialiseRv()
         viewModelRestaurant.getVenues()
         storeViewModel.getVenues()
         observeVenues()
         return binding.root
+    }
+    private fun clickToFragments(){
+        binding.accountLinear.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_accountFragment)
+        }
+        binding.profileLinear.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_accountFragment)
+        }
+        binding.myAddressLinear.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_addressFragment)
+        }
+        binding.orderHistoryLinear.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_orderHistoryFragment)
+        }
     }
 
     private fun observeVenues(){
