@@ -12,29 +12,25 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentProfileBinding
 import com.imranmelikov.folt.domain.model.DiscoveryItem
 import com.imranmelikov.folt.presentation.discovery.DiscoveryAdapter
-import com.imranmelikov.folt.presentation.restaurants.RestaurantViewModel
-import com.imranmelikov.folt.presentation.stores.StoreViewModel
 import com.imranmelikov.folt.constants.DiscoveryTitles
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
+import com.imranmelikov.folt.presentation.venue.VenueViewModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
-    private lateinit var viewModelRestaurant: RestaurantViewModel
-    private lateinit var storeViewModel: StoreViewModel
+    private lateinit var viewModelRestaurant: VenueViewModel
     private lateinit var discoveryAdapter: DiscoveryAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentProfileBinding.inflate(inflater,container,false)
-        viewModelRestaurant= ViewModelProvider(requireActivity())[RestaurantViewModel::class.java]
-        storeViewModel= ViewModelProvider(requireActivity())[StoreViewModel::class.java]
+        viewModelRestaurant= ViewModelProvider(requireActivity())[VenueViewModel::class.java]
 
 
         clickToFragments()
         initialiseRv()
         viewModelRestaurant.getVenues()
-        storeViewModel.getVenues()
         observeVenues()
         return binding.root
     }
@@ -54,15 +50,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeVenues(){
-        viewModelRestaurant.venueLiveData.observe(viewLifecycleOwner) {restaurantVenues->
-            storeViewModel.venueLiveData.observe(viewLifecycleOwner) {storeVenues->
-                val filteredFavRestaurants=restaurantVenues.filter { it.venuePopularity.favorite }
-                val filteredFavStores=storeVenues.filter { it.venuePopularity.favorite }
-                val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFavRestaurants,ViewTypeDiscovery.ProfileRestaurant,filteredFavRestaurants)
-                val discoveryItemStore=DiscoveryItem(DiscoveryTitles.yourFavStores,ViewTypeDiscovery.ProfileStore,filteredFavStores)
-                val discoveryItemList= listOf(discoveryItemRestaurant,discoveryItemStore)
+        viewModelRestaurant.venueLiveData.observe(viewLifecycleOwner) {venues->
+                val filteredFavVenues=venues.filter { it.venuePopularity.favorite }
+                val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Profile,filteredFavVenues)
+                val discoveryItemList= listOf(discoveryItemRestaurant)
                 discoveryAdapter.discoveryItemList=discoveryItemList
-            }
         }
 
     }

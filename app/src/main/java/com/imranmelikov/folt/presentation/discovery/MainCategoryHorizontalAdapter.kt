@@ -50,13 +50,12 @@ class MainCategoryHorizontalAdapter:RecyclerView.Adapter<MainCategoryHorizontalA
 
         val filteredVenueList=venueList.filter {it.type==venueCategory.title}
 
-        val bundleStore = Bundle().apply {
+        val bundle = Bundle().apply {
             putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
             putSerializable(VenueCategoryConstants.venueCategories,venueCategory)
-            putString(VenueCategoryConstants.Venue, VenueCategoryConstants.Store)
         }
         holder.itemView.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundleStore)
+            Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundle)
         }
     }
 }

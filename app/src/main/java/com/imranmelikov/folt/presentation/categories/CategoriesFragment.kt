@@ -19,7 +19,6 @@ import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.OfferConstants
 import com.imranmelikov.folt.constants.ParentVenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
-import com.imranmelikov.folt.constants.ViewTypeDiscovery
 
 @Suppress("DEPRECATION")
 class CategoriesFragment : Fragment() {
@@ -73,13 +72,6 @@ class CategoriesFragment : Fragment() {
     private fun getControlArgumentsCategory(){
         val receiveArgs = arguments
 
-        val receivedVenueString=receiveArgs?.getString(VenueCategoryConstants.Venue)
-        if (receivedVenueString==VenueCategoryConstants.Restaurant){
-            venueCategoryAdapter.viewTypeVenue=VenueCategoryConstants.Restaurant
-        }else if (receivedVenueString==VenueCategoryConstants.Store){
-            venueCategoryAdapter.viewTypeVenue=VenueCategoryConstants.Store
-        }
-
         val receivedVenueList = receiveArgs?.getSerializable(VenueConstants.venues) as? ArrayList<*>
         venueList = receivedVenueList?.filterIsInstance<Venue>() ?: emptyList()
         venueCategoryAdapter.venueList=venueList
@@ -99,13 +91,6 @@ class CategoriesFragment : Fragment() {
             binding.categoriesText.text=it
         }
 
-        val receivedViewType=receiveArgs?.getInt(VenueCategoryConstants.Venue)
-        if (receivedViewType==ViewTypeDiscovery.ParentRestaurant){
-            parentVenueAdapter.viewType=ViewTypeDiscovery.ParentRestaurant
-        }else if (receivedViewType==ViewTypeDiscovery.ParentStore){
-            parentVenueAdapter.viewType=ViewTypeDiscovery.ParentStore
-        }
-
         val receivedVenueList = receiveArgs?.getSerializable(VenueConstants.venues) as? ArrayList<*>
         venueList = receivedVenueList?.filterIsInstance<Venue>() ?: emptyList()
         parentVenueAdapter.venueList=venueList
@@ -122,13 +107,6 @@ class CategoriesFragment : Fragment() {
         val receiveTitle=receiveArgs?.getString(ParentVenueConstants.titleString)
         receiveTitle?.let {
             binding.categoriesText.text=it
-        }
-
-        val receivedViewType=receiveArgs?.getInt(VenueCategoryConstants.Venue)
-        if (receivedViewType==ViewTypeDiscovery.ParentRestaurant){
-            offerAdapter.viewType=ViewTypeDiscovery.ParentRestaurant
-        }else if (receivedViewType==ViewTypeDiscovery.ParentStore){
-            offerAdapter.viewType=ViewTypeDiscovery.ParentStore
         }
 
         val receivedVenueList = receiveArgs?.getSerializable(VenueConstants.venues) as? ArrayList<*>

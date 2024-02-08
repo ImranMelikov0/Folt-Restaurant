@@ -25,39 +25,20 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
                 discoveryItem.venueList?.let {venueList->
                     val adapter=OfferAdapter()
                     binding.categoryInlineRv.layoutManager=LinearLayoutManager(binding.root.context,RecyclerView.HORIZONTAL,false)
-                    adapter.viewType=discoveryItem.viewType
                     adapter.viewTypeFragment=ParentVenueConstants.Discovery
                     adapter.offerList=offerList
                     adapter.venueList=venueList
                     binding.categoryInlineRv.adapter=adapter
 
-
-                    val bundleStore=Bundle()
-                    bundleStore.apply {
+                    val bundle=Bundle()
+                    bundle.apply {
                         putString(VenueCategoryConstants.VenueCategoryTitle,OfferConstants.OfferTitle)
                         putSerializable(OfferConstants.offer, ArrayList(offerList))
-                        putInt(VenueCategoryConstants.Venue,ViewTypeDiscovery.ParentStore)
                         putSerializable(VenueConstants.venues, ArrayList(venueList))
                         putString(ParentVenueConstants.titleString,discoveryItem.title)
                     }
-                    val bundleRestaurant=Bundle()
-                    bundleRestaurant.apply {
-                        putString(VenueCategoryConstants.VenueCategoryTitle,OfferConstants.OfferTitle)
-                        putSerializable(OfferConstants.offer, ArrayList(offerList))
-                        putInt(VenueCategoryConstants.Venue,ViewTypeDiscovery.ParentRestaurant)
-                        putSerializable(VenueConstants.venues, ArrayList(venueList))
-                        putString(ParentVenueConstants.titleString,discoveryItem.title)
-                    }
-
                     binding.seeAllBtn.setOnClickListener {
-                        when(discoveryItem.viewType){
-                            ViewTypeDiscovery.OfferStore->{
-                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_categoriesFragment,bundleStore)
-                            }
-                            ViewTypeDiscovery.OfferRestaurant->{
-                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_categoriesFragment,bundleRestaurant)
-                            }
-                        }
+                       Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_categoriesFragment,bundle)
                     }
                 }
             }
@@ -68,52 +49,28 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
                     val adapter= ParentVenueAdapter()
                     binding.categoryInlineRv.layoutManager=LinearLayoutManager(binding.root.context,RecyclerView.HORIZONTAL,false)
                     adapter.viewTypeFragment=ParentVenueConstants.Discovery
-                    adapter.viewType=discoveryItem.viewType
                     adapter.parentVenueList=parentVenue
                     adapter.venueList=venueList
                     binding.categoryInlineRv.adapter=adapter
 
-                    val bundleStore=Bundle()
-                    bundleStore.apply {
+                    val bundle=Bundle()
+                    bundle.apply {
                         putString(VenueCategoryConstants.VenueCategoryTitle,ParentVenueConstants.ParentVenueTitle)
                         putSerializable(ParentVenueConstants.parentVenues, ArrayList(parentVenue))
-                        putInt(VenueCategoryConstants.Venue,ViewTypeDiscovery.ParentStore)
                         putSerializable(VenueConstants.venues, ArrayList(venueList))
                         putString(ParentVenueConstants.titleString,discoveryItem.title)
                     }
-                    val bundleRestaurant=Bundle()
-                    bundleRestaurant.apply {
-                        putString(VenueCategoryConstants.VenueCategoryTitle,ParentVenueConstants.ParentVenueTitle)
-                        putSerializable(ParentVenueConstants.parentVenues, ArrayList(parentVenue))
-                        putInt(VenueCategoryConstants.Venue,ViewTypeDiscovery.ParentRestaurant)
-                        putSerializable(VenueConstants.venues, ArrayList(venueList))
-                        putString(ParentVenueConstants.titleString,discoveryItem.title)
-                    }
-
                     binding.seeAllBtn.setOnClickListener {
-                        when(discoveryItem.viewType){
-                            ViewTypeDiscovery.ParentStore->{
-                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_categoriesFragment,bundleStore)
-                            }
-                            ViewTypeDiscovery.ParentRestaurant->{
-                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_categoriesFragment,bundleRestaurant)
-                            }
-                        }
+                         Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_categoriesFragment,bundle)
                     }
                 }
             }
         }
         fun bindVenue(discoveryItem: DiscoveryItem){
             discoveryItem.venueList?.let {venue->
-                val bundleRestaurant = Bundle().apply {
+                val bundle = Bundle().apply {
                     putSerializable(VenueConstants.venues, ArrayList(venue))
                     putString(VenueCategoryConstants.DiscoveryTitle,discoveryItem.title)
-                    putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
-                }
-                val bundleStore = Bundle().apply {
-                    putSerializable(VenueConstants.venues, ArrayList(venue))
-                    putString(VenueCategoryConstants.DiscoveryTitle,discoveryItem.title)
-                    putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Store)
                 }
 
                 val adapter=VenueReviewAdapter()
@@ -124,17 +81,11 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
 
                 binding.seeAllBtn.setOnClickListener {
                     when(discoveryItem.viewType){
-                        ViewTypeDiscovery.VenueStore->{
-                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundleStore)
+                        ViewTypeDiscovery.Venue->{
+                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundle)
                         }
-                        ViewTypeDiscovery.VenueRestaurant->{
-                                Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundleRestaurant)
-                        }
-                        ViewTypeDiscovery.ProfileRestaurant->{
-                            Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_venueFragment,bundleRestaurant)
-                        }
-                        ViewTypeDiscovery.ProfileStore->{
-                            Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_venueFragment,bundleStore)
+                        ViewTypeDiscovery.Profile->{
+                            Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_venueFragment,bundle)
                         }
                     }
                 }
@@ -147,7 +98,6 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
                     bundle.apply {
                             putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
                             putSerializable(VenueCategoryConstants.venueCategories, ArrayList(venueCategories))
-                            putString(VenueCategoryConstants.Venue,VenueCategoryConstants.Restaurant)
                             putSerializable(VenueConstants.venues, ArrayList(venues))
                     }
                     binding.seeAllBtn.setOnClickListener {
@@ -194,31 +144,19 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
         val discoveryItem=discoveryItemList[position]
         holder.binding.discoveryTitle.text=discoveryItem.title
         when(discoveryItem.viewType){
-            ViewTypeDiscovery.OfferStore->{
+            ViewTypeDiscovery.Offer->{
                 holder.bindOffer(discoveryItem)
             }
-            ViewTypeDiscovery.OfferRestaurant->{
-                holder.bindOffer(discoveryItem)
-            }
-            ViewTypeDiscovery.ParentRestaurant->{
+            ViewTypeDiscovery.ParentVenue->{
                 holder.bindParentVenue(discoveryItem)
             }
-            ViewTypeDiscovery.ParentStore->{
-                holder.bindParentVenue(discoveryItem)
-            }
-            ViewTypeDiscovery.VenueRestaurant->{
-                holder.bindVenue(discoveryItem)
-            }
-            ViewTypeDiscovery.VenueStore->{
+            ViewTypeDiscovery.Venue->{
                 holder.bindVenue(discoveryItem)
             }
             ViewTypeDiscovery.Category->{
                 holder.bindCategory(discoveryItem)
             }
-            ViewTypeDiscovery.ProfileRestaurant->{
-                holder.bindVenue(discoveryItem)
-            }
-            ViewTypeDiscovery.ProfileStore->{
+            ViewTypeDiscovery.Profile->{
                 holder.bindVenue(discoveryItem)
             }
         }

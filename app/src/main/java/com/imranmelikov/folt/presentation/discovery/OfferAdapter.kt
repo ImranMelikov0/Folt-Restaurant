@@ -15,15 +15,11 @@ import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.ParentVenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
-import com.imranmelikov.folt.constants.ViewTypeDiscovery
 
 class OfferAdapter:RecyclerView.Adapter<OfferAdapter.OfferViewHolder>() {
     class OfferViewHolder(val binding:OfferRvBinding):RecyclerView.ViewHolder(binding.root)
 
     var venueList= listOf<Venue>()
-
-    //viewType for venue
-    var viewType:Int=-45
 
     //viewType for fragment
     var viewTypeFragment=""
@@ -61,37 +57,17 @@ class OfferAdapter:RecyclerView.Adapter<OfferAdapter.OfferViewHolder>() {
             .into(holder.binding.offerImage)
 
         val filteredVenueList=venueList.filter { it.venueName==offer.parentVenue }
-        val bundleRestaurant = Bundle().apply {
+        val bundle= Bundle().apply {
             putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
             putString(VenueCategoryConstants.DiscoveryTitle,offer.banner.title)
-            putString(VenueCategoryConstants.Venue, VenueCategoryConstants.Restaurant)
-        }
-        val bundleStore = Bundle().apply {
-            putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
-            putString(VenueCategoryConstants.DiscoveryTitle,offer.banner.title)
-            putString(VenueCategoryConstants.Venue, VenueCategoryConstants.Store)
         }
         holder.itemView.setOnClickListener {
             when(viewTypeFragment){
                 ParentVenueConstants.Discovery->{
-                    when(viewType){
-                        ViewTypeDiscovery.OfferStore->{
-                            Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundleStore)
-                        }
-                        ViewTypeDiscovery.OfferRestaurant->{
-                            Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundleRestaurant)
-                        }
-                    }
+                    Navigation.findNavController(it).navigate(R.id.action_discoveryFragment_to_venueFragment,bundle)
                 }
                 ParentVenueConstants.Category->{
-                    when(viewType){
-                        ViewTypeDiscovery.OfferStore->{
-                            Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundleStore)
-                        }
-                        ViewTypeDiscovery.OfferRestaurant->{
-                            Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundleRestaurant)
-                        }
-                    }
+                    Navigation.findNavController(it).navigate(R.id.action_categoriesFragment_to_venueFragment,bundle)
                 }
             }
 

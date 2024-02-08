@@ -18,7 +18,6 @@ import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueMenuConstants
 import com.imranmelikov.folt.constants.StoreCategoryTitle
-import com.imranmelikov.folt.constants.VenueCategoryConstants
 import com.imranmelikov.folt.constants.VenueInformationConstants
 
 @Suppress("DEPRECATION")
@@ -118,8 +117,6 @@ class VenueDetailsFragment : Fragment() {
     private fun getControlArguments(){
         val receiveArgs = arguments
 
-        val receivedVenueString=receiveArgs?.getString(VenueCategoryConstants.Venue)
-
         val receivedVenue = receiveArgs?.getSerializable(VenueConstants.venues) as? Venue
         receivedVenue?.let {venue->
             "Delivery : ${venue.delivery.deliveryPrice} AZN".also { binding.deliveryTextview.text = it }
@@ -132,9 +129,9 @@ class VenueDetailsFragment : Fragment() {
                 .into(binding.mainImage)
 
             // If you are using tabLayout for menus, you will need to use this distinction
-            if (receivedVenueString==VenueCategoryConstants.Restaurant){
+            if (venue.restaurant){
                 observeRestaurantViewModel(venue)
-            }else if(receivedVenueString==VenueCategoryConstants.Store){
+            }else{
                 observeStoreViewModel(venue)
             }
             clickBtn(venue)

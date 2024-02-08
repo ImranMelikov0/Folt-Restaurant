@@ -1,13 +1,9 @@
 package com.imranmelikov.folt.constants
 
 object ViewTypeDiscovery {
-    const val ParentRestaurant=0
-    const val ParentStore=1
-    const val OfferStore=2
-    const val OfferRestaurant=6
-    const val Category=3
-    const val VenueStore=4
-    const val VenueRestaurant=5
-    const val ProfileStore=8
-    const val ProfileRestaurant=7
+    const val ParentVenue=0
+    const val Offer=1
+    const val Category=2
+    const val Venue=3
+    const val Profile=4
 }

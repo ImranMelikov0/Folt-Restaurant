@@ -15,10 +15,11 @@ import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.presentation.venue.VenueAdapter
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
+import com.imranmelikov.folt.presentation.venue.VenueViewModel
 
 class StoreFragment : Fragment() {
   private lateinit var binding:FragmentStoreBinding
-    private lateinit var viewModel:StoreViewModel
+    private lateinit var viewModel:VenueViewModel
     private lateinit var viewModelVenueCategory:VenueCategoryViewModel
     private lateinit var venueAdapter: VenueAdapter
     private lateinit var venueCategoryAdapter: VenueCategoryAdapter
@@ -28,7 +29,7 @@ class StoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentStoreBinding.inflate(inflater,container,false)
-        viewModel= ViewModelProvider(requireActivity())[StoreViewModel::class.java]
+        viewModel= ViewModelProvider(requireActivity())[VenueViewModel::class.java]
         viewModelVenueCategory=ViewModelProvider(requireActivity())[VenueCategoryViewModel::class.java]
         bundle=Bundle()
         getFunctions()
@@ -37,7 +38,7 @@ class StoreFragment : Fragment() {
 
     private fun getFunctions(){
         viewModel.getVenues()
-        viewModelVenueCategory.getStoreCategories()
+        viewModelVenueCategory.getVenueCategories()
         initialiseStoreRv()
         initialiseVenueCategoryRv()
         observeVenueCategories()
@@ -60,24 +61,25 @@ class StoreFragment : Fragment() {
         binding.categoryRv.adapter=venueCategoryAdapter
     }
     private fun observeVenues(){
-        viewModel.venueLiveData.observe(viewLifecycleOwner) {
-            venueAdapter.venueList=it
+        viewModel.venueLiveData.observe(viewLifecycleOwner) {venueList->
+            val filteredVenueList=venueList.filter { !it.restaurant }
+            venueAdapter.venueList=filteredVenueList
             venueAdapter.viewType=VenueCategoryConstants.Store
-            venueCategoryAdapter.venueList=it
+            venueCategoryAdapter.venueList=filteredVenueList
             bundle.apply {
                 putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
-                putSerializable(VenueConstants.venues, ArrayList(it))
+                putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
             }
         }
     }
     private fun observeVenueCategories(){
-        viewModelVenueCategory.storeCategoryLiveData.observe(viewLifecycleOwner) {
-            venueCategoryAdapter.venueCategoryList=it
+        viewModelVenueCategory.venueCategoryLiveData.observe(viewLifecycleOwner) {venueCategoryList->
+            val filteredCategoryList=venueCategoryList.filter { !it.restaurant }
+            venueCategoryAdapter.venueCategoryList=filteredCategoryList
             venueCategoryAdapter.viewType= VenueCategoryConstants.Store
             bundle.apply {
                 putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
-                putSerializable(VenueCategoryConstants.venueCategories, ArrayList(it))
-                putString(VenueCategoryConstants.Venue, VenueCategoryConstants.Store)
+                putSerializable(VenueCategoryConstants.venueCategories, ArrayList(filteredCategoryList))
             }
         }
     }
