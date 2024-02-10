@@ -42,12 +42,12 @@ class SearchFragment : Fragment() {
         searchText.addTextChangedListener{
             job?.cancel()
             job =lifecycleScope.launch {
-                delay(1000)
                 it?.let {
                     if (it.toString().isNotEmpty()){
-                        viewModel.getVenues(it.toString())
                         binding.searchClose.visibility=View.VISIBLE
                         binding.searchFilter.visibility=View.VISIBLE
+                        delay(1000)
+                        viewModel.getVenues(it.toString())
                     }else{
                         binding.searchClose.visibility=View.GONE
                         binding.searchFilter.visibility=View.GONE

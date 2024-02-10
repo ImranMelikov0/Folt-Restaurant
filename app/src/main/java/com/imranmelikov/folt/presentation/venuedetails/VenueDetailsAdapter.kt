@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.VenueDetailsCategoryRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.constants.VenueMenuConstants
@@ -33,6 +34,7 @@ class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val adapter=StoreMenuCategoryAdp()
             venueDetailsItem.storeMenuCategory?.let {
                 adapter.storeMenuCategoryList=it
+                adapter.viewType=viewType
                 binding.restaurantRv.adapter=adapter
             }
         }
@@ -71,6 +73,9 @@ class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 (holder as VenueDetailsCategoryViewHolder).bindRestaurantMenu(venueDetailsItem)
             }
             VenueMenuConstants.StoreMenuCategory->{
+                (holder as VenueDetailsCategoryViewHolder).bindStoreMenuCategory(venueDetailsItem)
+            }
+            ItemSearchConstants.ItemSearchStoreCategories->{
                 (holder as VenueDetailsCategoryViewHolder).bindStoreMenuCategory(venueDetailsItem)
             }
         }

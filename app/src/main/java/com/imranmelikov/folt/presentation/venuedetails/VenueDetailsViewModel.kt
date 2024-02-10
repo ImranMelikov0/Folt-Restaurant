@@ -3,46 +3,42 @@ package com.imranmelikov.folt.presentation.venuedetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.imranmelikov.folt.constants.StoreCategoryTitle
 import com.imranmelikov.folt.domain.model.RestaurantMenuCategory
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
 import com.imranmelikov.folt.domain.model.VenueDetails
+import com.imranmelikov.folt.domain.model.VenueDetailsItem
 
 class VenueDetailsViewModel:ViewModel() {
-    private val restaurantMenuCategoryMutableList=MutableLiveData<List<RestaurantMenuCategory>>()
-    val restaurantMenuCategoryLiveData:LiveData<List<RestaurantMenuCategory>>
-    get() = restaurantMenuCategoryMutableList
 
-    private val storeMenuCategoryMutableList=MutableLiveData<List<StoreMenuCategory>>()
-    val storeMenuCategoryLiveData:LiveData<List<StoreMenuCategory>>
+    private val storeMenuCategoryMutableList=MutableLiveData<List<VenueDetailsItem>>()
+    val storeMenuCategoryLiveData:LiveData<List<VenueDetailsItem>>
         get() = storeMenuCategoryMutableList
 
-    private val restaurantMenuMutableList=MutableLiveData<List<VenueDetails>>()
-    val restaurantMenuLiveData:LiveData<List<VenueDetails>>
+    private val restaurantMenuMutableList=MutableLiveData<List<VenueDetailsItem>>()
+    val restaurantMenuLiveData:LiveData<List<VenueDetailsItem>>
         get() = restaurantMenuMutableList
 
-
-    fun getRestaurantMenuCategoryList(){
-        val restaurantMenuCategory=RestaurantMenuCategory(1,"title",3)
-        val restaurantMenuCategory2=RestaurantMenuCategory(2,"title2",3)
-        val restaurantMenuCategory3=RestaurantMenuCategory(3,"title",3)
-        val categoryList= listOf(restaurantMenuCategory,restaurantMenuCategory2,restaurantMenuCategory3,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory2,restaurantMenuCategory,restaurantMenuCategory,restaurantMenuCategory2,restaurantMenuCategory,restaurantMenuCategory3)
-        restaurantMenuCategoryMutableList.value=categoryList
-    }
     fun getRestaurantMenuList(){
-        val restaurantMenu=VenueDetails(1,"",5.00,"menu","faksdjfja",2,false,4,0,false)
-        val restaurantMenu2=VenueDetails(2,"",4.00,"menu","faksdjfja",3,false,4,0,false)
-        val restaurantMenu3=VenueDetails(3,"",7.00,"menu","faksdjfja",3,false,4,0,false)
+        val restaurantMenu=VenueDetails(1,"",5.00,"menu","faksdjfja",false,4,0,false)
+        val restaurantMenu2=VenueDetails(2,"",4.00,"menu","faksdjfja",false,4,0,false)
+        val restaurantMenu3=VenueDetails(3,"",7.00,"menu","faksdjfja",false,4,0,false)
         val menuList= listOf(restaurantMenu,restaurantMenu2,restaurantMenu3)
-        restaurantMenuMutableList.value=menuList
+        val menuList2= listOf(restaurantMenu2,restaurantMenu2,restaurantMenu2)
+        val menuList3= listOf(restaurantMenu,restaurantMenu,restaurantMenu)
+        val venueDetails=VenueDetailsItem(1,"title",menuList,3)
+        val venueDetails2=VenueDetailsItem(2,"title2",menuList2,3)
+        val venueDetails3=VenueDetailsItem(3,"title3",menuList3,3)
+        val venueDetailList= listOf(venueDetails,venueDetails2,venueDetails3)
+        restaurantMenuMutableList.value=venueDetailList
     }
     fun getStoreMenuCategoryList(){
-        val restaurantMenuCategory=RestaurantMenuCategory(1,"store",1)
-        val restaurantMenuCategory2=RestaurantMenuCategory(2,"store",3)
-        val restaurantMenuCategory3=RestaurantMenuCategory(3,"store",3)
-        val storeMenuCategory=StoreMenuCategory(restaurantMenuCategory,"")
-        val storeMenuCategory2=StoreMenuCategory(restaurantMenuCategory2,"")
-        val storeMenuCategory3=StoreMenuCategory(restaurantMenuCategory3,"")
+        val storeMenuCategory=StoreMenuCategory(1,"store","")
+        val storeMenuCategory2=StoreMenuCategory(2,"store2","")
+        val storeMenuCategory3=StoreMenuCategory(3,"store3","")
         val storeMenuCategoryList= listOf(storeMenuCategory,storeMenuCategory2,storeMenuCategory3)
-        storeMenuCategoryMutableList.value=storeMenuCategoryList
+        val venueDetailsItem=VenueDetailsItem(1, StoreCategoryTitle.storeCategoryTitle,storeMenuCategoryList,5,false)
+        val venueDetailsItemList= listOf(venueDetailsItem)
+        storeMenuCategoryMutableList.value=venueDetailsItemList
     }
 }

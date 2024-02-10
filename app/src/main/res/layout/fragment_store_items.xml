@@ -48,7 +48,7 @@
                         android:textAlignment="textEnd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="240 items"
+                        android:text="0 item"
                         android:textSize="16sp"
                         android:layout_margin="8dp" />
                 </LinearLayout>

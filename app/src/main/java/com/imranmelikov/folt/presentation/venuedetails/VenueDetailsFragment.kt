@@ -11,13 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.FragmentVenueDetailsBinding
-import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueMenuConstants
-import com.imranmelikov.folt.constants.StoreCategoryTitle
 import com.imranmelikov.folt.constants.VenueInformationConstants
 
 @Suppress("DEPRECATION")
@@ -43,7 +42,6 @@ class VenueDetailsFragment : Fragment() {
 
     private fun getFunctions(){
         viewModelVenueDetails.getRestaurantMenuList()
-        viewModelVenueDetails.getRestaurantMenuCategoryList()
         viewModelVenueDetails.getStoreMenuCategoryList()
         initialiseVenueDetailsRv()
         getControlArguments()
@@ -90,9 +88,9 @@ class VenueDetailsFragment : Fragment() {
     private fun clickSearchBtn(venue: Venue){
         binding.searchBtn.setOnClickListener {
             bundle.apply {
-                putSerializable(VenueConstants.venues,venue)
+                putInt(VenueConstants.venues,venue.id)
             }
-            findNavController().navigate(R.id.action_venueDetailsFragment_to_itemSearchFragment)
+            findNavController().navigate(R.id.action_venueDetailsFragment_to_itemSearchFragment,bundle)
         }
     }
     private fun clickMoreBtn(venue: Venue){
@@ -130,42 +128,35 @@ class VenueDetailsFragment : Fragment() {
 
             // If you are using tabLayout for menus, you will need to use this distinction
             if (venue.restaurant){
-                observeRestaurantViewModel(venue)
+                observeRestaurantMenuViewModel(venue)
             }else{
                 observeStoreViewModel(venue)
             }
             clickBtn(venue)
         }
     }
-    private fun observeRestaurantViewModel(venue: Venue){
-        val mutableMenuList:MutableList<VenueDetailsItem> = mutableListOf()
-        viewModelVenueDetails.restaurantMenuCategoryLiveData.observe(viewLifecycleOwner){restaurantMenuCategoryList->
-            viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){venueDetails->
-                val filteredRestaurantMenuCategory=restaurantMenuCategoryList.filter {
-                    it.parentId==venue.id }
-                filteredRestaurantMenuCategory.map {restaurantMenuCategory ->
-                    val filteredMenuList=venueDetails.filter { it.parentId==restaurantMenuCategory.id }
-                    if(filteredMenuList.isNotEmpty()){
-                       val venueDetailsItem=VenueDetailsItem(restaurantMenuCategory.title,filteredMenuList)
-                        mutableMenuList.add(venueDetailsItem)
-                        venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
-                        venueDetailsAdapter.venueDetailsItemList= mutableMenuList.toList()
-                    }
-                }
+    private fun observeRestaurantMenuViewModel(venue: Venue){
+        viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){venueDetailsItems->
+            val filteredVenueDetailsItems=venueDetailsItems.filter { it.parentId==venue.id }
+            if (filteredVenueDetailsItems.isNotEmpty()){
+                venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
+                venueDetailsAdapter.venueDetailsItemList=filteredVenueDetailsItems
             }
+        }
+        bundle.apply {
+            putInt(ItemSearchConstants.ItemSearch, ItemSearchConstants.ItemSearchRestaurant)
         }
     }
     private fun observeStoreViewModel(venue: Venue){
-        val mutableCategoryList:MutableList<VenueDetailsItem> = mutableListOf()
-        viewModelVenueDetails.storeMenuCategoryLiveData.observe(viewLifecycleOwner){storeMenuCategoryList->
-                val filteredStoreMenuCategory=storeMenuCategoryList.filter {
-                    it.restaurantMenuCategory.parentId==venue.id }
-                    if (filteredStoreMenuCategory.isNotEmpty()){
-                        val venueDetailsItem=VenueDetailsItem(StoreCategoryTitle.storeCategoryTitle,filteredStoreMenuCategory,false)
-                        mutableCategoryList.add(venueDetailsItem)
-                        venueDetailsAdapter.viewType=VenueMenuConstants.StoreMenuCategory
-                        venueDetailsAdapter.venueDetailsItemList= mutableCategoryList.toList()
+        viewModelVenueDetails.storeMenuCategoryLiveData.observe(viewLifecycleOwner){venueDetailsItems->
+                val filteredStoreMenuCategory=venueDetailsItems.filter { it.parentId==venue.id }
+            if(filteredStoreMenuCategory.isNotEmpty()){
+                venueDetailsAdapter.viewType=VenueMenuConstants.StoreMenuCategory
+                venueDetailsAdapter.venueDetailsItemList=filteredStoreMenuCategory
             }
+        }
+        bundle.apply {
+            putInt(ItemSearchConstants.ItemSearch, ItemSearchConstants.ItemSearchStoreCategories)
         }
     }
     private fun initialiseVenueDetailsRv(){

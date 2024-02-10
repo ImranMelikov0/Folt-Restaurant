@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.FragmentStoreItemsBinding
-import com.imranmelikov.folt.constants.StoreCategoryName
 import com.imranmelikov.folt.constants.StoreCategoryTitle
 
 class StoreItemsFragment : Fragment() {
@@ -29,7 +29,6 @@ class StoreItemsFragment : Fragment() {
 
     private fun getFunctions(){
         clickBackBtn()
-        clickSearchBtn()
         viewModel.getStoreMenuList()
         initialiseStoreItemsRv()
         getControlArguments()
@@ -39,26 +38,33 @@ class StoreItemsFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-    private fun clickSearchBtn(){
+    private fun clickSearchBtn(id: Int){
+        val bundle=Bundle()
+        bundle.apply {
+            putInt(ItemSearchConstants.StoreCategoryId,id)
+            putInt(ItemSearchConstants.ItemSearch,ItemSearchConstants.ItemSearchStores)
+        }
         binding.searchBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_storeItemsFragment_to_itemSearchFragment)
+            findNavController().navigate(R.id.action_storeItemsFragment_to_itemSearchFragment,bundle)
         }
     }
     private fun getControlArguments(){
         val receiveStoreCategoryId=arguments?.getInt(StoreCategoryTitle.storeCategoryTitle)
-        val receiveStoreCategoryName=arguments?.getString(StoreCategoryName.categoryName)
-        receiveStoreCategoryName?.let {
-            binding.storeCategoryName.text=it
-        }
         receiveStoreCategoryId?.let {
             observeStoreMenuList(it)
+            clickSearchBtn(it)
         }
     }
     private fun observeStoreMenuList(id:Int){
-        viewModel.storeMenuLiveData.observe(viewLifecycleOwner){venueDetails->
-           val filteredList= venueDetails.filter { it.parentId==id }
-            "${filteredList.size} Items".also { binding.storeItemsSize.text=it }
-            storeMenuAdapter.storeMenuList=filteredList
+        viewModel.storeMenuLiveData.observe(viewLifecycleOwner){venueDetailsItems->
+           val filteredList= venueDetailsItems.filter { it.parentId==id }
+            filteredList.map {storeItem->
+                binding.storeCategoryName.text=storeItem.title
+                "${storeItem.venueDetailList?.size} Items".also { binding.storeItemsSize.text=it }
+                storeItem.venueDetailList?.let {
+                    storeMenuAdapter.storeMenuList=it
+                }
+            }
         }
     }
     private fun initialiseStoreItemsRv(){
