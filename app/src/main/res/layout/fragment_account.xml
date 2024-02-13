@@ -470,7 +470,7 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/send_receipts"
+                    android:text="@string/allow_notifications"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout

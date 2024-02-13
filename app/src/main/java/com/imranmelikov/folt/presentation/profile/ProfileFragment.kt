@@ -14,6 +14,7 @@ import com.imranmelikov.folt.domain.model.DiscoveryItem
 import com.imranmelikov.folt.presentation.discovery.DiscoveryAdapter
 import com.imranmelikov.folt.constants.DiscoveryTitles
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
 
 class ProfileFragment : Fragment() {
@@ -37,15 +38,19 @@ class ProfileFragment : Fragment() {
     private fun clickToFragments(){
         binding.accountLinear.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_accountFragment)
+            (activity as MainActivity).hideBottomNav()
         }
         binding.profileLinear.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_accountFragment)
+            (activity as MainActivity).hideBottomNav()
         }
         binding.myAddressLinear.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_addressFragment)
+            (activity as MainActivity).hideBottomNav()
         }
         binding.orderHistoryLinear.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_orderHistoryFragment)
+            (activity as MainActivity).hideBottomNav()
         }
     }
 

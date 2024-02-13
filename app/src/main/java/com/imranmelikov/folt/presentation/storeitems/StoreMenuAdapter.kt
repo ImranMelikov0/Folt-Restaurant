@@ -2,12 +2,14 @@ package com.imranmelikov.folt.presentation.storeitems
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.imranmelikov.folt.databinding.StoreMenuRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
+import com.imranmelikov.folt.presentation.bottomsheetfragments.MenuBottomSheetFragment
 
 class StoreMenuAdapter:RecyclerView.Adapter<StoreMenuAdapter.StoreMenuViewHolder>() {
     class StoreMenuViewHolder(val binding:StoreMenuRvBinding):RecyclerView.ViewHolder(binding.root)
@@ -44,5 +46,11 @@ class StoreMenuAdapter:RecyclerView.Adapter<StoreMenuAdapter.StoreMenuViewHolder
         Glide.with(holder.itemView.context)
             .load(storeMenu.image)
             .into(holder.binding.menuImage)
+
+        val bottomSheetFragment = MenuBottomSheetFragment()
+        holder.itemView.setOnClickListener {
+            bottomSheetFragment.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
+            bottomSheetFragment.venueDetails=storeMenu
+        }
     }
 }

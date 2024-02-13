@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.imranmelikov.folt.R
+import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.databinding.FragmentEmailBinding
 
 class EmailFragment : Fragment() {
@@ -15,6 +15,13 @@ class EmailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        binding=FragmentEmailBinding.inflate(inflater,container,false)
+
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
         return binding.root
+    }
+    private fun editText(){
+        val emailText=binding.emailEdittext.text.toString()
     }
 }

@@ -105,4 +105,7 @@
     <string name="total">Total</string>
     <string name="complete">Complete</string>
     <string name="browse_restaurants_stores">Browse restaurants and stores</string>
+    <string name="system_lang">System language</string>
+    <string name="menu_title">Menu Title</string>
+    <string name="add_to_order">Add to order    10,90 Azn</string>
 </resources>

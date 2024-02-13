@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentDeleteAccountBinding
 
@@ -15,6 +16,9 @@ class DeleteAccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        binding=FragmentDeleteAccountBinding.inflate(inflater,container,false)
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
         return binding.root
     }
 }

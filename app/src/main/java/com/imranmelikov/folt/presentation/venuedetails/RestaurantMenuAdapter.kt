@@ -2,12 +2,15 @@ package com.imranmelikov.folt.presentation.venuedetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.RestaurantMenuRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
+import com.imranmelikov.folt.presentation.bottomsheetfragments.MenuBottomSheetFragment
 
 class RestaurantMenuAdapter:RecyclerView.Adapter<RestaurantMenuAdapter.RestaurantMenuViewHolder>() {
     class RestaurantMenuViewHolder(val binding:RestaurantMenuRvBinding):RecyclerView.ViewHolder(binding.root)
@@ -45,5 +48,14 @@ class RestaurantMenuAdapter:RecyclerView.Adapter<RestaurantMenuAdapter.Restauran
         Glide.with(holder.itemView.context)
             .load(menuList.image)
             .into(holder.binding.restaurantImage)
+        val bottomSheetFragment = MenuBottomSheetFragment()
+        holder.itemView.setOnClickListener {
+                bottomSheetFragment.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
+                bottomSheetFragment.venueDetails=menuList
+        }
+        bottomSheetFragment.onItemClick={
+            menuList.selected=true
+        }
+
     }
 }

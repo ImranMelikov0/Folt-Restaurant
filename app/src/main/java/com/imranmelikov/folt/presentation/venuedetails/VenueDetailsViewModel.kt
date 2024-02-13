@@ -19,6 +19,10 @@ class VenueDetailsViewModel:ViewModel() {
     val restaurantMenuLiveData:LiveData<List<VenueDetailsItem>>
         get() = restaurantMenuMutableList
 
+    var venueDetails:VenueDetails?=null
+    var totalPrice:Double?=null
+    var count:Int?=null
+
     fun getRestaurantMenuList(){
         val restaurantMenu=VenueDetails(1,"",5.00,"menu","faksdjfja",false,4,0,false)
         val restaurantMenu2=VenueDetails(2,"",4.00,"menu","faksdjfja",false,4,0,false)

@@ -57,6 +57,7 @@ class VenueDetailsFragment : Fragment() {
         clickSearchBtn(venue)
     }
     private fun clickBackBtn(){
+        // backpress btn!!!!!!
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
             (activity as MainActivity).showBottomNav()

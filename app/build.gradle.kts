@@ -56,8 +56,10 @@ dependencies {
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.6")
 
     //Glide
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    kapt ("com.github.bumptech.glide:compiler:4.15.0")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
     //Google places
     implementation ("com.google.android.libraries.places:places:3.3.0")
