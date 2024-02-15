@@ -108,4 +108,8 @@
     <string name="system_lang">System language</string>
     <string name="menu_title">Menu Title</string>
     <string name="add_to_order">Add to order    10,90 Azn</string>
+    <string name="take_photo">Take photo</string>
+    <string name="photo_library">Photo library</string>
+    <string name="delete_profile_picture">Delete profile picture</string>
+    <string name="change_profile_photo">Change profile photo</string>
 </resources>
