@@ -3,11 +3,23 @@ package com.imranmelikov.folt.presentation.discovery
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.Offer
 import com.imranmelikov.folt.domain.model.ParentVenue
+import com.imranmelikov.folt.domain.repository.FoltRepository
+import com.imranmelikov.folt.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DiscoveryViewModel:ViewModel() {
+@HiltViewModel
+class DiscoveryViewModel @Inject constructor(
+    private val foltRepo:FoltRepository
+):ViewModel() {
     private val sliderImageMutableLiveData=MutableLiveData<List<Banner>>()
     val sliderImageLiveData:LiveData<List<Banner>>
        get() = sliderImageMutableLiveData
@@ -16,15 +28,19 @@ class DiscoveryViewModel:ViewModel() {
     val parentVenueLiveData:LiveData<List<ParentVenue>>
         get() = parentVenueMutableLiveData
 
-    private val offersMutableLiveData=MutableLiveData<List<Offer>>()
-    val offersLiveData:LiveData<List<Offer>>
+    private val offersMutableLiveData=MutableLiveData<Resource<List<Offer>>>()
+    val offersLiveData:LiveData<Resource<List<Offer>>>
         get() = offersMutableLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
+        offersMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
+    }
 
     fun getSliderImageList(){
-        val banner1=Banner(1,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
-        val banner2=Banner(2,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
-        val banner3=Banner(3,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
+        val banner1=Banner("1","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
+        val banner2=Banner("2","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
+        val banner3=Banner("3","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
         val bannerList= listOf(banner1,banner2,banner3)
         sliderImageMutableLiveData.value=bannerList
     }
@@ -40,20 +56,12 @@ class DiscoveryViewModel:ViewModel() {
         parentVenueMutableLiveData.value=filteredParentVenueList
     }
     fun getOffers(){
-        val banner=Banner(1,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","rest","offer",true)
-        val banner2=Banner(2,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","rest","offer",true)
-        val banner3=Banner(3,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","rest","offer",true)
-        val offer=Offer(banner,"Stores")
-        val offer2=Offer(banner2,"Stores")
-        val offer3=Offer(banner3,"Stor")
-        val banner4=Banner(4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","banner","offer",true)
-        val banner5=Banner(5,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","banner","offer",true)
-        val banner6=Banner(6,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","banner","offer",true)
-        val offer4=Offer(banner4,"Restaurant")
-        val offer5=Offer(banner5,"Restaurant")
-        val offer6=Offer(banner6,"Restaurant")
-        val offerList= listOf(offer2,offer3,offer,offer4,offer5,offer6)
-        val filteredOfferList=offerList.filter { it.banner.bribe }
-        offersMutableLiveData.value=filteredOfferList
+        offersMutableLiveData.value=Resource.loading(null)
+        viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
+            val result=foltRepo.getOffer()
+            result.data?.let {
+                offersMutableLiveData.value=Resource.success(it)
+            }
+        }
     }
 }

@@ -53,7 +53,7 @@ class OfferAdapter:RecyclerView.Adapter<OfferAdapter.OfferViewHolder>() {
         val offer=offerList[position]
 
         Glide.with(holder.itemView.context)
-            .load(offer.banner.image)
+            .load(offer.banner.imageUrl)
             .into(holder.binding.offerImage)
 
         val filteredVenueList=venueList.filter { it.venueName==offer.parentVenue }

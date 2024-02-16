@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.databinding.FragmentDiscoveryBinding
@@ -13,11 +14,15 @@ import com.imranmelikov.folt.domain.model.DiscoveryItem
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.constants.DiscoveryTitles
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
 import com.imranmelikov.folt.domain.model.VenueCategory
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
+@AndroidEntryPoint
 class DiscoveryFragment : Fragment() {
     private lateinit var binding:FragmentDiscoveryBinding
     private lateinit var discoveryViewModel:DiscoveryViewModel
@@ -46,8 +51,12 @@ class DiscoveryFragment : Fragment() {
         venueViewModel=ViewModelProvider(requireActivity())[VenueViewModel::class.java]
         venueCategoryViewModel=ViewModelProvider(requireActivity())[VenueCategoryViewModel::class.java]
 
-        getFunctions()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getFunctions()
     }
 
     private fun getFunctions(){
@@ -57,11 +66,10 @@ class DiscoveryFragment : Fragment() {
         venueCategoryViewModel.getVenueCategories()
         venueViewModel.getVenues()
         observeRestaurant()
-        observeSliderImageList()
     }
     private fun initialiseViewPager(bannerList:List<Banner>){
         for (banner in bannerList){
-            binding.carousel.addData(CarouselItem(banner.image))
+            binding.carousel.addData(CarouselItem(banner.imageUrl))
         }
     }
     private fun observeSliderImageList(){
@@ -75,20 +83,43 @@ class DiscoveryFragment : Fragment() {
             val filteredPopularStores=parentVenues.filter { it.popularity && !it.restaurant }
              discoveryItemParentRestaurant=DiscoveryItem(DiscoveryTitles.popularRestaurants,ViewTypeDiscovery.ParentVenue,filteredPopularRestaurants, restaurants)
              discoveryItemParentStore=DiscoveryItem(DiscoveryTitles.popularRestaurants,ViewTypeDiscovery.ParentVenue,filteredPopularStores, stores)
+            observeOffers(stores,restaurants)
         }
     }
-    private fun observeOffers(venues: List<Venue>){
-        discoveryViewModel.offersLiveData.observe(viewLifecycleOwner){offerList->
-            val filteredFoltMarket=offerList.filter { it.parentVenue=="Stores"}
-            val filteredKfc=offerList.filter { it.parentVenue=="Restaurant"}
-            discoveryItemOfferRestaurant=DiscoveryItem(DiscoveryTitles.restaurantOffers,ViewTypeDiscovery.Offer,filteredKfc,venues,0)
-            discoveryItemOfferStore=DiscoveryItem(DiscoveryTitles.foltMarketOffers,ViewTypeDiscovery.Offer,filteredFoltMarket,venues,0)
+    private fun observeOffers(stores: List<Venue>, restaurants: List<Venue>){
+        discoveryViewModel.offersLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {offerList->
+                        val filteredFoltMarket=offerList.filter { it.parentVenue=="Stores"}
+                        val filteredKfc=offerList.filter { it.parentVenue=="Restaurant"}
+                        discoveryItemOfferRestaurant=DiscoveryItem(DiscoveryTitles.restaurantOffers,ViewTypeDiscovery.Offer,filteredKfc,restaurants,0)
+                        discoveryItemOfferStore=DiscoveryItem(DiscoveryTitles.foltMarketOffers,ViewTypeDiscovery.Offer,filteredFoltMarket,stores,0)
+                        initialiseMainCategoryRv(stores,restaurants)
+                        binding.discoveryProgress.visibility=View.GONE
+                        binding.noResultText.visibility=View.GONE
+                        binding.carousel.visibility=View.VISIBLE
+                    }
+                }
+                Status.ERROR->{
+                    Toast.makeText(requireContext(),ErrorMsgConstants.errorForUser,Toast.LENGTH_SHORT).show()
+                    binding.discoveryProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.VISIBLE
+                    binding.carousel.visibility=View.GONE
+                }
+                Status.LOADING->{
+                    binding.carousel.visibility=View.GONE
+                    binding.discoveryProgress.visibility=View.VISIBLE
+                    binding.noResultText.visibility=View.GONE
+                }
+            }
         }
     }
     private fun observeVenueCategory(restaurants: List<Venue>,categories:List<VenueCategory>){
             val filteredCategoryList=categories.filter { it.restaurant }
             discoveryItemCategory=DiscoveryItem(DiscoveryTitles.categories,ViewTypeDiscovery.Category,filteredCategoryList, restaurants,false)
             initialiseDiscoveryRv()
+            observeSliderImageList()
     }
     private fun observeRestaurant(){
         venueViewModel.venueLiveData.observe(viewLifecycleOwner){venues->
@@ -105,9 +136,7 @@ class DiscoveryFragment : Fragment() {
              discoveryItemRating=DiscoveryItem(DiscoveryTitles.top_rated,ViewTypeDiscovery.Venue,filteredTopRatedList)
 
             val stores=venues.filter { !it.restaurant }
-            observeOffers(venues)
             observeParentVenue(stores,restaurants)
-            initialiseMainCategoryRv(stores,restaurants)
         }
     }
     private fun initialiseDiscoveryRv(){

@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id ("kotlin-kapt")
+    id ("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -61,9 +63,15 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.0")
     kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
+    //Firebase
+    implementation("com.google.firebase:firebase-firestore:24.10.2")
+
     //Google places
     implementation ("com.google.android.libraries.places:places:3.3.0")
 
+    //Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
     //TabLayout
     implementation ("io.github.ahmad-hamwi:tabsync:1.0.1")
 

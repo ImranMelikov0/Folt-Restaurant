@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1002981828789",
+    "firebase_url": "https://folt-de0b8-default-rtdb.firebaseio.com",
+    "project_id": "folt-de0b8",
+    "storage_bucket": "folt-de0b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002981828789:android:2412ecf41fcd004e61b6fc",
+        "android_client_info": {
+          "package_name": "com.imranmelikov.folt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX-dtBeFBn2Pyp-PoiYKoi5vFAFmvhskk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
