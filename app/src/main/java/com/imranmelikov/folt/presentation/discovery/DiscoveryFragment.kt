@@ -65,25 +65,69 @@ class DiscoveryFragment : Fragment() {
         discoveryViewModel.getSliderImageList()
         venueCategoryViewModel.getVenueCategories()
         venueViewModel.getVenues()
-        observeRestaurant()
+        venueViewModel.getFavoriteVenues("a")
+        observeFavVenues()
     }
     private fun initialiseViewPager(bannerList:List<Banner>){
         for (banner in bannerList){
             binding.carousel.addData(CarouselItem(banner.imageUrl))
         }
     }
+    private fun errorOperations(){
+        Toast.makeText(requireContext(),ErrorMsgConstants.errorForUser,Toast.LENGTH_SHORT).show()
+        binding.discoveryProgress.visibility=View.GONE
+        binding.noResultText.visibility=View.VISIBLE
+        binding.carousel.visibility=View.GONE
+    }
+    private fun loadingOperations(){
+        binding.carousel.visibility=View.GONE
+        binding.discoveryProgress.visibility=View.VISIBLE
+        binding.noResultText.visibility=View.GONE
+    }
+    private fun successOperations(){
+        binding.discoveryProgress.visibility=View.GONE
+        binding.noResultText.visibility=View.GONE
+        binding.carousel.visibility=View.VISIBLE
+    }
     private fun observeSliderImageList(){
-        discoveryViewModel.sliderImageLiveData.observe(viewLifecycleOwner){
-            initialiseViewPager(it)
+        discoveryViewModel.sliderImageLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {
+                        initialiseViewPager(it)
+                        successOperations()
+                    }
+                }
+                Status.LOADING->{
+                   loadingOperations()
+                }
+                Status.ERROR->{
+                 errorOperations()
+                }
+            }
         }
     }
     private fun observeParentVenue(stores:List<Venue>,restaurants: List<Venue>){
-        discoveryViewModel.parentVenueLiveData.observe(viewLifecycleOwner){parentVenues->
-            val filteredPopularRestaurants=parentVenues.filter { it.popularity && it.restaurant }
-            val filteredPopularStores=parentVenues.filter { it.popularity && !it.restaurant }
-             discoveryItemParentRestaurant=DiscoveryItem(DiscoveryTitles.popularRestaurants,ViewTypeDiscovery.ParentVenue,filteredPopularRestaurants, restaurants)
-             discoveryItemParentStore=DiscoveryItem(DiscoveryTitles.popularRestaurants,ViewTypeDiscovery.ParentVenue,filteredPopularStores, stores)
-            observeOffers(stores,restaurants)
+        discoveryViewModel.parentVenueLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {parentVenues ->
+                        val filteredPopularRestaurants=parentVenues.filter { it.popularity && it.restaurant }
+                        val filteredPopularStores=parentVenues.filter { it.popularity && !it.restaurant }
+                        discoveryItemParentRestaurant=DiscoveryItem(DiscoveryTitles.popularRestaurants,ViewTypeDiscovery.ParentVenue,filteredPopularRestaurants, restaurants)
+                        discoveryItemParentStore=DiscoveryItem(DiscoveryTitles.popularStores,ViewTypeDiscovery.ParentVenue,filteredPopularStores, stores)
+                        observeOffers(stores,restaurants)
+
+                       successOperations()
+                    }
+                }
+                Status.ERROR->{
+                    errorOperations()
+                }
+                Status.LOADING->{
+                  loadingOperations()
+                }
+            }
         }
     }
     private fun observeOffers(stores: List<Venue>, restaurants: List<Venue>){
@@ -96,21 +140,15 @@ class DiscoveryFragment : Fragment() {
                         discoveryItemOfferRestaurant=DiscoveryItem(DiscoveryTitles.restaurantOffers,ViewTypeDiscovery.Offer,filteredKfc,restaurants,0)
                         discoveryItemOfferStore=DiscoveryItem(DiscoveryTitles.foltMarketOffers,ViewTypeDiscovery.Offer,filteredFoltMarket,stores,0)
                         initialiseMainCategoryRv(stores,restaurants)
-                        binding.discoveryProgress.visibility=View.GONE
-                        binding.noResultText.visibility=View.GONE
-                        binding.carousel.visibility=View.VISIBLE
+
+                        successOperations()
                     }
                 }
                 Status.ERROR->{
-                    Toast.makeText(requireContext(),ErrorMsgConstants.errorForUser,Toast.LENGTH_SHORT).show()
-                    binding.discoveryProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.VISIBLE
-                    binding.carousel.visibility=View.GONE
+                    errorOperations()
                 }
                 Status.LOADING->{
-                    binding.carousel.visibility=View.GONE
-                    binding.discoveryProgress.visibility=View.VISIBLE
-                    binding.noResultText.visibility=View.GONE
+                    loadingOperations()
                 }
             }
         }
@@ -121,22 +159,53 @@ class DiscoveryFragment : Fragment() {
             initialiseDiscoveryRv()
             observeSliderImageList()
     }
-    private fun observeRestaurant(){
-        venueViewModel.venueLiveData.observe(viewLifecycleOwner){venues->
-            val restaurants=venues.filter { it.restaurant }
-            val filteredDelivery=restaurants.filter {  it.delivery.deliveryPrice.toDouble() == 0.00 }
-             discoveryItemDelivery=DiscoveryItem(DiscoveryTitles.deliveryFee,ViewTypeDiscovery.Venue,filteredDelivery)
-            val filteredPopularity=restaurants.filter { it.venuePopularity.popularity  }
-            discoveryItemPopularity=DiscoveryItem(DiscoveryTitles.popularRightNow,ViewTypeDiscovery.Venue,filteredPopularity)
-            val filteredFastestDelivery=restaurants.filter { it.delivery.deliveryTime.toDouble()<=20  }
-             discoveryItemFastest=DiscoveryItem(DiscoveryTitles.fastestDelivery,ViewTypeDiscovery.Venue,filteredFastestDelivery)
-            val filteredYourFav=venues.filter { it.venuePopularity.favorite}
-             discoveryItemYourFav=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Venue,filteredYourFav)
-            val filteredTopRatedList=restaurants.filter { it.venuePopularity.rating>=9.0 }
-             discoveryItemRating=DiscoveryItem(DiscoveryTitles.top_rated,ViewTypeDiscovery.Venue,filteredTopRatedList)
 
-            val stores=venues.filter { !it.restaurant }
-            observeParentVenue(stores,restaurants)
+    private fun observeFavVenues(){
+        venueViewModel.favoriteVenueLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.ERROR->{
+                    errorOperations()
+                }
+                Status.LOADING->{
+                    loadingOperations()
+                }
+                Status.SUCCESS->{
+                    result.data?.let {venues->
+                        discoveryItemYourFav=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Venue,venues)
+                        successOperations()
+                        observeRestaurant()
+                    }
+                }
+            }
+        }
+    }
+    private fun observeRestaurant(){
+        venueViewModel.venueLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.ERROR->{
+                   errorOperations()
+                }
+                Status.SUCCESS->{
+                    result.data?.let {venues ->
+                        val restaurants=venues.filter { it.restaurant }
+                        val filteredDelivery=restaurants.filter {  it.delivery.deliveryPrice.toDouble() == 0.00 }
+                        discoveryItemDelivery=DiscoveryItem(DiscoveryTitles.deliveryFee,ViewTypeDiscovery.Venue,filteredDelivery)
+                        val filteredPopularity=restaurants.filter { it.venuePopularity.popularity  }
+                        discoveryItemPopularity=DiscoveryItem(DiscoveryTitles.popularRightNow,ViewTypeDiscovery.Venue,filteredPopularity)
+                        val filteredFastestDelivery=restaurants.filter { it.delivery.deliveryTime.toDouble()<=20  }
+                        discoveryItemFastest=DiscoveryItem(DiscoveryTitles.fastestDelivery,ViewTypeDiscovery.Venue,filteredFastestDelivery)
+                        val filteredTopRatedList=restaurants.filter { it.venuePopularity.rating.toDouble()>=9.0 }
+                        discoveryItemRating=DiscoveryItem(DiscoveryTitles.top_rated,ViewTypeDiscovery.Venue,filteredTopRatedList)
+                        val stores=venues.filter { !it.restaurant }
+                        observeParentVenue(stores,restaurants)
+
+                        successOperations()
+                    }
+                }
+                Status.LOADING->{
+                   loadingOperations()
+                }
+            }
         }
     }
     private fun initialiseDiscoveryRv(){
@@ -151,14 +220,28 @@ class DiscoveryFragment : Fragment() {
     private fun initialiseMainCategoryRv(stores: List<Venue>,restaurants: List<Venue>){
         mainCategoryAdapter= MainCategoryAdapter()
         binding.mainCategoryRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        venueCategoryViewModel.venueCategoryLiveData.observe(viewLifecycleOwner){categories->
-            val filteredCategoryList=categories.filter { !it.restaurant }
-            mainCategoryAdapter.venueCategoryList=filteredCategoryList
-            mainCategoryAdapter.venueList=stores
-            binding.mainCategoryRv.adapter=mainCategoryAdapter
+        venueCategoryViewModel.venueCategoryLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {categories->
+                        val filteredCategoryList=categories.filter { !it.restaurant }
+                        mainCategoryAdapter.venueCategoryList=filteredCategoryList
+                        mainCategoryAdapter.venueList=stores
+                        binding.mainCategoryRv.adapter=mainCategoryAdapter
 
-            initialiseToolbarRv(stores,filteredCategoryList)
-            observeVenueCategory(restaurants,categories)
+                        initialiseToolbarRv(stores,filteredCategoryList)
+                        observeVenueCategory(restaurants,categories)
+
+                        successOperations()
+                    }
+                }
+                Status.LOADING->{
+                    loadingOperations()
+                }
+                Status.ERROR->{
+                    errorOperations()
+                }
+            }
         }
     }
     private fun initialiseToolbarRv(stores: List<Venue>, categoryList: List<VenueCategory>){

@@ -61,10 +61,10 @@ class SearchAdapter:RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     private fun setRatingIcon(venueArraylist: Venue,ratingIcon: ImageView){
         when {
             // Rating less than 5,00
-            venueArraylist.venuePopularity.rating < 5.00 ->{
+            venueArraylist.venuePopularity.rating.toDouble() < 5.00 ->{
                 ratingIcon.setImageResource(R.drawable.emoticon_sad)
             }
-            venueArraylist.venuePopularity.rating <9.00 -> {
+            venueArraylist.venuePopularity.rating.toDouble() <9.00 -> {
                 //Rating less than 9.00
                 ratingIcon.setImageResource(R.drawable.emoticon_happy)
             }

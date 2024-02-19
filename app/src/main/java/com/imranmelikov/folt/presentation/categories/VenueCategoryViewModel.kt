@@ -3,21 +3,36 @@ package com.imranmelikov.folt.presentation.categories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.domain.model.VenueCategory
+import com.imranmelikov.folt.domain.repository.FoltRepository
+import com.imranmelikov.folt.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class VenueCategoryViewModel:ViewModel() {
-    private val mutableVenueCategoryList= MutableLiveData<List<VenueCategory>>()
-    val venueCategoryLiveData: LiveData<List<VenueCategory>>
-        get() = mutableVenueCategoryList
+@HiltViewModel
+class VenueCategoryViewModel @Inject constructor(private val repository: FoltRepository):ViewModel() {
+    private val mutableVenueCategoryLiveData= MutableLiveData<Resource<List<VenueCategory>>>()
+    val venueCategoryLiveData: LiveData<Resource<List<VenueCategory>>>
+        get() = mutableVenueCategoryLiveData
 
+    private val exceptionHandlerVenueCategory = CoroutineExceptionHandler { _, throwable ->
+        println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
+        mutableVenueCategoryLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
+    }
     fun getVenueCategories(){
-        val venueCategory=VenueCategory(1,"","American",true)
-        val venueCategory2=VenueCategory(2,"","America",true)
-        val venueCategory3=VenueCategory(3,"","Americ",true)
-        val venueCategory4=VenueCategory(1,"","Sweets",false)
-        val venueCategory5=VenueCategory(2,"","Sweet",false)
-        val venueCategory6=VenueCategory(3,"","Swee",false)
-        val venueCategoryList= listOf(venueCategory,venueCategory2,venueCategory3,venueCategory4,venueCategory5,venueCategory6)
-        mutableVenueCategoryList.value=venueCategoryList
+        mutableVenueCategoryLiveData.value=Resource.loading(null)
+        viewModelScope.launch(Dispatchers.IO + exceptionHandlerVenueCategory){
+            val response=repository.getVenueCategory()
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerVenueCategory){
+                response.data?.let {
+                    mutableVenueCategoryLiveData.value=Resource.success(it)
+                }
+            }
+        }
     }
 }

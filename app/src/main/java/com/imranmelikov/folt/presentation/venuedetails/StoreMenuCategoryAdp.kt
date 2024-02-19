@@ -13,7 +13,6 @@ import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.StoreMenuCategoryRvBinding
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
 import com.imranmelikov.folt.constants.StoreCategoryTitle
-import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueMenuConstants
 
 class StoreMenuCategoryAdp:RecyclerView.Adapter<StoreMenuCategoryAdp.StoreMenuCategoryViewHolder>() {
@@ -49,11 +48,11 @@ class StoreMenuCategoryAdp:RecyclerView.Adapter<StoreMenuCategoryAdp.StoreMenuCa
         val categoryList=storeMenuCategoryList[position]
         holder.binding.categoryName.text=categoryList.title
         Glide.with(holder.itemView.context)
-            .load(categoryList.image)
+            .load(categoryList.imageUrl)
             .into(holder.binding.categoryImage)
         val bundle=Bundle()
         bundle.apply {
-            putInt(StoreCategoryTitle.storeCategoryTitle,categoryList.id)
+            putString(StoreCategoryTitle.storeCategoryTitle,categoryList.id)
         }
 
         holder.itemView.setOnClickListener {

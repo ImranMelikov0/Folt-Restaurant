@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.databinding.FragmentVenueInformationBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.constants.VenueInformationConstants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @Suppress("DEPRECATION")
 class VenueInformationFragment : Fragment() {
     private lateinit var binding:FragmentVenueInformationBinding

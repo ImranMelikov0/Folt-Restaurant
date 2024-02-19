@@ -10,8 +10,9 @@ import com.bumptech.glide.Glide
 import com.imranmelikov.folt.databinding.StoreMenuRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.presentation.bottomsheetfragments.MenuBottomSheetFragment
+import javax.inject.Inject
 
-class StoreMenuAdapter:RecyclerView.Adapter<StoreMenuAdapter.StoreMenuViewHolder>() {
+class StoreMenuAdapter @Inject constructor(private val appCompatActivity: AppCompatActivity):RecyclerView.Adapter<StoreMenuAdapter.StoreMenuViewHolder>() {
     class StoreMenuViewHolder(val binding:StoreMenuRvBinding):RecyclerView.ViewHolder(binding.root)
 
     // DiffUtil for efficient RecyclerView updates
@@ -44,12 +45,12 @@ class StoreMenuAdapter:RecyclerView.Adapter<StoreMenuAdapter.StoreMenuViewHolder
         holder.binding.menuName.text=storeMenu.menuName
         holder.binding.itemPrice.text=storeMenu.price.toString()
         Glide.with(holder.itemView.context)
-            .load(storeMenu.image)
+            .load(storeMenu.imageUrl)
             .into(holder.binding.menuImage)
 
         val bottomSheetFragment = MenuBottomSheetFragment()
         holder.itemView.setOnClickListener {
-            bottomSheetFragment.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
+            bottomSheetFragment.show((appCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
             bottomSheetFragment.venueDetails=storeMenu
         }
     }

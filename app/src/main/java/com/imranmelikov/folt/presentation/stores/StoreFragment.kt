@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.databinding.FragmentStoreBinding
 import com.imranmelikov.folt.presentation.categories.VenueCategoryAdapter
 import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
@@ -16,7 +18,10 @@ import com.imranmelikov.folt.presentation.venue.VenueAdapter
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StoreFragment : Fragment() {
   private lateinit var binding:FragmentStoreBinding
     private lateinit var viewModel:VenueViewModel
@@ -42,6 +47,7 @@ class StoreFragment : Fragment() {
         initialiseStoreRv()
         initialiseVenueCategoryRv()
         observeVenueCategories()
+        observeFavVenues()
         observeVenues()
         clickSeeAllBtn()
     }
@@ -52,6 +58,7 @@ class StoreFragment : Fragment() {
     }
     private fun initialiseStoreRv(){
         venueAdapter= VenueAdapter()
+        venueAdapter.viewModel=viewModel
         binding.storesRv.layoutManager= LinearLayoutManager(requireContext())
         binding.storesRv.adapter=venueAdapter
     }
@@ -61,25 +68,84 @@ class StoreFragment : Fragment() {
         binding.categoryRv.adapter=venueCategoryAdapter
     }
     private fun observeVenues(){
-        viewModel.venueLiveData.observe(viewLifecycleOwner) {venueList->
-            val filteredVenueList=venueList.filter { !it.restaurant }
-            venueAdapter.venueList=filteredVenueList
-            venueAdapter.viewType=VenueCategoryConstants.Store
-            venueCategoryAdapter.venueList=filteredVenueList
-            bundle.apply {
-                putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
-                putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
+        viewModel.venueLiveData.observe(viewLifecycleOwner) {result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {venueList->
+                        val filteredVenueList=venueList.filter { !it.restaurant }
+                        venueAdapter.venueList=filteredVenueList
+                        venueAdapter.viewType=VenueCategoryConstants.Store
+                        venueCategoryAdapter.venueList=filteredVenueList
+                        bundle.apply {
+                            putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                            putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
+                        }
+                    }
+                    binding.storeProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.LOADING->{
+                    binding.storeProgress.visibility=View.VISIBLE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.storeProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.VISIBLE
+                }
             }
         }
     }
+
+    private fun observeFavVenues(){
+        viewModel.favoriteVenueLiveData.observe(viewLifecycleOwner) {result->
+            when(result.status){
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.storeProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.VISIBLE
+                }
+                Status.SUCCESS->{
+                    result.data?.let {venues ->
+                        venueAdapter.favVenueList=venues
+                    }
+                    binding.storeProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.LOADING->{
+                    binding.storeProgress.visibility=View.VISIBLE
+                    binding.noResultText.visibility=View.GONE
+                }
+            }
+
+        }
+
+    }
     private fun observeVenueCategories(){
-        viewModelVenueCategory.venueCategoryLiveData.observe(viewLifecycleOwner) {venueCategoryList->
-            val filteredCategoryList=venueCategoryList.filter { !it.restaurant }
-            venueCategoryAdapter.venueCategoryList=filteredCategoryList
-            venueCategoryAdapter.viewType= VenueCategoryConstants.Store
-            bundle.apply {
-                putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
-                putSerializable(VenueCategoryConstants.venueCategories, ArrayList(filteredCategoryList))
+        viewModelVenueCategory.venueCategoryLiveData.observe(viewLifecycleOwner) {result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {venueCategoryList ->
+                        val filteredCategoryList=venueCategoryList.filter { !it.restaurant }
+                        venueCategoryAdapter.venueCategoryList=filteredCategoryList
+                        venueCategoryAdapter.viewType= VenueCategoryConstants.Store
+                        bundle.apply {
+                            putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                            putSerializable(VenueCategoryConstants.venueCategories, ArrayList(filteredCategoryList))
+                        }
+                    }
+                    binding.storeProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.LOADING->{
+                    binding.storeProgress.visibility=View.VISIBLE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.storeProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.VISIBLE
+                }
             }
         }
     }

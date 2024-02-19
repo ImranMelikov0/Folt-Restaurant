@@ -19,7 +19,9 @@ import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.OfferConstants
 import com.imranmelikov.folt.constants.ParentVenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @Suppress("DEPRECATION")
 class CategoriesFragment : Fragment() {
    private lateinit var binding:FragmentCategoriesBinding

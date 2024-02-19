@@ -5,14 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.FragmentStoreItemsBinding
 import com.imranmelikov.folt.constants.StoreCategoryTitle
+import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StoreItemsFragment : Fragment() {
    private lateinit var binding:FragmentStoreItemsBinding
    private lateinit var viewModel: StoreItemsViewModel
@@ -38,10 +44,10 @@ class StoreItemsFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-    private fun clickSearchBtn(id: Int){
+    private fun clickSearchBtn(id: String){
         val bundle=Bundle()
         bundle.apply {
-            putInt(ItemSearchConstants.StoreCategoryId,id)
+            putString(ItemSearchConstants.StoreCategoryId,id)
             putInt(ItemSearchConstants.ItemSearch,ItemSearchConstants.ItemSearchStores)
         }
         binding.searchBtn.setOnClickListener {
@@ -49,26 +55,43 @@ class StoreItemsFragment : Fragment() {
         }
     }
     private fun getControlArguments(){
-        val receiveStoreCategoryId=arguments?.getInt(StoreCategoryTitle.storeCategoryTitle)
+        val receiveStoreCategoryId=arguments?.getString(StoreCategoryTitle.storeCategoryTitle)
         receiveStoreCategoryId?.let {
             observeStoreMenuList(it)
             clickSearchBtn(it)
         }
     }
-    private fun observeStoreMenuList(id:Int){
-        viewModel.storeMenuLiveData.observe(viewLifecycleOwner){venueDetailsItems->
-           val filteredList= venueDetailsItems.filter { it.parentId==id }
-            filteredList.map {storeItem->
-                binding.storeCategoryName.text=storeItem.title
-                "${storeItem.venueDetailList?.size} Items".also { binding.storeItemsSize.text=it }
-                storeItem.venueDetailList?.let {
-                    storeMenuAdapter.storeMenuList=it
+    private fun observeStoreMenuList(id:String){
+        viewModel.storeMenuLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {venueDetailsItems ->
+                        val filteredList= venueDetailsItems.filter { it.parentId==id }
+                        filteredList.map {storeItem->
+                            binding.storeCategoryName.text=storeItem.title
+                            "${storeItem.venueDetailList?.size} Items".also { binding.storeItemsSize.text=it }
+                            storeItem.venueDetailList?.let {
+                                storeMenuAdapter.storeMenuList=it
+                            }
+                        }
+                    }
+                    binding.noResultText.visibility=View.GONE
+                    binding.storeItemsProgress.visibility=View.GONE
+                }
+                Status.LOADING->{
+                    binding.noResultText.visibility=View.GONE
+                    binding.storeItemsProgress.visibility=View.VISIBLE
+                }
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.noResultText.visibility=View.VISIBLE
+                    binding.storeItemsProgress.visibility=View.GONE
                 }
             }
         }
     }
     private fun initialiseStoreItemsRv(){
-        storeMenuAdapter= StoreMenuAdapter()
+        storeMenuAdapter= StoreMenuAdapter(requireActivity() as AppCompatActivity)
         binding.storeItemsRv.layoutManager=GridLayoutManager(requireContext(),2)
         binding.storeItemsRv.adapter=storeMenuAdapter
     }

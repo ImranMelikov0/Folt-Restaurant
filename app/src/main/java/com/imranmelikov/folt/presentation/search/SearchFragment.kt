@@ -7,15 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.databinding.FragmentSearchBinding
+import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
    private lateinit var binding:FragmentSearchBinding
    private lateinit var viewModel: SearchViewModel
@@ -26,10 +31,14 @@ class SearchFragment : Fragment() {
     ): View? {
         binding=FragmentSearchBinding.inflate(inflater,container,false)
         viewModel=ViewModelProvider(requireActivity())[SearchViewModel::class.java]
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initialiseSearchRv()
         searchEditText()
         observeVenues()
-        return binding.root
     }
     private fun searchEditText() {
         val searchText=binding.searchEdittext
@@ -47,8 +56,10 @@ class SearchFragment : Fragment() {
                         binding.searchClose.visibility=View.VISIBLE
                         binding.searchFilter.visibility=View.VISIBLE
                         delay(1000)
-                        viewModel.getVenues(it.toString())
+                        viewModel.searchVenues(it.toString())
+                        observeVenues()
                     }else{
+                        searchAdapter.venueList= emptyList()
                         binding.searchClose.visibility=View.GONE
                         binding.searchFilter.visibility=View.GONE
                     }
@@ -57,14 +68,33 @@ class SearchFragment : Fragment() {
             }
             binding.searchClose.setOnClickListener {_->
                 searchText.text.clear()
+                searchAdapter.venueList= emptyList()
                 binding.searchClose.visibility=View.GONE
                 binding.searchFilter.visibility=View.GONE
             }
         }
     }
     private fun observeVenues(){
-        viewModel.venueLiveData.observe(viewLifecycleOwner){
-            searchAdapter.venueList=it
+        viewModel.venueLiveData.observe(requireActivity()){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let {
+                        searchAdapter.venueList=it
+                        binding.noResultText.visibility=View.GONE
+                        binding.searchProgress.visibility=View.GONE
+                    }
+                }
+                Status.LOADING->{
+                    binding.noResultText.visibility=View.GONE
+                    binding.searchProgress.visibility=View.VISIBLE
+                }
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.noResultText.visibility=View.VISIBLE
+                    binding.searchProgress.visibility=View.GONE
+                }
+            }
+
         }
     }
     private fun initialiseSearchRv(){

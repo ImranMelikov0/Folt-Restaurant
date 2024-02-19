@@ -86,4 +86,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/appBarLayout"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/no_result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results_found"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="30sp"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/item_search_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progress="0"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/open_blue"
+            />
+
 </RelativeLayout>

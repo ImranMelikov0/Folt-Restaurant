@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +14,14 @@ import com.imranmelikov.folt.databinding.FragmentProfileBinding
 import com.imranmelikov.folt.domain.model.DiscoveryItem
 import com.imranmelikov.folt.presentation.discovery.DiscoveryAdapter
 import com.imranmelikov.folt.constants.DiscoveryTitles
+import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
 import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var viewModelRestaurant: VenueViewModel
@@ -31,7 +36,7 @@ class ProfileFragment : Fragment() {
 
         clickToFragments()
         initialiseRv()
-        viewModelRestaurant.getVenues()
+        viewModelRestaurant.getFavoriteVenues("a")
         observeVenues()
         return binding.root
     }
@@ -55,11 +60,28 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeVenues(){
-        viewModelRestaurant.venueLiveData.observe(viewLifecycleOwner) {venues->
-                val filteredFavVenues=venues.filter { it.venuePopularity.favorite }
-                val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Profile,filteredFavVenues)
-                val discoveryItemList= listOf(discoveryItemRestaurant)
-                discoveryAdapter.discoveryItemList=discoveryItemList
+        viewModelRestaurant.favoriteVenueLiveData.observe(viewLifecycleOwner) {result->
+            when(result.status){
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.profileProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.VISIBLE
+                }
+                Status.SUCCESS->{
+                    result.data?.let {venues ->
+                        val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Profile,venues)
+                        val discoveryItemList= listOf(discoveryItemRestaurant)
+                        discoveryAdapter.discoveryItemList=discoveryItemList
+                    }
+                    binding.profileProgress.visibility=View.GONE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.LOADING->{
+                    binding.profileProgress.visibility=View.VISIBLE
+                    binding.noResultText.visibility=View.GONE
+                }
+            }
+
         }
 
     }

@@ -20,47 +20,62 @@ import javax.inject.Inject
 class DiscoveryViewModel @Inject constructor(
     private val foltRepo:FoltRepository
 ):ViewModel() {
-    private val sliderImageMutableLiveData=MutableLiveData<List<Banner>>()
-    val sliderImageLiveData:LiveData<List<Banner>>
+    private val sliderImageMutableLiveData=MutableLiveData<Resource<List<Banner>>>()
+    val sliderImageLiveData:LiveData<Resource<List<Banner>>>
        get() = sliderImageMutableLiveData
 
-    private val parentVenueMutableLiveData=MutableLiveData<List<ParentVenue>>()
-    val parentVenueLiveData:LiveData<List<ParentVenue>>
+    private val parentVenueMutableLiveData=MutableLiveData<Resource<List<ParentVenue>>>()
+    val parentVenueLiveData:LiveData<Resource<List<ParentVenue>>>
         get() = parentVenueMutableLiveData
 
     private val offersMutableLiveData=MutableLiveData<Resource<List<Offer>>>()
     val offersLiveData:LiveData<Resource<List<Offer>>>
         get() = offersMutableLiveData
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val exceptionHandlerOffer = CoroutineExceptionHandler { _, throwable ->
         println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
         offersMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
     }
+    private val exceptionHandlerBanner = CoroutineExceptionHandler { _, throwable ->
+        println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
+        sliderImageMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
+    }
+    private val exceptionHandlerParentVenue = CoroutineExceptionHandler { _, throwable ->
+        println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
+        parentVenueMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
+    }
 
     fun getSliderImageList(){
-        val banner1=Banner("1","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
-        val banner2=Banner("2","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
-        val banner3=Banner("3","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRODugclY3VcoiUgyAa6xsmXGQkwQJzBOZMKw&usqp=CAU","title","text",true)
-        val bannerList= listOf(banner1,banner2,banner3)
-        sliderImageMutableLiveData.value=bannerList
+        sliderImageMutableLiveData.value=Resource.loading(null)
+        viewModelScope.launch (Dispatchers.IO + exceptionHandlerBanner ){
+            val response=foltRepo.getBanner()
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerBanner){
+                response.data?.let {
+                    sliderImageMutableLiveData.value=Resource.success(it)
+                }
+            }
+        }
     }
     fun getParentVenue(){
-        val parentVenue=ParentVenue(1,"restaurant","",true,true,true)
-        val parentVenue2=ParentVenue(2,"restaurant2","",false,true,true)
-        val parentVenue3=ParentVenue(3,"restaurant3","",true,true,true)
-        val parentVenue4=ParentVenue(4,"store","",true,true,false)
-        val parentVenue5=ParentVenue(5,"store2","",false,true,false)
-        val parentVenue6=ParentVenue(6,"store3","",true, true,false)
-        val parentVenueList= listOf(parentVenue2,parentVenue,parentVenue3,parentVenue4,parentVenue5,parentVenue6)
-        val filteredParentVenueList=parentVenueList.filter { it.bribe }
-        parentVenueMutableLiveData.value=filteredParentVenueList
+        parentVenueMutableLiveData.value=Resource.loading(null)
+        viewModelScope.launch(Dispatchers.IO + exceptionHandlerParentVenue) {
+            val response= foltRepo.getParentVenue()
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerParentVenue){
+                response.data?.let {parentVenueList->
+                    val filteredParentVenueList=parentVenueList.filter { it.bribe }
+                    parentVenueMutableLiveData.value=Resource.success(filteredParentVenueList)
+                }
+            }
+        }
     }
     fun getOffers(){
         offersMutableLiveData.value=Resource.loading(null)
-        viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
-            val result=foltRepo.getOffer()
-            result.data?.let {
-                offersMutableLiveData.value=Resource.success(it)
+        viewModelScope.launch(Dispatchers.IO + exceptionHandlerOffer) {
+            val response=foltRepo.getOffer()
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerOffer){
+                response.data?.let {
+                    offersMutableLiveData.value=Resource.success(it)
+                }
             }
         }
     }

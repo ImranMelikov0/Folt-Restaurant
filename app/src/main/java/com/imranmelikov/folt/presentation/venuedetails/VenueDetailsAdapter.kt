@@ -2,6 +2,7 @@ package com.imranmelikov.folt.presentation.venuedetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,17 +12,18 @@ import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.VenueDetailsCategoryRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.constants.VenueMenuConstants
+import javax.inject.Inject
 
-class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class VenueDetailsAdapter @Inject constructor(private val context:AppCompatActivity):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var viewType=-45
 
     inner class VenueDetailsCategoryViewHolder(val binding:VenueDetailsCategoryRvBinding):RecyclerView.ViewHolder(binding.root){
         fun bindRestaurantMenu(venueDetailsItem: VenueDetailsItem){
                 binding.categoryName.text=venueDetailsItem.title
-             // initialise restaurantRv
+             // initialize restaurantRv
                 binding.restaurantRv.layoutManager=LinearLayoutManager(binding.root.context)
-                val adapter=RestaurantMenuAdapter()
+                val adapter=RestaurantMenuAdapter(context)
             venueDetailsItem.venueDetailList?.let {
                 adapter.restaurantMenuList=it
                 binding.restaurantRv.adapter=adapter
@@ -29,7 +31,7 @@ class VenueDetailsAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
         fun bindStoreMenuCategory(venueDetailsItem: VenueDetailsItem){
             binding.categoryName.text=venueDetailsItem.title
-         //initialise restaurantRv
+         //initialize restaurantRv
             binding.restaurantRv.layoutManager=GridLayoutManager(binding.root.context,2)
             val adapter=StoreMenuCategoryAdp()
             venueDetailsItem.storeMenuCategory?.let {

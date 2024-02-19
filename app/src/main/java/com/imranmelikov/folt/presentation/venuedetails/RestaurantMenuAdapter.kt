@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.RestaurantMenuRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.presentation.bottomsheetfragments.MenuBottomSheetFragment
+import javax.inject.Inject
 
-class RestaurantMenuAdapter:RecyclerView.Adapter<RestaurantMenuAdapter.RestaurantMenuViewHolder>() {
+class RestaurantMenuAdapter @Inject constructor(private val context:AppCompatActivity):RecyclerView.Adapter<RestaurantMenuAdapter.RestaurantMenuViewHolder>() {
     class RestaurantMenuViewHolder(val binding:RestaurantMenuRvBinding):RecyclerView.ViewHolder(binding.root)
 
     // DiffUtil for efficient RecyclerView updates
@@ -46,11 +46,11 @@ class RestaurantMenuAdapter:RecyclerView.Adapter<RestaurantMenuAdapter.Restauran
         holder.binding.restaurantName.text=menuList.menuName
         holder.binding.priceText.text=menuList.price.toString()
         Glide.with(holder.itemView.context)
-            .load(menuList.image)
+            .load(menuList.imageUrl)
             .into(holder.binding.restaurantImage)
         val bottomSheetFragment = MenuBottomSheetFragment()
         holder.itemView.setOnClickListener {
-                bottomSheetFragment.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
+                bottomSheetFragment.show((context).supportFragmentManager, bottomSheetFragment.tag)
                 bottomSheetFragment.venueDetails=menuList
         }
         bottomSheetFragment.onItemClick={

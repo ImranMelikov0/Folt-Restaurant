@@ -1,3 +1,5 @@
 package com.imranmelikov.folt.domain.model
 
-data class StoreMenuCategory(val id:Int,val title:String,val image:String)
+import java.io.Serializable
+
+data class StoreMenuCategory(val id:String,val title:String,val imageUrl:String):Serializable

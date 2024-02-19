@@ -7,6 +7,7 @@ object DiscoveryTitles {
     const val foltMarketOffers="Folt Market Offers"
     const val fastestDelivery="Fastest delivery"
     const val popularRestaurants="Popular restaurants"
+    const val popularStores="Popular stores"
     const val yourFav="Your favorites"
     const val categories="Categories"
     const val top_rated="Top-rated"
