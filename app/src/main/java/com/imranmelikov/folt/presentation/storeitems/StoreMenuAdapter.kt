@@ -1,5 +1,6 @@
 package com.imranmelikov.folt.presentation.storeitems
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +41,7 @@ class StoreMenuAdapter @Inject constructor(private val appCompatActivity: AppCom
         return storeMenuList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: StoreMenuViewHolder, position: Int) {
         val storeMenu=storeMenuList[position]
         holder.binding.menuName.text=storeMenu.menuName
@@ -53,5 +55,11 @@ class StoreMenuAdapter @Inject constructor(private val appCompatActivity: AppCom
             bottomSheetFragment.show((appCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
             bottomSheetFragment.venueDetails=storeMenu
         }
+        bottomSheetFragment.onItemClick={
+            storeMenu.selected=true
+            notifyDataSetChanged()
+        }
+
+
     }
 }

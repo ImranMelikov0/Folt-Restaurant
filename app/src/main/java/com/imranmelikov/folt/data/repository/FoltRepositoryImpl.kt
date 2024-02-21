@@ -307,7 +307,6 @@ override suspend fun getOffer(): Resource<List<Offer>> {
     }
 
     override suspend fun getFavoriteVenue(userId:String): Resource<List<Venue>> {
-        /////////////////////////////////
         return try {
             suspendCoroutine { continuation ->
                 val venueList= mutableListOf<Venue>()
@@ -317,7 +316,6 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(emptyList()))
                     }else{
                     for (document in querySnapshot.documents){
-                        println(document)
                         val venuePopularityMap = document[FireStoreConstants.venuePopularity] as HashMap<*, *>
                         val venuePopularity=VenuePopularity(
                             exclusively = venuePopularityMap[FireStoreConstants.exclusively] as Boolean,

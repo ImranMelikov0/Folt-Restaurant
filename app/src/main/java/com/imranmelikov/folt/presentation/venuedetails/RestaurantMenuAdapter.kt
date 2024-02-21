@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.imranmelikov.folt.constants.OrderConstants
+import com.imranmelikov.folt.constants.VenueMenuConstants
 import com.imranmelikov.folt.databinding.RestaurantMenuRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.presentation.bottomsheetfragments.MenuBottomSheetFragment
@@ -15,6 +17,7 @@ import javax.inject.Inject
 class RestaurantMenuAdapter @Inject constructor(private val context:AppCompatActivity):RecyclerView.Adapter<RestaurantMenuAdapter.RestaurantMenuViewHolder>() {
     class RestaurantMenuViewHolder(val binding:RestaurantMenuRvBinding):RecyclerView.ViewHolder(binding.root)
 
+    var viewType=-45
     // DiffUtil for efficient RecyclerView updates
     private val diffUtil=object : DiffUtil.ItemCallback<VenueDetails>(){
         override fun areItemsTheSame(oldItem: VenueDetails, newItem: VenueDetails): Boolean {
@@ -48,13 +51,22 @@ class RestaurantMenuAdapter @Inject constructor(private val context:AppCompatAct
         Glide.with(holder.itemView.context)
             .load(menuList.imageUrl)
             .into(holder.binding.restaurantImage)
-        val bottomSheetFragment = MenuBottomSheetFragment()
-        holder.itemView.setOnClickListener {
-                bottomSheetFragment.show((context).supportFragmentManager, bottomSheetFragment.tag)
-                bottomSheetFragment.venueDetails=menuList
-        }
-        bottomSheetFragment.onItemClick={
-            menuList.selected=true
+        when(viewType){
+            VenueMenuConstants.RestaurantMenu->{
+                val bottomSheetFragment = MenuBottomSheetFragment()
+                holder.itemView.setOnClickListener {
+                    bottomSheetFragment.show((context).supportFragmentManager, bottomSheetFragment.tag)
+                    bottomSheetFragment.venueDetails=menuList
+                }
+                bottomSheetFragment.onItemClick={
+                    menuList.selected=true
+                    println(it)
+                }
+
+            }
+            OrderConstants.orderVenueDetails->{
+                holder.itemView.setOnClickListener {  }
+            }
         }
 
     }

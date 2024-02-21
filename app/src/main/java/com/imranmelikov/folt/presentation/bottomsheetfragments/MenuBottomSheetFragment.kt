@@ -11,6 +11,7 @@ import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MenuBottomSheetFragment:BottomSheetDialogFragment() {
     private lateinit var binding:FragmentMenuBottomSheetBinding
      lateinit var venueDetails: VenueDetails
@@ -54,6 +55,7 @@ class MenuBottomSheetFragment:BottomSheetDialogFragment() {
        binding.orderBtn.setOnClickListener {
            onItemClick?.let {
                it(count*venueDetails.price.toDouble())
+               count=1
            }
            dismiss()
        }

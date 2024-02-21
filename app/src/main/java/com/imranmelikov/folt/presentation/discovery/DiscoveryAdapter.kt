@@ -2,6 +2,7 @@ package com.imranmelikov.folt.presentation.discovery
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -22,6 +23,10 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
     class DiscoveryViewHolder(val binding:DiscoveryCategoryMainRvBinding):RecyclerView.ViewHolder(binding.root){
         fun bindOffer(discoveryItem: DiscoveryItem){
             discoveryItem.offerList?.let {offerList->
+                if (offerList.isEmpty()){
+                    binding.discoveryTitle.visibility=View.GONE
+                    binding.seeAllBtn.visibility=View.GONE
+                }
                 discoveryItem.venueList?.let {venueList->
                     val adapter=OfferAdapter()
                     binding.categoryInlineRv.layoutManager=LinearLayoutManager(binding.root.context,RecyclerView.HORIZONTAL,false)
@@ -45,6 +50,10 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
         }
         fun bindParentVenue(discoveryItem: DiscoveryItem){
             discoveryItem.parentVenueList?.let {parentVenue->
+                if (parentVenue.isEmpty()){
+                    binding.discoveryTitle.visibility=View.GONE
+                    binding.seeAllBtn.visibility=View.GONE
+                }
                 discoveryItem.venueList?.let {venueList->
                     val adapter= ParentVenueAdapter()
                     binding.categoryInlineRv.layoutManager=LinearLayoutManager(binding.root.context,RecyclerView.HORIZONTAL,false)
@@ -68,6 +77,10 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
         }
         fun bindVenue(discoveryItem: DiscoveryItem){
             discoveryItem.venueList?.let {venue->
+                if (venue.isEmpty()){
+                    binding.discoveryTitle.visibility=View.GONE
+                    binding.seeAllBtn.visibility=View.GONE
+                }
                 val bundle = Bundle().apply {
                     putSerializable(VenueConstants.venues, ArrayList(venue))
                     putString(VenueCategoryConstants.DiscoveryTitle,discoveryItem.title)
@@ -94,6 +107,10 @@ class DiscoveryAdapter:RecyclerView.Adapter<DiscoveryAdapter.DiscoveryViewHolder
         fun bindCategory(discoveryItem: DiscoveryItem){
             val bundle=Bundle()
             discoveryItem.venueCategoryList?.let {venueCategories ->
+                if (venueCategories.isEmpty()){
+                    binding.discoveryTitle.visibility=View.GONE
+                    binding.seeAllBtn.visibility=View.GONE
+                }
                 discoveryItem.venueList?.let {venues ->
                     bundle.apply {
                             putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)

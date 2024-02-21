@@ -1,8 +1,6 @@
 package com.imranmelikov.folt.constants
 
-object OrderBundle {
+object OrderConstants {
     const val venueForOrder="venueForOrder"
-    const val totalCount="totalCount"
-    const val totalPrice="totalPrice"
-    const val venueDetailList="venueDetailList"
+    const val orderVenueDetails=3
 }

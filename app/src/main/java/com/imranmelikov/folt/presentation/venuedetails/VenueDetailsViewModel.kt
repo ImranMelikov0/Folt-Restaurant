@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imranmelikov.folt.constants.ErrorMsgConstants
+import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.repository.FoltRepository
 import com.imranmelikov.folt.util.Resource
@@ -24,6 +26,10 @@ class VenueDetailsViewModel @Inject constructor(private val repository: FoltRepo
     private val restaurantMenuMutableLiveData=MutableLiveData<Resource<List<VenueDetailsItem>>>()
     val restaurantMenuLiveData:LiveData<Resource<List<VenueDetailsItem>>>
         get() = restaurantMenuMutableLiveData
+
+    private val mutableVenueDetailsLiveData= MutableLiveData<List<VenueDetails>>()
+    val venueDetailsLiveData: LiveData<List<VenueDetails>>
+        get() = mutableVenueDetailsLiveData
 
     private val exceptionHandlerRestaurant = CoroutineExceptionHandler { _, throwable ->
         println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
@@ -55,5 +61,13 @@ class VenueDetailsViewModel @Inject constructor(private val repository: FoltRepo
                 }
             }
         }
+    }
+
+    fun getVenueDetailsFromRoom(){
+        val venueDetails=VenueDetails("1","",2,"venue","fdsaf",true,3,1,false)
+        val venueDetails2=VenueDetails("2","",2,"venue","fdsaf",true,3,1,false)
+        val venueDetails3=VenueDetails("3","",2,"venue","fdsaf",true,3,1,false)
+        val list= listOf(venueDetails,venueDetails2,venueDetails3)
+        mutableVenueDetailsLiveData.value=list
     }
 }

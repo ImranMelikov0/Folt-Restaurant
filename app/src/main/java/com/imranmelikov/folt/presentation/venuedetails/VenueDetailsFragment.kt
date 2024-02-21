@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ItemSearchConstants
+import com.imranmelikov.folt.constants.OrderConstants
 import com.imranmelikov.folt.databinding.FragmentVenueDetailsBinding
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.presentation.MainActivity
@@ -53,6 +54,7 @@ class VenueDetailsFragment : Fragment() {
     private fun getFunctions(){
         viewModelVenueDetails.getRestaurantMenuList()
         viewModelVenueDetails.getStoreMenuCategoryList()
+        viewModelVenueDetails.getVenueDetailsFromRoom()
         initialiseVenueDetailsRv()
         getControlArguments()
         observeCRUD()
@@ -76,6 +78,15 @@ class VenueDetailsFragment : Fragment() {
     private fun clickDeliveryBtn(){
         // !!!!!!
         binding.deliveryBtn.setOnClickListener {
+        }
+    }
+    private fun clickOrderBtn(venue: Venue){
+        binding.orderBtn.setOnClickListener {
+            val bundleForOrder=Bundle()
+            bundleForOrder.apply {
+                putSerializable(OrderConstants.venueForOrder,venue)
+            }
+            findNavController().navigate(R.id.action_venueDetailsFragment_to_orderFragment,bundleForOrder)
         }
     }
     private fun clickSearchBtn(venue: Venue){
@@ -120,6 +131,7 @@ class VenueDetailsFragment : Fragment() {
                 .into(binding.mainImage)
 
             observeFavVenues(venue)
+            observeVenueDetailsFromRoom(venue)
             // If you are using tabLayout for menus, you will need to use this distinction
             if (venue.restaurant){
                 observeRestaurantMenuViewModel(venue)
@@ -261,6 +273,23 @@ class VenueDetailsFragment : Fragment() {
                     Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
                     binding.venueDetailProgress.visibility=View.GONE
                 }
+            }
+        }
+    }
+    private fun observeVenueDetailsFromRoom(venue: Venue){
+        viewModelVenueDetails.venueDetailsLiveData.observe(viewLifecycleOwner){venueDetailList->
+            if (venueDetailList.isNotEmpty()){
+                var totalCount=0
+                var totalPrice=0.0
+                binding.orderBtn.visibility=View.VISIBLE
+                venueDetailList.map { venueDetails->
+                    totalCount += venueDetails.count.toInt()
+                    totalPrice += venueDetails.price.toDouble()
+                }
+                "$totalCount View order     $totalPrice Azn".also { binding.orderBtn.text = it }
+                clickOrderBtn(venue)
+            }else{
+                binding.orderBtn.visibility=View.GONE
             }
         }
     }

@@ -194,46 +194,56 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/no_result_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/no_results_found"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textAlignment="center"
-        android:visibility="gone"
-        android:textSize="30sp"/>
-    <ProgressBar
-        android:visibility="gone"
-        android:id="@+id/venue_detail_progress"
+    <LinearLayout
+        android:id="@+id/progress_linear"
         android:layout_width="wrap_content"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:progress="0"
-        android:indeterminateTint="@color/open_blue"
-        />
-    <Button
-        android:id="@+id/order_btn"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ProgressBar
+            android:id="@+id/venue_detail_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progress="0"
+            android:indeterminateTint="@color/open_blue"
+            />
+        <TextView
+            android:id="@+id/no_result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results_found"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/order_btn_linear"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:backgroundTint="@color/open_blue"
-        app:cornerRadius="8dp"
-        android:textColor="@color/white"
-        android:text="1   View order    30Azn"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/order_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:visibility="gone"
+            android:backgroundTint="@color/open_blue"
+            app:cornerRadius="8dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="1   View order    30Azn"/>
+    </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

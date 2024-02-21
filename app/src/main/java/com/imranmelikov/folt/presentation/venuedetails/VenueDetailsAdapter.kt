@@ -26,6 +26,7 @@ class VenueDetailsAdapter @Inject constructor(private val context:AppCompatActiv
                 val adapter=RestaurantMenuAdapter(context)
             venueDetailsItem.venueDetailList?.let {
                 adapter.restaurantMenuList=it
+                adapter.viewType=VenueMenuConstants.RestaurantMenu
                 binding.restaurantRv.adapter=adapter
             }
         }
