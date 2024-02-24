@@ -12,7 +12,7 @@ import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.VenueDetailsCategoryRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.constants.VenueMenuConstants
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import javax.inject.Inject
 
 class VenueDetailsAdapter @Inject constructor(private val context:AppCompatActivity):RecyclerView.Adapter<RecyclerView.ViewHolder>() {

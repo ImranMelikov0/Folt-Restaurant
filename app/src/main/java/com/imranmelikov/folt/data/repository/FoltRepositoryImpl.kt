@@ -5,7 +5,9 @@ import com.imranmelikov.folt.constants.FireStoreConstants
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.FireStoreCollectionConstants
 import com.imranmelikov.folt.data.local.FoltDao
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.remote.dto.CountryDto
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
+import com.imranmelikov.folt.data.remote.webservice.CountryApi
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.Delivery
@@ -21,10 +23,11 @@ import com.imranmelikov.folt.domain.model.VenueInformation
 import com.imranmelikov.folt.domain.model.VenuePopularity
 import com.imranmelikov.folt.domain.repository.FoltRepository
 import com.imranmelikov.folt.util.Resource
+import retrofit2.Response
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FoltRepositoryImpl(private val fireStore: FirebaseFirestore,private val dao: FoltDao):FoltRepository {
+class FoltRepositoryImpl(private val fireStore: FirebaseFirestore,private val dao: FoltDao,private val countryApi: CountryApi):FoltRepository {
 override suspend fun getOffer(): Resource<List<Offer>> {
     return try {
         suspendCoroutine { continuation ->
@@ -627,6 +630,10 @@ override suspend fun getOffer(): Resource<List<Offer>> {
 
     override suspend fun deleteAllVenueDetailsFromRoom() {
         dao.deleteAllVenueDetails()
+    }
+
+    override suspend fun getCountries(): Response<CountryDto> {
+        return countryApi.getCountries()
     }
 
 }

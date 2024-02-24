@@ -1,3 +1,5 @@
 package com.imranmelikov.folt.domain.model
 
-data class Address(val id:String)
+import java.io.Serializable
+
+data class Address(val id:String):Serializable

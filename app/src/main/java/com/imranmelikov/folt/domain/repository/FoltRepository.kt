@@ -1,6 +1,7 @@
 package com.imranmelikov.folt.domain.repository
 
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.remote.dto.CountryDto
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.Offer
@@ -10,6 +11,7 @@ import com.imranmelikov.folt.domain.model.VenueCategory
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.util.Resource
+import retrofit2.Response
 
 interface FoltRepository {
     suspend fun getOffer():Resource<List<Offer>>
@@ -49,4 +51,6 @@ interface FoltRepository {
     suspend fun getVenueDetailsFromRoom():List<VenueDetailsRoom>
 
     suspend fun deleteAllVenueDetailsFromRoom()
+
+    suspend fun getCountries():Response<CountryDto>
 }

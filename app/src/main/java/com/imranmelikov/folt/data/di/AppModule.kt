@@ -3,9 +3,11 @@ package com.imranmelikov.folt.data.di
 import android.content.Context
 import androidx.room.Room
 import com.google.firebase.firestore.FirebaseFirestore
+import com.imranmelikov.folt.constants.APIConstants
 import com.imranmelikov.folt.constants.DbConstant
 import com.imranmelikov.folt.data.local.FoltDao
 import com.imranmelikov.folt.data.local.FoltDataBase
+import com.imranmelikov.folt.data.remote.webservice.CountryApi
 import com.imranmelikov.folt.data.repository.FoltRepositoryImpl
 import com.imranmelikov.folt.domain.repository.FoltRepository
 import dagger.Module
@@ -13,6 +15,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
@@ -35,5 +39,14 @@ object AppModule {
     }
     @Singleton
     @Provides
-    fun injectRepo(fireStore: FirebaseFirestore,dao: FoltDao)=FoltRepositoryImpl(fireStore,dao) as FoltRepository
+    fun injectCountryApi(): CountryApi {
+        return Retrofit.Builder()
+            .baseUrl(APIConstants.countryBASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CountryApi::class.java)
+    }
+    @Singleton
+    @Provides
+    fun injectRepo(fireStore: FirebaseFirestore,dao: FoltDao,countryApi: CountryApi)=FoltRepositoryImpl(fireStore,dao,countryApi) as FoltRepository
 }

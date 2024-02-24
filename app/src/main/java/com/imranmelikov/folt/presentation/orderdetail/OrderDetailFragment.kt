@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.OrderConstants
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.databinding.FragmentOrderDetailBinding
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
 import com.imranmelikov.folt.domain.model.Venue

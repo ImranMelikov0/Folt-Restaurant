@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentAccountBinding
 import com.imranmelikov.folt.presentation.MainActivity
+import com.imranmelikov.folt.presentation.bottomsheetfragments.CountryFragmentBottomSheet
 
 class AccountFragment : Fragment() {
   private lateinit var binding:FragmentAccountBinding
@@ -46,6 +48,14 @@ class AccountFragment : Fragment() {
         }
         binding.accountLogOutLinear.setOnClickListener {
 
+        }
+        binding.accountCountryLinear.setOnClickListener {
+            val bottomSheetFragment=CountryFragmentBottomSheet()
+            if (!bottomSheetFragment.isAdded) {
+                bottomSheetFragment.show((requireActivity() as AppCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
+            }
+            /////////
+            bottomSheetFragment.countryName="Azerbaijan"
         }
     }
     private fun clickBackBtn(){

@@ -1,4 +1,4 @@
-package com.imranmelikov.folt.data.model
+package com.imranmelikov.folt.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

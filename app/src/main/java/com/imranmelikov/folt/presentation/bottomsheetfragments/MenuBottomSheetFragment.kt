@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.databinding.FragmentMenuBottomSheetBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
@@ -88,7 +88,8 @@ class MenuBottomSheetFragment:BottomSheetDialogFragment() {
                     }
                 }else{
                     if (count!=0){
-                        val venueDetailsRoom=VenueDetailsRoom(venueDetails.id,venueDetails.imageUrl,count * venueDetails.price.toDouble(),
+                        val venueDetailsRoom=
+                            VenueDetailsRoom(venueDetails.id,venueDetails.imageUrl,count * venueDetails.price.toDouble(),
                             venueDetails.menuName,venueDetails.about,venueDetails.popularity,venueDetails.stock.toInt(),
                             count,venueDetails.selected)
                         viewModel.insertVenueDetailsToRoom(venueDetailsRoom)

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imranmelikov.folt.constants.ErrorMsgConstants
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.domain.model.VenueDetailsItem

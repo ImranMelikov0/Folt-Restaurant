@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
-import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.databinding.StoreMenuRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.presentation.bottomsheetfragments.MenuBottomSheetFragment
