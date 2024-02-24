@@ -129,7 +129,7 @@
         android:textSize="30sp"/>
     <ProgressBar
         android:visibility="gone"
-        android:id="@+id/restaurant_progress"
+        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

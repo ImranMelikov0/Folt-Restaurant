@@ -91,6 +91,7 @@ class CategoriesFragment : Fragment() {
         val receiveTitle=receiveArgs?.getString(ParentVenueConstants.titleString)
         receiveTitle?.let {
             binding.categoriesText.text=it
+            binding.toolbarCategoriesText.text=it
         }
 
         val receivedVenueList = receiveArgs?.getSerializable(VenueConstants.venues) as? ArrayList<*>
@@ -109,6 +110,7 @@ class CategoriesFragment : Fragment() {
         val receiveTitle=receiveArgs?.getString(ParentVenueConstants.titleString)
         receiveTitle?.let {
             binding.categoriesText.text=it
+            binding.toolbarCategoriesText.text=it
         }
 
         val receivedVenueList = receiveArgs?.getSerializable(VenueConstants.venues) as? ArrayList<*>

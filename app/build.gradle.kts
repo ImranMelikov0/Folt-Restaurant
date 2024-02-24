@@ -82,6 +82,7 @@ dependencies {
     implementation ("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
 
     //Room
+    implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 

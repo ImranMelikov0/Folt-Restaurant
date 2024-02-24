@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,6 @@ import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.OrderConstants
 import com.imranmelikov.folt.databinding.FragmentOrderBinding
 import com.imranmelikov.folt.domain.model.Venue
-import com.imranmelikov.folt.presentation.venuedetails.RestaurantMenuAdapter
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class OrderFragment : Fragment() {
   private lateinit var binding:FragmentOrderBinding
   private lateinit var viewModel:VenueDetailsViewModel
-  private lateinit var adapter:RestaurantMenuAdapter
+  private lateinit var adapter:OrderAdapter
     val bundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +55,9 @@ class OrderFragment : Fragment() {
 
     private fun observeVenueDetails(){
         viewModel.venueDetailsLiveData.observe(viewLifecycleOwner){
-            adapter= RestaurantMenuAdapter(requireActivity() as AppCompatActivity)
+            adapter= OrderAdapter()
             binding.orderRv.layoutManager=LinearLayoutManager(requireContext())
-            adapter.viewType=OrderConstants.orderVenueDetails
-            adapter.restaurantMenuList=it
+            adapter.venueMenuList=it
             binding.orderRv.adapter=adapter
         }
     }

@@ -129,9 +129,10 @@
             android:visibility="gone"
             android:textSize="30sp"/>
         <ProgressBar
-            android:visibility="gone"
+            android:layout_gravity="center"
             android:id="@+id/categories_progress"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:progress="0"
             android:indeterminateTint="@color/open_blue"

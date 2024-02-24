@@ -15,28 +15,31 @@ import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.FragmentStoreItemsBinding
 import com.imranmelikov.folt.constants.StoreCategoryTitle
+import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class StoreItemsFragment : Fragment() {
    private lateinit var binding:FragmentStoreItemsBinding
-   private lateinit var viewModel: StoreItemsViewModel
    private lateinit var storeMenuAdapter: StoreMenuAdapter
+   private lateinit var venueDetailsViewModel:VenueDetailsViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
        binding=FragmentStoreItemsBinding.inflate(inflater,container,false)
-        viewModel=ViewModelProvider(requireActivity())[StoreItemsViewModel::class.java]
+        venueDetailsViewModel=ViewModelProvider(requireActivity())[VenueDetailsViewModel::class.java]
         getFunctions()
         return binding.root
     }
 
     private fun getFunctions(){
         clickBackBtn()
-        viewModel.getStoreMenuList()
+        venueDetailsViewModel.getVenueMenuList()
+        venueDetailsViewModel.getVenueDetailsFromRoom()
         initialiseStoreItemsRv()
+        observeVenueDetailsFromRoom()
         getControlArguments()
     }
     private fun clickBackBtn(){
@@ -62,7 +65,7 @@ class StoreItemsFragment : Fragment() {
         }
     }
     private fun observeStoreMenuList(id:String){
-        viewModel.storeMenuLiveData.observe(viewLifecycleOwner){result->
+        venueDetailsViewModel.venueMenuLiveData.observe(viewLifecycleOwner){result->
             when(result.status){
                 Status.SUCCESS->{
                     result.data?.let {venueDetailsItems ->
@@ -88,6 +91,11 @@ class StoreItemsFragment : Fragment() {
                     binding.storeItemsProgress.visibility=View.GONE
                 }
             }
+        }
+    }
+    private fun observeVenueDetailsFromRoom(){
+        venueDetailsViewModel.venueDetailsLiveData.observe(viewLifecycleOwner){venueDetailList->
+            storeMenuAdapter.venueDetailsList=venueDetailList
         }
     }
     private fun initialiseStoreItemsRv(){

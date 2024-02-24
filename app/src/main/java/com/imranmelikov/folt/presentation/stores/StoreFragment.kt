@@ -18,6 +18,7 @@ import com.imranmelikov.folt.presentation.venue.VenueAdapter
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,6 +44,7 @@ class StoreFragment : Fragment() {
 
     private fun getFunctions(){
         viewModel.getVenues()
+        viewModel.getFavoriteVenues("a")
         viewModelVenueCategory.getVenueCategories()
         initialiseStoreRv()
         initialiseVenueCategoryRv()
@@ -69,29 +71,15 @@ class StoreFragment : Fragment() {
     }
     private fun observeVenues(){
         viewModel.venueLiveData.observe(viewLifecycleOwner) {result->
-            when(result.status){
-                Status.SUCCESS->{
-                    result.data?.let {venueList->
-                        val filteredVenueList=venueList.filter { !it.restaurant }
-                        venueAdapter.venueList=filteredVenueList
-                        venueAdapter.viewType=VenueCategoryConstants.Store
-                        venueCategoryAdapter.venueList=filteredVenueList
-                        bundle.apply {
-                            putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
-                            putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
-                        }
-                    }
-                    binding.storeProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.storeProgress.visibility=View.VISIBLE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.ERROR->{
-                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
-                    binding.storeProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.VISIBLE
+            handleResult(result){
+                    venueList->
+                val filteredVenueList=venueList.filter { !it.restaurant }
+                venueAdapter.venueList=filteredVenueList
+                venueAdapter.viewType=VenueCategoryConstants.Store
+                venueCategoryAdapter.venueList=filteredVenueList
+                bundle.apply {
+                    putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                    putSerializable(VenueConstants.venues, ArrayList(filteredVenueList))
                 }
             }
         }
@@ -99,54 +87,53 @@ class StoreFragment : Fragment() {
 
     private fun observeFavVenues(){
         viewModel.favoriteVenueLiveData.observe(viewLifecycleOwner) {result->
-            when(result.status){
-                Status.ERROR->{
-                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
-                    binding.storeProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.VISIBLE
-                }
-                Status.SUCCESS->{
-                    result.data?.let {venues ->
-                        venueAdapter.favVenueList=venues
-                    }
-                    binding.storeProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.storeProgress.visibility=View.VISIBLE
-                    binding.noResultText.visibility=View.GONE
-                }
+            handleResult(result){venues ->
+                venueAdapter.favVenueList=venues
             }
-
         }
 
     }
     private fun observeVenueCategories(){
         viewModelVenueCategory.venueCategoryLiveData.observe(viewLifecycleOwner) {result->
-            when(result.status){
-                Status.SUCCESS->{
-                    result.data?.let {venueCategoryList ->
-                        val filteredCategoryList=venueCategoryList.filter { !it.restaurant }
-                        venueCategoryAdapter.venueCategoryList=filteredCategoryList
-                        venueCategoryAdapter.viewType= VenueCategoryConstants.Store
-                        bundle.apply {
-                            putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
-                            putSerializable(VenueCategoryConstants.venueCategories, ArrayList(filteredCategoryList))
-                        }
-                    }
-                    binding.storeProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.storeProgress.visibility=View.VISIBLE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.ERROR->{
-                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
-                    binding.storeProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.VISIBLE
+            handleResult(result){venueCategoryList ->
+                val filteredCategoryList=venueCategoryList.filter { !it.restaurant }
+                venueCategoryAdapter.venueCategoryList=filteredCategoryList
+                venueCategoryAdapter.viewType= VenueCategoryConstants.Store
+                bundle.apply {
+                    putString(VenueCategoryConstants.VenueCategoryTitle,VenueCategoryConstants.VenueCategoryTitle)
+                    putSerializable(VenueCategoryConstants.venueCategories, ArrayList(filteredCategoryList))
                 }
             }
         }
+    }
+    private fun <T> handleResult(result: Resource<T>, actionOnSuccess: (T) -> Unit) {
+        when (result.status) {
+            Status.ERROR -> {
+                errorResult()
+            }
+            Status.SUCCESS -> {
+                result.data?.let(actionOnSuccess)
+                successResult()
+            }
+            Status.LOADING -> {
+                loadingResult()
+            }
+        }
+    }
+
+    private fun loadingResult() {
+        binding.storeProgress.visibility=View.VISIBLE
+        binding.noResultText.visibility=View.GONE
+    }
+
+    private fun successResult() {
+        binding.storeProgress.visibility=View.GONE
+        binding.noResultText.visibility=View.GONE
+    }
+
+    private fun errorResult() {
+        Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+        binding.storeProgress.visibility=View.GONE
+        binding.noResultText.visibility=View.VISIBLE
     }
 }

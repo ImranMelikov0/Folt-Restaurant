@@ -4,6 +4,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.imranmelikov.folt.constants.FireStoreConstants
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.FireStoreCollectionConstants
+import com.imranmelikov.folt.data.local.FoltDao
+import com.imranmelikov.folt.data.model.VenueDetailsRoom
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.Delivery
@@ -22,7 +24,7 @@ import com.imranmelikov.folt.util.Resource
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FoltRepositoryImpl(private val fireStore: FirebaseFirestore):FoltRepository {
+class FoltRepositoryImpl(private val fireStore: FirebaseFirestore,private val dao: FoltDao):FoltRepository {
 override suspend fun getOffer(): Resource<List<Offer>> {
     return try {
         suspendCoroutine { continuation ->
@@ -211,7 +213,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         }
     }
 
-    override suspend fun getVenueDetailsItemRestaurant(): Resource<List<VenueDetailsItem>> {
+    override suspend fun getVenueDetailsItemVenue(): Resource<List<VenueDetailsItem>> {
         return try {
             suspendCoroutine { continuation ->
                 val venueDetailsItemList= mutableListOf<VenueDetailsItem>()
@@ -588,5 +590,43 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         }
     }
 
+    override suspend fun updateVenueDetailsStock(
+        documentId: String,
+        venueDetailList: List<VenueDetails>
+    ):Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemRestaurant)
+                    .document(documentId)
+                    .update(FireStoreConstants.venueDetails, venueDetailList).addOnSuccessListener {
+                        continuation.resume(Resource.success(CRUD(documentId, 2)))
+                    }.addOnFailureListener { e ->
+                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                    }
+            }
+            } catch (e:Exception){
+                Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+            }
+    }
+
+    override suspend fun insertVenueDetailsToRoom(venueDetailsRoom: VenueDetailsRoom) {
+        dao.insertVenueDetail(venueDetailsRoom)
+    }
+
+    override suspend fun deleteVenueDetailsFromRoom(venueDetailsRoom: VenueDetailsRoom) {
+        dao.deleteVenueDetail(venueDetailsRoom)
+    }
+
+    override suspend fun updateVenueDetailsFromRoom(venueDetailsRoom: VenueDetailsRoom) {
+        dao.updateVenueDetail(venueDetailsRoom)
+    }
+
+    override suspend fun getVenueDetailsFromRoom(): List<VenueDetailsRoom> {
+        return dao.getVenueDetails()
+    }
+
+    override suspend fun deleteAllVenueDetailsFromRoom() {
+        dao.deleteAllVenueDetails()
+    }
 
 }

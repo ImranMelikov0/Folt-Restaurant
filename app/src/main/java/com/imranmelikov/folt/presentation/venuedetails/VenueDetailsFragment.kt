@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -24,6 +25,7 @@ import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueMenuConstants
 import com.imranmelikov.folt.constants.VenueInformationConstants
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,7 +54,7 @@ class VenueDetailsFragment : Fragment() {
     }
 
     private fun getFunctions(){
-        viewModelVenueDetails.getRestaurantMenuList()
+        viewModelVenueDetails.getVenueMenuList()
         viewModelVenueDetails.getStoreMenuCategoryList()
         viewModelVenueDetails.getVenueDetailsFromRoom()
         initialiseVenueDetailsRv()
@@ -69,9 +71,17 @@ class VenueDetailsFragment : Fragment() {
         clickSearchBtn(venue)
     }
     private fun clickBackBtn(){
-        // backpress btn!!!!!!
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object :
+            OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+                viewModelVenueDetails.deleteAllVenueDetailsFromRoom()
+                (activity as MainActivity).showBottomNav()
+            }
+        })
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
+            viewModelVenueDetails.deleteAllVenueDetailsFromRoom()
             (activity as MainActivity).showBottomNav()
         }
     }
@@ -144,23 +154,8 @@ class VenueDetailsFragment : Fragment() {
 
     private fun observeFavVenues(venue: Venue){
         venueViewModel.favoriteVenueLiveData.observe(viewLifecycleOwner) {result->
-            when(result.status){
-                Status.ERROR->{
-                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
-                    binding.venueDetailProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.VISIBLE
-                }
-                Status.SUCCESS->{
-                    result.data?.let {venues ->
-                     clickFavIcon(venues,venue)
-                    }
-                    binding.venueDetailProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.venueDetailProgress.visibility=View.VISIBLE
-                    binding.noResultText.visibility=View.GONE
-                }
+            handleResult(result){venues ->
+                clickFavIcon(venues,venue)
             }
 
         }
@@ -198,28 +193,14 @@ class VenueDetailsFragment : Fragment() {
         }
     }
     private fun observeRestaurantMenuViewModel(venue: Venue){
-        viewModelVenueDetails.restaurantMenuLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.ERROR->{
-                    Toast.makeText(requireContext(),ErrorMsgConstants.errorForUser,Toast.LENGTH_SHORT).show()
-                    binding.noResultText.visibility=View.VISIBLE
-                    binding.venueDetailProgress.visibility=View.GONE
+        viewModelVenueDetails.venueMenuLiveData.observe(viewLifecycleOwner){result->
+            handleResult(result){venueDetailsItems->
+                val filteredVenueDetailsItems=venueDetailsItems.filter { it.parentId==venue.id }
+                if (filteredVenueDetailsItems.isNotEmpty()){
+                    venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
+                    venueDetailsAdapter.venueDetailsItemList=filteredVenueDetailsItems
                 }
-                Status.SUCCESS->{
-                    result.data?.let {venueDetailsItems->
-                        val filteredVenueDetailsItems=venueDetailsItems.filter { it.parentId==venue.id }
-                        if (filteredVenueDetailsItems.isNotEmpty()){
-                            venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
-                            venueDetailsAdapter.venueDetailsItemList=filteredVenueDetailsItems
-                        }
-                    }
-                    binding.noResultText.visibility=View.GONE
-                    binding.venueDetailProgress.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.noResultText.visibility=View.GONE
-                    binding.venueDetailProgress.visibility=View.VISIBLE
-                }
+
             }
         }
         bundle.apply {
@@ -228,26 +209,11 @@ class VenueDetailsFragment : Fragment() {
     }
     private fun observeStoreViewModel(venue: Venue){
         viewModelVenueDetails.storeMenuCategoryLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.ERROR->{
-                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
-                    binding.noResultText.visibility=View.VISIBLE
-                    binding.venueDetailProgress.visibility=View.GONE
-                }
-                Status.SUCCESS->{
-                    result.data?.let {venueDetailsItems->
-                        val filteredStoreMenuCategory=venueDetailsItems.filter { it.parentId==venue.id }
-                        if(filteredStoreMenuCategory.isNotEmpty()){
-                            venueDetailsAdapter.viewType=VenueMenuConstants.StoreMenuCategory
-                            venueDetailsAdapter.venueDetailsItemList=filteredStoreMenuCategory
-                        }
-                    }
-                    binding.noResultText.visibility=View.GONE
-                    binding.venueDetailProgress.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.noResultText.visibility=View.GONE
-                    binding.venueDetailProgress.visibility=View.VISIBLE
+            handleResult(result){ venueDetailsItems->
+                val filteredStoreMenuCategory=venueDetailsItems.filter { it.parentId==venue.id }
+                if(filteredStoreMenuCategory.isNotEmpty()){
+                    venueDetailsAdapter.viewType=VenueMenuConstants.StoreMenuCategory
+                    venueDetailsAdapter.venueDetailsItemList=filteredStoreMenuCategory
                 }
             }
         }
@@ -283,19 +249,51 @@ class VenueDetailsFragment : Fragment() {
                 var totalPrice=0.0
                 binding.orderBtn.visibility=View.VISIBLE
                 venueDetailList.map { venueDetails->
-                    totalCount += venueDetails.count.toInt()
-                    totalPrice += venueDetails.price.toDouble()
+                    totalCount += venueDetails.count
+                    totalPrice += venueDetails.price
                 }
-                "$totalCount View order     $totalPrice Azn".also { binding.orderBtn.text = it }
+                val formattedTotalPrice = String.format("%.2f", totalPrice)
+                "$totalCount View order     $formattedTotalPrice Azn".also { binding.orderBtn.text = it }
                 clickOrderBtn(venue)
             }else{
                 binding.orderBtn.visibility=View.GONE
             }
+            venueDetailsAdapter.venueDetailsList=venueDetailList
         }
     }
     private fun initialiseVenueDetailsRv(){
         venueDetailsAdapter= VenueDetailsAdapter(requireActivity() as AppCompatActivity)
         binding.venueDetailRv.layoutManager=LinearLayoutManager(requireContext())
         binding.venueDetailRv.adapter=venueDetailsAdapter
+    }
+    private fun <T> handleResult(result: Resource<T>, actionOnSuccess: (T) -> Unit) {
+        when (result.status) {
+            Status.ERROR -> {
+                errorResult()
+            }
+            Status.SUCCESS -> {
+                result.data?.let(actionOnSuccess)
+                successResult()
+            }
+            Status.LOADING -> {
+                loadingResult()
+            }
+        }
+    }
+
+    private fun loadingResult() {
+        binding.noResultText.visibility=View.GONE
+        binding.venueDetailProgress.visibility=View.VISIBLE
+    }
+
+    private fun successResult() {
+        binding.noResultText.visibility=View.GONE
+        binding.venueDetailProgress.visibility=View.GONE
+    }
+
+    private fun errorResult() {
+        Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+        binding.noResultText.visibility=View.VISIBLE
+        binding.venueDetailProgress.visibility=View.GONE
     }
 }

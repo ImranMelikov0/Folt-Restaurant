@@ -39,4 +39,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_new_address_textview"/>
+    <LinearLayout
+        android:id="@+id/progress_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+        <TextView
+            android:id="@+id/no_result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results_found"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textSize="30sp"/>
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:progress="0"
+            android:indeterminateTint="@color/open_blue"
+            />
+    </LinearLayout>
 </RelativeLayout>

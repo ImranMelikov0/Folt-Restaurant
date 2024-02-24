@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentAccountBinding
@@ -48,7 +49,13 @@ class AccountFragment : Fragment() {
         }
     }
     private fun clickBackBtn(){
-        // backpress!!!!!!!
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object :
+            OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+                (activity as MainActivity).showBottomNav()
+            }
+        })
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
             (activity as MainActivity).showBottomNav()

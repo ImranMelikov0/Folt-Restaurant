@@ -12,12 +12,13 @@ import com.imranmelikov.folt.constants.ItemSearchConstants
 import com.imranmelikov.folt.databinding.VenueDetailsCategoryRvBinding
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.constants.VenueMenuConstants
+import com.imranmelikov.folt.data.model.VenueDetailsRoom
 import javax.inject.Inject
 
 class VenueDetailsAdapter @Inject constructor(private val context:AppCompatActivity):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var viewType=-45
-
+    var venueDetailsList= listOf<VenueDetailsRoom>()
     inner class VenueDetailsCategoryViewHolder(val binding:VenueDetailsCategoryRvBinding):RecyclerView.ViewHolder(binding.root){
         fun bindRestaurantMenu(venueDetailsItem: VenueDetailsItem){
                 binding.categoryName.text=venueDetailsItem.title
@@ -25,8 +26,8 @@ class VenueDetailsAdapter @Inject constructor(private val context:AppCompatActiv
                 binding.restaurantRv.layoutManager=LinearLayoutManager(binding.root.context)
                 val adapter=RestaurantMenuAdapter(context)
             venueDetailsItem.venueDetailList?.let {
+                adapter.venueDetailsList=venueDetailsList
                 adapter.restaurantMenuList=it
-                adapter.viewType=VenueMenuConstants.RestaurantMenu
                 binding.restaurantRv.adapter=adapter
             }
         }

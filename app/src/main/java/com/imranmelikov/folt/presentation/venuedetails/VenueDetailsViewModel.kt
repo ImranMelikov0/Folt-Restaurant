@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imranmelikov.folt.constants.ErrorMsgConstants
-import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.data.model.VenueDetailsRoom
+import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.VenueDetails
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.domain.repository.FoltRepository
@@ -23,30 +24,39 @@ class VenueDetailsViewModel @Inject constructor(private val repository: FoltRepo
     val storeMenuCategoryLiveData:LiveData<Resource<List<VenueDetailsItem>>>
         get() = storeMenuCategoryMutableLiveData
 
-    private val restaurantMenuMutableLiveData=MutableLiveData<Resource<List<VenueDetailsItem>>>()
-    val restaurantMenuLiveData:LiveData<Resource<List<VenueDetailsItem>>>
-        get() = restaurantMenuMutableLiveData
+    private val venueMenuMutableLiveData=MutableLiveData<Resource<List<VenueDetailsItem>>>()
+    val venueMenuLiveData:LiveData<Resource<List<VenueDetailsItem>>>
+        get() = venueMenuMutableLiveData
 
-    private val mutableVenueDetailsLiveData= MutableLiveData<List<VenueDetails>>()
-    val venueDetailsLiveData: LiveData<List<VenueDetails>>
+    private val mutableVenueDetailsLiveData= MutableLiveData<List<VenueDetailsRoom>>()
+    val venueDetailsLiveData: LiveData<List<VenueDetailsRoom>>
         get() = mutableVenueDetailsLiveData
 
-    private val exceptionHandlerRestaurant = CoroutineExceptionHandler { _, throwable ->
+    private val mutableStockMessageLiveData= MutableLiveData<Resource<CRUD>>()
+    val msgStockLiveData: LiveData<Resource<CRUD>>
+        get() = mutableStockMessageLiveData
+
+    private val exceptionHandlerMessage = CoroutineExceptionHandler { _, throwable ->
         println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
-        restaurantMenuMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
+        mutableStockMessageLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
+    }
+
+    private val exceptionHandlerVenue = CoroutineExceptionHandler { _, throwable ->
+        println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
+        venueMenuMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
     }
     private val exceptionHandlerStore = CoroutineExceptionHandler { _, throwable ->
         println("${ErrorMsgConstants.error} ${throwable.localizedMessage}")
         storeMenuCategoryMutableLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
     }
 
-    fun getRestaurantMenuList(){
-        restaurantMenuMutableLiveData.value=Resource.loading(null)
-        viewModelScope.launch(Dispatchers.IO + exceptionHandlerRestaurant){
-            val response=repository.getVenueDetailsItemRestaurant()
-            viewModelScope.launch(Dispatchers.Main + exceptionHandlerRestaurant){
+    fun getVenueMenuList(){
+        venueMenuMutableLiveData.value=Resource.loading(null)
+        viewModelScope.launch(Dispatchers.IO + exceptionHandlerVenue){
+            val response=repository.getVenueDetailsItemVenue()
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerVenue){
                 response.data?.let {
-                    restaurantMenuMutableLiveData.value=Resource.success(it)
+                    venueMenuMutableLiveData.value=Resource.success(it)
                 }
             }
         }
@@ -62,12 +72,46 @@ class VenueDetailsViewModel @Inject constructor(private val repository: FoltRepo
             }
         }
     }
+    fun updateVenueDetailStock(documentId:String,venueDetailsList: List<VenueDetails>){
+        mutableStockMessageLiveData.value=Resource.loading(null)
+        viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
+            val response=repository.updateVenueDetailsStock(documentId,venueDetailsList)
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
+                response.data?.let {
+                    mutableStockMessageLiveData.value=Resource.success(it)
+                }
+            }
+        }
+        getVenueMenuList()
+    }
 
+    fun insertVenueDetailsToRoom(venueDetailsRoom: VenueDetailsRoom){
+        viewModelScope.launch {
+            repository.insertVenueDetailsToRoom(venueDetailsRoom)
+        }
+        getVenueDetailsFromRoom()
+    }
+    fun deleteVenueDetailsFromRoom(venueDetailsRoom: VenueDetailsRoom){
+        viewModelScope.launch{
+            repository.deleteVenueDetailsFromRoom(venueDetailsRoom)
+        }
+        getVenueDetailsFromRoom()
+    }
+    fun updateVenueDetailsFromRoom(venueDetailsRoom: VenueDetailsRoom){
+        viewModelScope.launch {
+            repository.updateVenueDetailsFromRoom(venueDetailsRoom)
+        }
+        getVenueDetailsFromRoom()
+    }
+    fun deleteAllVenueDetailsFromRoom(){
+        viewModelScope.launch {
+            repository.deleteAllVenueDetailsFromRoom()
+        }
+        getVenueDetailsFromRoom()
+    }
     fun getVenueDetailsFromRoom(){
-        val venueDetails=VenueDetails("1","",2,"venue","fdsaf",true,3,1,false)
-        val venueDetails2=VenueDetails("2","",2,"venue","fdsaf",true,3,1,false)
-        val venueDetails3=VenueDetails("3","",2,"venue","fdsaf",true,3,1,false)
-        val list= listOf(venueDetails,venueDetails2,venueDetails3)
-        mutableVenueDetailsLiveData.value=list
+        viewModelScope.launch {
+            mutableVenueDetailsLiveData.value=repository.getVenueDetailsFromRoom()
+        }
     }
 }

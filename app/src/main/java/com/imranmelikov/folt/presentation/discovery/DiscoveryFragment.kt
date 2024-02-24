@@ -18,6 +18,7 @@ import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
 import com.imranmelikov.folt.domain.model.VenueCategory
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
@@ -73,83 +74,60 @@ class DiscoveryFragment : Fragment() {
             binding.carousel.addData(CarouselItem(banner.imageUrl))
         }
     }
-    private fun errorOperations(){
+    private fun errorResult(){
         Toast.makeText(requireContext(),ErrorMsgConstants.errorForUser,Toast.LENGTH_SHORT).show()
         binding.discoveryProgress.visibility=View.GONE
         binding.noResultText.visibility=View.VISIBLE
         binding.carousel.visibility=View.GONE
     }
-    private fun loadingOperations(){
+    private fun loadingResult(){
         binding.carousel.visibility=View.GONE
         binding.discoveryProgress.visibility=View.VISIBLE
         binding.noResultText.visibility=View.GONE
     }
-    private fun successOperations(){
+    private fun successResult(){
         binding.discoveryProgress.visibility=View.GONE
         binding.noResultText.visibility=View.GONE
         binding.carousel.visibility=View.VISIBLE
     }
     private fun observeSliderImageList(){
         discoveryViewModel.sliderImageLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.SUCCESS->{
-                    result.data?.let {
-                        initialiseViewPager(it)
-                        successOperations()
-                    }
-                }
-                Status.LOADING->{
-                   loadingOperations()
-                }
-                Status.ERROR->{
-                 errorOperations()
-                }
+            handleResult(result){
+                initialiseViewPager(it)
             }
         }
     }
     private fun observeParentVenue(stores:List<Venue>,restaurants: List<Venue>){
         discoveryViewModel.parentVenueLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.SUCCESS->{
-                    result.data?.let {parentVenues ->
-                        val filteredPopularRestaurants=parentVenues.filter { it.popularity && it.restaurant }
-                        val filteredPopularStores=parentVenues.filter { it.popularity && !it.restaurant }
-                        discoveryItemParentRestaurant=DiscoveryItem(DiscoveryTitles.popularRestaurants,ViewTypeDiscovery.ParentVenue,filteredPopularRestaurants, restaurants)
-                        discoveryItemParentStore=DiscoveryItem(DiscoveryTitles.popularStores,ViewTypeDiscovery.ParentVenue,filteredPopularStores, stores)
-                        observeOffers(stores,restaurants)
-
-                       successOperations()
-                    }
-                }
-                Status.ERROR->{
-                    errorOperations()
-                }
-                Status.LOADING->{
-                  loadingOperations()
-                }
-            }
+                   handleResult(result) { parentVenues ->
+                       val filteredPopularRestaurants =
+                           parentVenues.filter { it.popularity && it.restaurant }
+                       val filteredPopularStores =
+                           parentVenues.filter { it.popularity && !it.restaurant }
+                       discoveryItemParentRestaurant = DiscoveryItem(
+                           DiscoveryTitles.popularRestaurants,
+                           ViewTypeDiscovery.ParentVenue,
+                           filteredPopularRestaurants,
+                           restaurants
+                       )
+                       discoveryItemParentStore = DiscoveryItem(
+                           DiscoveryTitles.popularStores,
+                           ViewTypeDiscovery.ParentVenue,
+                           filteredPopularStores,
+                           stores
+                       )
+                       observeOffers(stores, restaurants)
+                   }
         }
     }
     private fun observeOffers(stores: List<Venue>, restaurants: List<Venue>){
         discoveryViewModel.offersLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.SUCCESS->{
-                    result.data?.let {offerList->
-                        val filteredFoltMarket=offerList.filter { it.parentVenue=="Stores"}
-                        val filteredKfc=offerList.filter { it.parentVenue=="Restaurant"}
-                        discoveryItemOfferRestaurant=DiscoveryItem(DiscoveryTitles.restaurantOffers,ViewTypeDiscovery.Offer,filteredKfc,restaurants,0)
-                        discoveryItemOfferStore=DiscoveryItem(DiscoveryTitles.foltMarketOffers,ViewTypeDiscovery.Offer,filteredFoltMarket,stores,0)
-                        initialiseMainCategoryRv(stores,restaurants)
-
-                        successOperations()
-                    }
-                }
-                Status.ERROR->{
-                    errorOperations()
-                }
-                Status.LOADING->{
-                    loadingOperations()
-                }
+            handleResult(result){offerList->
+                val filteredFoltMarket=offerList.filter { it.parentVenue=="Stores"}
+                val filteredKfc=offerList.filter { it.parentVenue=="Restaurant"}
+                discoveryItemOfferRestaurant=DiscoveryItem(DiscoveryTitles.restaurantOffers,ViewTypeDiscovery.Offer,filteredKfc,restaurants,0)
+                discoveryItemOfferStore=DiscoveryItem(DiscoveryTitles.foltMarketOffers,ViewTypeDiscovery.Offer,filteredFoltMarket,stores,0)
+                initialiseMainCategoryRv(stores,restaurants)
             }
         }
     }
@@ -162,31 +140,15 @@ class DiscoveryFragment : Fragment() {
 
     private fun observeFavVenues(){
         venueViewModel.favoriteVenueLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.ERROR->{
-                    errorOperations()
-                }
-                Status.LOADING->{
-                    loadingOperations()
-                }
-                Status.SUCCESS->{
-                    result.data?.let {venues->
+                    handleResult(result){venues->
                         discoveryItemYourFav=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Venue,venues)
-                        successOperations()
                         observeRestaurant()
-                    }
-                }
-            }
+               }
         }
     }
     private fun observeRestaurant(){
         venueViewModel.venueLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.ERROR->{
-                   errorOperations()
-                }
-                Status.SUCCESS->{
-                    result.data?.let {venues ->
+                    handleResult(result){venues ->
                         val restaurants=venues.filter { it.restaurant }
                         val filteredDelivery=restaurants.filter {  it.delivery.deliveryPrice.toDouble() == 0.00 }
                         discoveryItemDelivery=DiscoveryItem(DiscoveryTitles.deliveryFee,ViewTypeDiscovery.Venue,filteredDelivery)
@@ -198,14 +160,7 @@ class DiscoveryFragment : Fragment() {
                         discoveryItemRating=DiscoveryItem(DiscoveryTitles.top_rated,ViewTypeDiscovery.Venue,filteredTopRatedList)
                         val stores=venues.filter { !it.restaurant }
                         observeParentVenue(stores,restaurants)
-
-                        successOperations()
                     }
-                }
-                Status.LOADING->{
-                   loadingOperations()
-                }
-            }
         }
     }
     private fun initialiseDiscoveryRv(){
@@ -221,26 +176,15 @@ class DiscoveryFragment : Fragment() {
         mainCategoryAdapter= MainCategoryAdapter()
         binding.mainCategoryRv.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         venueCategoryViewModel.venueCategoryLiveData.observe(viewLifecycleOwner){result->
-            when(result.status){
-                Status.SUCCESS->{
-                    result.data?.let {categories->
-                        val filteredCategoryList=categories.filter { !it.restaurant }
-                        mainCategoryAdapter.venueCategoryList=filteredCategoryList
-                        mainCategoryAdapter.venueList=stores
-                        binding.mainCategoryRv.adapter=mainCategoryAdapter
+            handleResult(result){ categories->
+                val filteredCategoryList=categories.filter { !it.restaurant }
+                mainCategoryAdapter.venueCategoryList=filteredCategoryList
+                mainCategoryAdapter.venueList=stores
+                binding.mainCategoryRv.adapter=mainCategoryAdapter
 
-                        initialiseToolbarRv(stores,filteredCategoryList)
-                        observeVenueCategory(restaurants,categories)
+                initialiseToolbarRv(stores,filteredCategoryList)
+                observeVenueCategory(restaurants,categories)
 
-                        successOperations()
-                    }
-                }
-                Status.LOADING->{
-                    loadingOperations()
-                }
-                Status.ERROR->{
-                    errorOperations()
-                }
             }
         }
     }
@@ -250,5 +194,20 @@ class DiscoveryFragment : Fragment() {
         mainCategoryHorizontalAdapter.venueCategoryList=categoryList
         mainCategoryHorizontalAdapter.venueList=stores
         binding.toolbarStoreCategoriesRv.adapter=mainCategoryHorizontalAdapter
+    }
+
+    private fun <T> handleResult(result: Resource<T>, actionOnSuccess: (T) -> Unit) {
+        when (result.status) {
+            Status.ERROR -> {
+                errorResult()
+            }
+            Status.SUCCESS -> {
+                result.data?.let(actionOnSuccess)
+                successResult()
+            }
+            Status.LOADING -> {
+                loadingResult()
+            }
+        }
     }
 }
