@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/close_btn"
         android:layout_marginStart="10dp"
+        android:fontFamily="@font/arial"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/change_profile_photo"
@@ -38,6 +39,7 @@
             <TextView
                 android:layout_margin="8dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/arial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/take_photo"
@@ -63,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/photo_library"
+                android:fontFamily="@font/arial"
                 android:textSize="18sp"
                 android:textColor="@color/black"/>
 
@@ -82,6 +85,7 @@
             <TextView
                 android:layout_margin="8dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/arial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/delete_profile_picture"

@@ -30,6 +30,7 @@
                 android:paddingTop="50dp"
                 android:paddingBottom="20dp"
                 android:text="@string/account"
+                android:fontFamily="@font/arial"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -44,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/country"
+                android:fontFamily="@font/arial"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
             <LinearLayout
@@ -57,6 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/country"
+                    android:fontFamily="@font/arial"
                     android:textAlignment="textEnd"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -86,6 +89,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/profile_picture"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="1"
@@ -122,6 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/email"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -138,6 +143,7 @@
                         android:text="@string/email"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:fontFamily="@font/arial"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -166,6 +172,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/mobile_number"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -182,6 +189,7 @@
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20sp"
+                        android:fontFamily="@font/arial"
                         android:textStyle="bold"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -207,6 +215,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/name"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="1"
@@ -220,6 +229,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/name"
+                        android:fontFamily="@font/arial"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textAlignment="textEnd"
@@ -250,6 +260,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/delete_account"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -282,6 +293,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/send_receipts"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="7"
@@ -316,6 +328,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/clear_auto_translation"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="3"
@@ -330,6 +343,7 @@
                         android:text="@string/reset"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:fontFamily="@font/arial"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -358,6 +372,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/term_service"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -386,6 +401,7 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_weight="1"
+                    android:fontFamily="@font/arial"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/accessibility"
@@ -415,6 +431,7 @@
                 android:text="@string/data_protection"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
 
@@ -430,6 +447,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/privacy_statement"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -456,6 +474,7 @@
                 android:text="@string/notifications"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
 
@@ -472,6 +491,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/allow_notifications"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="7"
@@ -500,6 +520,7 @@
                 android:text="@string/device_settings"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
 
@@ -516,6 +537,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/limit_tracking"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="7"
@@ -549,6 +571,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/appearance"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -581,6 +604,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/language"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="1"
@@ -594,6 +618,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/language"
+                        android:fontFamily="@font/arial"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textAlignment="textEnd"
@@ -618,6 +643,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/about"
                 android:textColor="@color/black"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
@@ -634,6 +660,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/folt_version"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -651,6 +678,7 @@
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20sp"
+                        android:fontFamily="@font/arial"
                         android:textStyle="bold"/>
 
                 </LinearLayout>
@@ -674,6 +702,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/android_version"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="1"
@@ -685,6 +714,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="13"
+                        android:fontFamily="@font/arial"
                         android:layout_marginEnd="8dp"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
@@ -711,6 +741,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/licenses"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="13"
@@ -737,6 +768,7 @@
                 android:text="@string/share"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
 
@@ -752,6 +784,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/share"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -779,6 +812,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_margin="8dp"
+                android:fontFamily="@font/arial"
                 android:textSize="22sp"/>
 
             <LinearLayout
@@ -794,6 +828,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/log_out"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="13"
@@ -830,6 +865,7 @@
             android:layout_height="wrap_content"
             android:text="@string/no_results_found"
             android:textColor="@color/black"
+            android:fontFamily="@font/arial"
             android:textStyle="bold"
             android:textAlignment="center"
             android:visibility="gone"
@@ -877,6 +913,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/account"
+                        android:fontFamily="@font/arial"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />

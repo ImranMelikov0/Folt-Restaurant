@@ -36,14 +36,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/restaurant"
                     android:textSize="18sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
                 <TextView
-                    android:id="@+id/city_text"
+                    android:id="@+id/country_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/restaurant"
                     android:textSize="15sp"
+                    android:fontFamily="@font/arial"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/black"/>

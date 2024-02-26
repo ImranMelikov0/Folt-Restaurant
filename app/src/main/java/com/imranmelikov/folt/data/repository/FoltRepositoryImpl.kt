@@ -8,6 +8,7 @@ import com.imranmelikov.folt.data.local.FoltDao
 import com.imranmelikov.folt.data.remote.dto.CountryDto
 import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.data.remote.webservice.CountryApi
+import com.imranmelikov.folt.domain.model.Address
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.Delivery
@@ -602,7 +603,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                 fireStore.collection(FireStoreCollectionConstants.venueDetailsItemRestaurant)
                     .document(documentId)
                     .update(FireStoreConstants.venueDetails, venueDetailList).addOnSuccessListener {
-                        continuation.resume(Resource.success(CRUD(documentId, 2)))
+                        continuation.resume(Resource.success(CRUD(documentId, 3)))
                     }.addOnFailureListener { e ->
                         continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                     }
@@ -634,6 +635,90 @@ override suspend fun getOffer(): Resource<List<Offer>> {
 
     override suspend fun getCountries(): Response<CountryDto> {
         return countryApi.getCountries()
+    }
+
+    override suspend fun getAddress(userId: String): Resource<List<Address>> {
+        return try {
+            suspendCoroutine { continuation ->
+                val addressList= mutableListOf<Address>()
+                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId)
+                    .collection(FireStoreCollectionConstants.address).get().addOnSuccessListener {querySnapshot->
+                        if (querySnapshot.isEmpty){
+                            continuation.resume(Resource.success(emptyList()))
+                        }else{
+                            for (document in querySnapshot.documents){
+                                val address=Address(
+                                    id = document.getString(FireStoreConstants.id) as String,
+                                    addressName = document.getString(FireStoreConstants.addressName) as String,
+                                    buildingName = document.getString(FireStoreConstants.buildingName) as String,
+                                    entrance = document.getLong(FireStoreConstants.entrance) as Number,
+                                    floor = document.getLong(FireStoreConstants.floor) as Number,
+                                    doorCode = document.getString(FireStoreConstants.doorCode) as String,
+                                    apartment = document.getLong(FireStoreConstants.apartment) as Number,
+                                    countryName = document.getString(FireStoreConstants.countryName) as String,
+                                    selected = document.getBoolean(FireStoreConstants.selected) as Boolean
+                                )
+                                address.id=document.id
+                                addressList.add(address)
+                            }
+                            continuation.resume(Resource.success(addressList))
+                        }
+                }.addOnFailureListener {e ->
+                   continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                    }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun insertAddress(userId: String, address: Address): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId).collection(FireStoreCollectionConstants.address)
+                    .add(address).addOnSuccessListener {
+                        continuation.resume(Resource.success(CRUD(it.id,1)))
+                    }.addOnFailureListener {e ->
+                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                    }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun deleteAddress(userId: String, documentId: String): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId).collection(FireStoreCollectionConstants.address)
+                    .document(documentId).delete().addOnSuccessListener {
+                        continuation.resume(Resource.success(CRUD(documentId,2)))
+                    }.addOnFailureListener {e ->
+                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                    }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun updateAddress(
+        userId: String,
+        documentId: String,
+        address: Address
+    ): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId).collection(FireStoreCollectionConstants.address)
+                    .document(documentId).set(address).addOnSuccessListener {
+                        continuation.resume(Resource.success(CRUD(documentId,3)))
+                    }.addOnFailureListener {e ->
+                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                    }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
     }
 
 }

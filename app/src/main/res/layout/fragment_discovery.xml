@@ -134,6 +134,7 @@
                android:layout_height="wrap_content"
                android:textColor="@color/black"
                android:textSize="20sp"
+               android:fontFamily="@font/arial"
                android:textStyle="bold"
                android:text="@string/discovery"/>
 
@@ -153,6 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:progress="0"
+            android:visibility="gone"
             android:indeterminateTint="@color/open_blue"
             />
         <TextView
@@ -160,7 +162,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_results_found"
+            android:fontFamily="@font/arial"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textSize="30sp"/>

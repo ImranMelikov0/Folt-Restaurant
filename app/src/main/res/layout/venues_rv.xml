@@ -33,6 +33,7 @@
                         android:text="@string/restaurant"
                         android:layout_margin="8dp"
                         android:maxLines="1"
+                        android:fontFamily="@font/arial"
                         android:ellipsize="end"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -44,6 +45,7 @@
                         android:text="@string/restaurant"
                         android:layout_margin="8dp"
                         android:textSize="15sp"
+                        android:fontFamily="@font/arial"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/black"/>
@@ -58,6 +60,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0.00"
+                            android:fontFamily="@font/arial"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:ellipsize="end"
@@ -78,6 +81,8 @@
                             <TextView
                                 android:layout_margin="2dp"
                                 android:layout_weight="1"
+                                android:fontFamily="@font/arial"
+                                android:textStyle="bold"
                                 android:id="@+id/rating_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -92,10 +97,12 @@
                     android:id="@+id/venues_deliveryTime_btn"
                     android:layout_weight="1"
                     android:layout_margin="8dp"
+                    android:fontFamily="@font/arial"
                     android:layout_width="match_parent"
                     android:textColor="@color/open_blue"
                     android:layout_height="40dp"
                     app:cornerRadius="8dp"
+                    android:textStyle="bold"
                     android:text="20-30 min"/>
 
 

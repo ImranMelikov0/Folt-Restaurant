@@ -36,6 +36,7 @@
                     <TextView
                         android:id="@+id/store_category_name"
                         android:layout_weight="1"
+                        android:fontFamily="@font/arial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/all_stores"
@@ -45,6 +46,8 @@
                     <TextView
                         android:id="@+id/store_items_size"
                         android:layout_weight="1"
+                        android:fontFamily="@font/arial"
+                        android:textStyle="bold"
                         android:textAlignment="textEnd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -104,6 +107,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:text="@string/search"
                 android:textColor="@color/dark_gray" />
 
@@ -135,6 +140,7 @@
         android:text="@string/no_results_found"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:fontFamily="@font/arial"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

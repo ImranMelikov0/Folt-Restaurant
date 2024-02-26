@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stores"
                 android:textSize="30sp"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/icon_linear"
                 android:textColor="@color/black"
@@ -51,6 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/categories"
+                        android:fontFamily="@font/arial"
                         android:textSize="24sp"
                         android:textStyle="bold" />
                     <Button
@@ -59,6 +61,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/btn_see_all"
+                        android:fontFamily="@font/arial"
+                        android:textStyle="bold"
                         android:textColor="@color/open_blue"
                         app:cornerRadius="8dp"
                         android:backgroundTint="@color/open_blue_shadow"/>
@@ -73,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/all_stores"
                     android:textSize="24sp"
+                    android:fontFamily="@font/arial"
                     android:layout_margin="8dp"
                     android:textStyle="bold" />
                 <androidx.recyclerview.widget.RecyclerView
@@ -116,6 +121,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/stores"
                         android:textSize="20dp"
+                        android:fontFamily="@font/arial"
                         android:layout_marginLeft="8dp"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
@@ -178,6 +184,7 @@
             android:text="@string/no_results_found"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:fontFamily="@font/arial"
             android:visibility="gone"
             android:textAlignment="center"
             android:textSize="30sp"/>

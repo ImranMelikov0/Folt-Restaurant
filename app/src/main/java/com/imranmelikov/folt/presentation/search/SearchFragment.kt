@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.databinding.FragmentSearchBinding
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -33,12 +35,19 @@ class SearchFragment : Fragment() {
         viewModel=ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onBackPress()
         initialiseSearchRv()
         searchEditText()
         observeVenues()
+    }
+    private fun onBackPress(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                (activity as MainActivity).finish()
+            }
+        })
     }
     private fun searchEditText() {
         val searchText=binding.searchEdittext

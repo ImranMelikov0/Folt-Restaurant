@@ -49,6 +49,7 @@
                         android:text="@string/appearance"
                         android:textSize="20sp"
                         android:layout_margin="10dp"
+                        android:fontFamily="@font/arial"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
                 </LinearLayout>
@@ -65,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/change_appearance"
+        android:fontFamily="@font/arial"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_margin="8dp"
@@ -91,6 +93,7 @@
             android:layout_marginEnd="36dp"
             android:text="@string/light"
             android:textStyle="bold"
+            android:fontFamily="@font/arial"
             android:textSize="18sp"
             android:textColor="@color/black"
             />
@@ -100,6 +103,7 @@
             android:layout_marginStart="35dp"
             android:textStyle="bold"
             android:textSize="18sp"
+            android:fontFamily="@font/arial"
             android:textColor="@color/black"
             android:text="@string/dark"
             />
@@ -137,6 +141,7 @@
         android:id="@+id/appearance_text"
         android:layout_margin="8dp"
         android:layout_weight="1"
+        android:fontFamily="@font/arial"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:layout_width="wrap_content"
@@ -162,6 +167,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

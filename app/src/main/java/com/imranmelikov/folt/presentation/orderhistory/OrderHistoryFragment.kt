@@ -26,12 +26,12 @@ class OrderHistoryFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object :
             OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_orderHistoryFragment_to_profileFragment)
                 (activity as MainActivity).showBottomNav()
             }
         })
         binding.backBtn.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_orderHistoryFragment_to_profileFragment)
             (activity as MainActivity).showBottomNav()
         }
     }

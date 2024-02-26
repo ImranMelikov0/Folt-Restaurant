@@ -34,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/categories"
                     android:textSize="24sp"
+                    android:fontFamily="@font/arial"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:layout_margin="8dp"
@@ -83,6 +84,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/categories"
                         android:textColor="@color/black"
+                        android:fontFamily="@font/arial"
                         android:textSize="20sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -125,6 +127,7 @@
             android:text="@string/no_results_found"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:fontFamily="@font/arial"
             android:textAlignment="center"
             android:visibility="gone"
             android:textSize="30sp"/>

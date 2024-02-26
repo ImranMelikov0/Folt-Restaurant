@@ -40,4 +40,11 @@ object FireStoreConstants {
     const val parentId="parentId"
     const val lat="lat"
     const val lng="lng"
+    const val addressName="addressName"
+    const val countryName="countryName"
+    const val buildingName="buildingName"
+    const val entrance="entrance"
+    const val floor="floor"
+    const val apartment="apartment"
+    const val doorCode="doorCode"
 }

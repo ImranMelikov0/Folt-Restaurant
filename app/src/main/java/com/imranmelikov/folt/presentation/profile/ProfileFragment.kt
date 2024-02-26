@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,12 +34,19 @@ class ProfileFragment : Fragment() {
         binding=FragmentProfileBinding.inflate(inflater,container,false)
         viewModelRestaurant= ViewModelProvider(requireActivity())[VenueViewModel::class.java]
 
-
+        onBackPress()
         clickToFragments()
         initialiseRv()
         viewModelRestaurant.getFavoriteVenues("a")
         observeVenues()
         return binding.root
+    }
+    private fun onBackPress(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                (activity as MainActivity).finish()
+            }
+        })
     }
     private fun clickToFragments(){
         binding.accountLinear.setOnClickListener {

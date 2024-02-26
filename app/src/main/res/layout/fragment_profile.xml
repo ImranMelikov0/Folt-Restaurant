@@ -41,6 +41,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile"
                         android:textSize="20sp"
+                        android:fontFamily="@font/arial"
                         android:layout_margin="8dp"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
@@ -58,6 +59,7 @@
             android:id="@+id/profile_hi_text"
             android:layout_width="match_parent"
             android:layout_marginStart="12dp"
+            android:fontFamily="@font/arial"
             android:layout_height="wrap_content"
             android:text="@string/hi_user"
             android:textSize="30sp"
@@ -102,6 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hi_user"
+                        android:fontFamily="@font/arial"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="22sp"/>
@@ -110,6 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/no_orders"
+                        android:fontFamily="@font/arial"
                         android:textSize="18sp"/>
                 </LinearLayout>
                 <ImageView
@@ -136,6 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/tokens"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -151,6 +156,7 @@
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20sp"
+                        android:fontFamily="@font/arial"
                         android:textStyle="bold"/>
                     <ImageView
                         android:layout_weight="1"
@@ -182,6 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/credits"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -194,6 +201,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="0,00"
+                        android:fontFamily="@font/arial"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -201,6 +209,7 @@
                     <TextView
                         android:layout_weight="1"
                         android:text="⋔"
+                        android:fontFamily="@font/arial"
                         android:layout_marginStart="8dp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -234,6 +243,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/your_favs"
+                    android:fontFamily="@font/arial"
                     android:textSize="24sp"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -243,6 +253,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_see_all"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/open_blue"
                     app:cornerRadius="8dp"
                     android:backgroundTint="@color/open_blue_shadow"/>
@@ -258,6 +270,7 @@
                 android:text="@string/quick_links"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
             <LinearLayout
@@ -272,6 +285,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/invite_friends"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -305,6 +319,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/enter_promo"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="8"
@@ -337,6 +352,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/customer_support"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="8"
@@ -369,6 +385,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/order_history"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="8"
@@ -394,6 +411,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings"
                 android:textColor="@color/black"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:layout_margin="8dp"
                 android:textSize="22sp"/>
@@ -409,6 +427,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/account"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -441,6 +460,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/credits_and_tokens"
                     android:textSize="20sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_weight="8"
@@ -469,6 +489,7 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_weight="1"
+                    android:fontFamily="@font/arial"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/payment_methods"
@@ -504,6 +525,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/my_addresses"
+                    android:fontFamily="@font/arial"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <LinearLayout
@@ -543,6 +565,7 @@
             android:layout_height="wrap_content"
             android:text="@string/no_results_found"
             android:textColor="@color/black"
+            android:fontFamily="@font/arial"
             android:textStyle="bold"
             android:visibility="gone"
             android:textAlignment="center"

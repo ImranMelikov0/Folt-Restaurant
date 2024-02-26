@@ -12,6 +12,8 @@
     android:layout_height="wrap_content"
     android:text="@string/restaurant"
     android:id="@+id/category_name"
+    android:fontFamily="@font/arial"
+    android:textStyle="bold"
     android:textSize="18sp"
     android:layout_margin="8dp"/>
 </androidx.cardview.widget.CardView>

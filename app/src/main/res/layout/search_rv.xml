@@ -30,6 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/restaurant"
+                    android:fontFamily="@font/arial"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -39,6 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/restaurant"
                     android:textSize="15sp"
+                    android:fontFamily="@font/arial"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/black"/>
@@ -52,6 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:fontFamily="@font/arial"
                         android:textSize="15sp"
                         android:ellipsize="end"
                         android:maxLines="1" />
@@ -73,6 +76,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="7.0"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/arial"
                         android:textSize="15sp"
                         android:textColor="@color/black"/>
                 </LinearLayout>

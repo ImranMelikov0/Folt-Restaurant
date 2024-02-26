@@ -12,4 +12,8 @@ object FireStoreCollectionConstants {
     //////////
     const val favoriteVenue="Favorites"
     const val favVenues="Venues"
+    const val userAddress="UserAddress"
+    const val address="Address"
+    const val user="User"
+    const val order="Order"
 }

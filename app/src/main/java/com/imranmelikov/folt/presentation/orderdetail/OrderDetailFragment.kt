@@ -9,13 +9,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.AddressConstants
+import com.imranmelikov.folt.constants.AddressTextView
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.OrderConstants
 import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.databinding.FragmentOrderDetailBinding
+import com.imranmelikov.folt.domain.model.Address
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
+import com.imranmelikov.folt.presentation.MainActivity
+import com.imranmelikov.folt.presentation.address.AddressViewModel
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
 import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
@@ -26,48 +32,66 @@ import dagger.hilt.android.AndroidEntryPoint
 class OrderDetailFragment : Fragment() {
   private lateinit var binding:FragmentOrderDetailBinding
   private lateinit var viewModel: VenueDetailsViewModel
+  private lateinit var addressViewModel: AddressViewModel
     private var isStockUpdated = false
+    private lateinit var bundle:Bundle
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
        binding=FragmentOrderDetailBinding.inflate(inflater,container,false)
         viewModel=ViewModelProvider(requireActivity())[VenueDetailsViewModel::class.java]
-
-        viewModel.getVenueDetailsFromRoom()
-        viewModel.getVenueMenuList()
-        viewModel.getStoreMenuCategoryList()
-       observeUser()
-        observeCRUD()
-
-        binding.backBtn.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        addressViewModel=ViewModelProvider(requireActivity())[AddressViewModel::class.java]
+        bundle= Bundle()
+        getFunctions()
         return binding.root
     }
 
-    private fun clickCompleteBtn(venue: Venue,venueDetailList: List<VenueDetailsRoom>){
+    private fun getFunctions(){
+        viewModel.getVenueDetailsFromRoom()
+        viewModel.getVenueMenuList()
+        viewModel.getStoreMenuCategoryList()
+        addressViewModel.getAddress("a")
+        observeUser()
+        observeCRUD()
+        clickBackBtn()
+    }
+
+    private fun clickBackBtn(){
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun clickCompleteBtn(venue: Venue,venueDetailList: List<VenueDetailsRoom>,addressList: List<Address>){
+        bundle=Bundle()
         binding.saveBtn.setOnClickListener {
-            if (venue.restaurant){
-                observeMenuList(venue,venueDetailList)
+            if (addressList.isEmpty()){
+                binding.saveBtn.text=AddressTextView.addAddress
+                bundle.apply {
+                    putString(AddressConstants.newAddressBundleKey,AddressConstants.orderDetailNewAddress)
+                    putSerializable(OrderConstants.venueForOrder,venue)
+                }
+                findNavController().navigate(R.id.action_orderDetailFragment_to_newAddressFragment,bundle)
             }else{
-                observeStoreViewModel(venue,venueDetailList)
+                    if (venue.restaurant){
+                        observeMenuList(venue,venueDetailList)
+                    }else{
+                        observeStoreViewModel(venue,venueDetailList)
+                    }
             }
         }
     }
 
-    private fun observeVenueDetails(){
-        val receivedVenue = arguments?.getSerializable(OrderConstants.venueForOrder) as? Venue
-        receivedVenue?.let { venue->
+    private fun observeVenueDetails(venue: Venue,addressList: List<Address>){
             var itemSubtotalPrice=0.0
             viewModel.venueDetailsLiveData.observe(viewLifecycleOwner){venueDetailList->
                 venueDetailList.map { venueDetail->
                     itemSubtotalPrice += venueDetail.price
                 }
-                updateUIWithVenueDetails(venue,itemSubtotalPrice/2)
-                clickCompleteBtn(venue,venueDetailList)
+                updateUIWithVenueDetails(venue,itemSubtotalPrice)
+                clickCompleteBtn(venue,venueDetailList,addressList)
             }
-        }
     }
     private fun updateUIWithVenueDetails(venue: Venue, itemSubtotalPrice: Double) {
         binding.servicePriceText.text=venue.serviceFee.toString()
@@ -117,6 +141,9 @@ class OrderDetailFragment : Fragment() {
                     menu.venueDetailList?.let {
                         if (!isStockUpdated){
                             viewModel.updateVenueDetailStock(id,it)
+                            viewModel.deleteAllVenueDetailsFromRoom()
+                            findNavController().navigate(R.id.action_orderDetailFragment_to_discoveryFragment)
+                            (activity as MainActivity).showBottomNav()
                         }
                         isStockUpdated=true
                     }
@@ -169,7 +196,22 @@ class OrderDetailFragment : Fragment() {
         binding.progress.visibility = View.GONE
     }
     private fun observeAddress(){
-        observeVenueDetails()
+        val receivedVenue = arguments?.getSerializable(OrderConstants.venueForOrder) as? Venue
+        receivedVenue?.let {venue ->
+            addressViewModel.addressLiveData.observe(viewLifecycleOwner){result->
+                handleResult(result){addressList->
+                    if (addressList.isEmpty()){
+                        binding.saveBtn.text=AddressTextView.addAddress
+                    }else{
+                        addressList.map {address->
+                            "${AddressTextView.entrance}${address.entrance}, ${AddressTextView.floor}${address.floor}".also { binding.addressText.text = it }
+                            "${AddressTextView.apartment}${address.apartment}, ${AddressTextView.doorCode}${address.doorCode}".also { binding.apartmentText.text = it }
+                        }
+                    }
+                    observeVenueDetails(venue,addressList)
+                }
+            }
+        }
     }
     private fun observeUser(){
         observeAddress()

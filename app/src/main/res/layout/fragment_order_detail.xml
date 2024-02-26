@@ -69,6 +69,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="20sp"
+                            android:fontFamily="@font/arial"
                             android:layout_margin="8dp"
                             android:layout_weight="1"
                             android:text="@string/restaurant_"
@@ -123,6 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="@string/entrance_staircase"/>
@@ -131,6 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/black"
                     android:layout_below="@id/address_text"
                     android:text="@string/apartment"/>
@@ -145,6 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="@string/delivery_time"/>
@@ -153,6 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/black"
                     android:layout_below="@id/time_text"
                     android:text="@string/apartment"/>
@@ -173,12 +178,14 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textStyle="bold"
+                        android:fontFamily="@font/arial"
                         android:textColor="@color/black"
                         android:text="@string/no_contact_delivery"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
+                        android:fontFamily="@font/arial"
                         android:textColor="@color/black"
                         android:layout_below="@id/contact_text"
                         android:text="@string/no_contact_text"/>
@@ -198,6 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/prices_in"/>
@@ -214,6 +222,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="@string/item_subtotal"/>
@@ -225,6 +234,7 @@
                     android:textSize="18sp"
                     android:textAlignment="textEnd"
                     android:textStyle="bold"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/black"
                     android:text="30.00"/>
             </LinearLayout>
@@ -242,6 +252,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="@string/delivery"/>
@@ -252,6 +263,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textAlignment="textEnd"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="30.00"/>
@@ -270,6 +282,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/black"
                     android:text="@string/service_fee"/>
                 <TextView
@@ -279,6 +292,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textAlignment="textEnd"
+                    android:fontFamily="@font/arial"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="30.00"/>
@@ -297,12 +311,14 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/black"
                     android:text="@string/total"/>
                 <TextView
                     android:layout_weight="1"
                     android:id="@+id/total_price_text"
                     android:layout_width="match_parent"
+                    android:fontFamily="@font/arial"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textAlignment="textEnd"
@@ -352,6 +368,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:backgroundTint="@color/open_blue"
         android:text="@string/complete"
+        android:fontFamily="@font/arial"
+        android:textStyle="bold"
         app:cornerRadius="4dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

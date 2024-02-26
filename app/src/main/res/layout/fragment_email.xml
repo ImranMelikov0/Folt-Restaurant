@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:text="@string/email"
         android:textSize="30sp"
+        android:fontFamily="@font/arial"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_margin="10dp"
@@ -49,6 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
+                android:fontFamily="@font/arial"
+                android:textStyle="bold"
                 android:textColor="@color/open_blue"
                 android:layout_margin="4dp"/>
             <EditText
@@ -60,6 +63,7 @@
                 android:textColor="@color/black"
                 android:padding="4dp"
                 android:textSize="20sp"
+                android:fontFamily="@font/arial"
                 android:layout_margin="4dp" />
         </LinearLayout>
         <ImageView
@@ -82,6 +86,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:enabled="false"
+        android:fontFamily="@font/arial"
+        android:textStyle="bold"
         android:backgroundTint="@color/open_blue"
         android:text="@string/save"
         app:cornerRadius="4dp" />

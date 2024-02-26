@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.imranmelikov.folt.presentation.categories.VenueCategoryViewModel
 import com.imranmelikov.folt.presentation.venue.VenueAdapter
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.constants.VenueCategoryConstants
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
 import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
@@ -43,6 +45,7 @@ class StoreFragment : Fragment() {
     }
 
     private fun getFunctions(){
+        onBackPress()
         viewModel.getVenues()
         viewModel.getFavoriteVenues("a")
         viewModelVenueCategory.getVenueCategories()
@@ -52,6 +55,13 @@ class StoreFragment : Fragment() {
         observeFavVenues()
         observeVenues()
         clickSeeAllBtn()
+    }
+    private fun onBackPress(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                (activity as MainActivity).finish()
+            }
+        })
     }
     private fun clickSeeAllBtn(){
         binding.seeAllBtn.setOnClickListener {

@@ -200,8 +200,11 @@
             android:id="@+id/action_orderDetailFragment_to_venueDetailsFragment"
             app:destination="@id/venueDetailsFragment" />
         <action
-            android:id="@+id/action_orderDetailFragment_to_addressDetailsFragment"
-            app:destination="@id/addressDetailsFragment" />
+            android:id="@+id/action_orderDetailFragment_to_newAddressFragment"
+            app:destination="@id/newAddressFragment" />
+        <action
+            android:id="@+id/action_orderDetailFragment_to_discoveryFragment"
+            app:destination="@id/discoveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeItemsFragment"
@@ -340,6 +343,12 @@
         <action
             android:id="@+id/action_newAddressFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_newAddressFragment_to_addressDetailsFragment"
+            app:destination="@id/addressDetailsFragment" />
+        <action
+            android:id="@+id/action_newAddressFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addressDetailsFragment"
@@ -349,6 +358,9 @@
         <action
             android:id="@+id/action_addressDetailsFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_addressDetailsFragment_to_newAddressFragment"
+            app:destination="@id/newAddressFragment" />
         <action
             android:id="@+id/action_addressDetailsFragment_to_orderDetailFragment"
             app:destination="@id/orderDetailFragment" />

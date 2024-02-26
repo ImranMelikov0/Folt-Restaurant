@@ -34,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/fastest_delivery"
                     android:textSize="24sp"
+                    android:fontFamily="@font/arial"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:layout_margin="8dp"
@@ -81,6 +82,7 @@
                         android:layout_marginStart="60dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/arial"
                         android:text="@string/fastest_delivery"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -160,6 +162,7 @@
             android:text="@string/no_results_found"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:fontFamily="@font/arial"
             android:textAlignment="center"
             android:visibility="gone"
             android:textSize="30sp"/>

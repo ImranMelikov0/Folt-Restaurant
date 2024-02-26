@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imranmelikov.folt.databinding.FragmentDiscoveryBinding
@@ -17,6 +18,7 @@ import com.imranmelikov.folt.constants.DiscoveryTitles
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
 import com.imranmelikov.folt.domain.model.VenueCategory
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
 import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
@@ -61,6 +63,7 @@ class DiscoveryFragment : Fragment() {
     }
 
     private fun getFunctions(){
+        onBackPress()
         discoveryViewModel.getParentVenue()
         discoveryViewModel.getOffers()
         discoveryViewModel.getSliderImageList()
@@ -68,6 +71,14 @@ class DiscoveryFragment : Fragment() {
         venueViewModel.getVenues()
         venueViewModel.getFavoriteVenues("a")
         observeFavVenues()
+    }
+
+    private fun onBackPress(){
+                requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                (activity as MainActivity).finish()
+            }
+        })
     }
     private fun initialiseViewPager(bannerList:List<Banner>){
         for (banner in bannerList){

@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/restaurant"
                 android:textSize="30sp"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_margin="8dp"
@@ -40,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/restaurant"
                 android:textSize="18sp"
+                android:fontFamily="@font/arial"
                 android:textColor="@color/black"
                 android:layout_margin="8dp"
                 />
@@ -50,6 +52,7 @@
                 android:text="@string/address"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/arial"
                 android:textColor="@color/black"
                 android:layout_margin="8dp"
                 />
@@ -61,6 +64,7 @@
                 <TextView
                     android:layout_weight="1"
                     android:id="@+id/address_text"
+                    android:fontFamily="@font/arial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/address"
@@ -71,6 +75,8 @@
                     android:layout_weight="3"
                     android:textAlignment="textEnd"
                     android:id="@+id/direction_text"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/direction"
@@ -84,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/opening_time"
                 android:textSize="22sp"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_margin="8dp"
@@ -91,6 +98,7 @@
             <TextView
                 android:layout_margin="8dp"
                 android:id="@+id/opening_boolean"
+                android:fontFamily="@font/arial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/address"
@@ -101,6 +109,7 @@
             <TextView
                 android:id="@+id/delivery_information_text"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/arial"
                 android:layout_height="wrap_content"
                 android:text="@string/delivery_information"
                 android:textSize="22sp"
@@ -117,6 +126,7 @@
                     android:layout_weight="1"
                     android:id="@+id/restaurant_delivery_area"
                     android:layout_width="match_parent"
+                    android:fontFamily="@font/arial"
                     android:layout_height="wrap_content"
                     android:text="@string/delivery_cost"
                     android:textSize="17sp"
@@ -125,6 +135,8 @@
                 <TextView
                     android:layout_weight="3"
                     android:textAlignment="textEnd"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
                     android:id="@+id/delivery_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -167,6 +179,7 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/arial"
                     android:text="@string/delivery_time"
                     android:textSize="17sp"
                     android:textColor="@color/black"
@@ -177,6 +190,8 @@
                     android:id="@+id/delivery_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
                     android:text="20-30 min"
                     android:textSize="17sp"
                     android:textColor="@color/black"
@@ -188,12 +203,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/contact_info"
                 android:textSize="22sp"
+                android:fontFamily="@font/arial"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_margin="8dp"
                 />
             <TextView
                 android:layout_margin="8dp"
+                android:fontFamily="@font/arial"
                 android:id="@+id/contact_info_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -211,6 +228,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/restaurant_"
+                    android:fontFamily="@font/arial"
                     android:textSize="17sp"
                     android:textColor="@color/black"
                     />
@@ -221,6 +239,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="+994778278438"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
                     android:textSize="17sp"
                     android:textColor="@color/open_blue"
                     />
@@ -241,6 +261,7 @@
                     android:id="@+id/website"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/arial"
                     android:text="@string/website"
                     android:textSize="17sp"
                     android:textColor="@color/black"
@@ -253,6 +274,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/open_site"
                     android:textSize="17sp"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
                     android:textColor="@color/open_blue"
                     />
             </LinearLayout>
@@ -275,12 +298,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/folt_support"
                     android:textSize="17sp"
+                    android:fontFamily="@font/arial"
                     android:textColor="@color/black"
                     />
                 <TextView
                     android:layout_weight="3"
                     android:textAlignment="textEnd"
                     android:id="@+id/open_chat"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/open_chat"
@@ -331,6 +357,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/account"
+                        android:fontFamily="@font/arial"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />

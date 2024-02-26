@@ -18,6 +18,7 @@
             android:text="@string/country"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:fontFamily="@font/arial"
             android:textSize="16sp"/>
 
         <ImageView

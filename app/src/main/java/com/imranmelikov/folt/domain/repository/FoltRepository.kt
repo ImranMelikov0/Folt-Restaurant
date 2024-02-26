@@ -2,6 +2,7 @@ package com.imranmelikov.folt.domain.repository
 
 import com.imranmelikov.folt.data.remote.dto.CountryDto
 import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
+import com.imranmelikov.folt.domain.model.Address
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.Offer
@@ -53,4 +54,13 @@ interface FoltRepository {
     suspend fun deleteAllVenueDetailsFromRoom()
 
     suspend fun getCountries():Response<CountryDto>
+
+    suspend fun getAddress(userId: String):Resource<List<Address>>
+
+    suspend fun insertAddress(userId: String,address: Address):Resource<CRUD>
+
+    suspend fun deleteAddress(userId: String,documentId: String):Resource<CRUD>
+
+    suspend fun updateAddress(userId: String,documentId: String,address: Address):Resource<CRUD>
+
 }

@@ -36,6 +36,8 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="5dp"
                 android:text="@string/categories"
+                android:fontFamily="@font/arial"
+                android:textStyle="bold"
                 android:textColor="@color/open_blue"
                 android:textSize="15sp" />
             <TextView
@@ -45,6 +47,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginBottom="12dp"
                 android:text="@string/categories"
+                android:fontFamily="@font/arial"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

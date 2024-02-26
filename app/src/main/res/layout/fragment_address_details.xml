@@ -51,7 +51,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:layout_weight="3"
-                            android:background="@drawable/search_linear_background"
                             android:gravity="center"
                             android:padding="5dp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -64,17 +63,20 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/address_toolbar_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
+                           android:textStyle="bold"
                             android:textSize="20sp"
+                            android:fontFamily="@font/arial"
                             android:layout_margin="8dp"
                             android:layout_weight="1"
                             android:text="@string/edit_delivery_location"
                             android:textColor="@color/black" />
 
                         <LinearLayout
-                            android:id="@+id/fav_btn"
+                            android:id="@+id/delete_btn"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
@@ -111,16 +113,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-
     <TextView
         android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="@string/address"
+        android:fontFamily="@font/arial"
         android:textColor="@color/black"
-        android:textSize="26sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,9 +132,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:fontFamily="@font/arial"
         android:text="@string/address"
         android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address" />
@@ -144,34 +146,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="@string/country"
+        android:fontFamily="@font/arial"
+        android:textSize="16sp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_information" />
 
-    <TextView
-        android:id="@+id/location_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/location_type"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/country_information" />
 
-    <TextView
-        android:id="@+id/location_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/location_tip"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/location_type" />
     <TextView
         android:id="@+id/address_details"
         android:layout_width="match_parent"
@@ -179,11 +161,12 @@
         android:layout_margin="8dp"
         android:text="@string/address_details"
         android:textColor="@color/black"
-        android:textSize="26sp"
+        android:textSize="22sp"
+        android:fontFamily="@font/arial"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/location_text" />
+        app:layout_constraintTop_toBottomOf="@id/country_information" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/building_name_cardView"
@@ -201,17 +184,20 @@
             android:id="@+id/building_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/arial"
             android:background="@null"
             android:hint="@string/building_name"
             android:inputType="text"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/optional1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:fontFamily="@font/arial"
         android:text="@string/optional"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/building_name_cardView" />
@@ -234,9 +220,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:fontFamily="@font/arial"
             android:hint="@string/entrance_staircase"
-            android:inputType="text"
-            android:textSize="20sp" />
+            android:inputType="number"
+            android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
@@ -264,8 +251,9 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="@string/floor"
-                android:inputType="text"
-                android:textSize="20sp" />
+                android:fontFamily="@font/arial"
+                android:inputType="number"
+                android:textSize="18sp" />
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_weight="1"
@@ -283,51 +271,13 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="@string/apartment"
-                android:inputType="text"
+                android:fontFamily="@font/arial"
+                android:inputType="number"
                 android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-    <TextView
-        android:id="@+id/optional2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/optional"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address_linear" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/address_tip_cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:elevation="4dp"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/optional2">
 
-        <EditText
-            android:id="@+id/address_tip_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="@string/other_instructions"
-            android:inputType="text"
-            android:textSize="20sp" />
-    </androidx.cardview.widget.CardView>
-    <TextView
-        android:id="@+id/optional3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/optional"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address_tip_cardView" />
     <androidx.cardview.widget.CardView
         android:id="@+id/door_code_cardView"
         android:layout_width="match_parent"
@@ -338,7 +288,7 @@
         app:contentPadding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/optional3">
+        app:layout_constraintTop_toBottomOf="@id/address_linear">
 
         <EditText
             android:id="@+id/door_code_editText"
@@ -346,8 +296,9 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="@string/door_code"
+            android:fontFamily="@font/arial"
             android:inputType="text"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/optional4"
@@ -355,6 +306,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="@string/optional"
+        android:textStyle="bold"
+        android:fontFamily="@font/arial"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/door_code_cardView" />
@@ -374,6 +327,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_results_found"
+            android:fontFamily="@font/arial"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textAlignment="center"
@@ -394,11 +348,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:backgroundTint="@color/open_blue"
         android:text="@string/save_address"
+        android:textStyle="bold"
+        android:fontFamily="@font/arial"
         app:cornerRadius="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
