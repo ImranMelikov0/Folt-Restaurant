@@ -25,6 +25,7 @@
             <ImageView
                 android:id="@+id/parent_venue_image"
                 android:layout_width="198dp"
+                android:scaleType="fitXY"
                 android:layout_gravity="center"
                 android:layout_height="180dp"
                 android:src="@drawable/image_area" />

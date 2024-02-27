@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.DiscoveryParentVenueBinding
 import com.imranmelikov.folt.domain.model.ParentVenue
@@ -51,6 +52,9 @@ class ParentVenueAdapter:RecyclerView.Adapter<ParentVenueAdapter.ParentVenueView
     override fun onBindViewHolder(holder: ParentVenueViewHolder, position: Int) {
         val parentVenue=parentVenueList[position]
         holder.binding.parentVenueName.text=parentVenue.venueName
+        Glide.with(holder.itemView.context)
+            .load(parentVenue.imageUrl)
+            .into(holder.binding.parentVenueImage)
 
         val filteredVenueList=venueList.filter { it.parentVenueId==parentVenue.id }
         val bundle = Bundle().apply {

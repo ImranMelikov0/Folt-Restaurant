@@ -139,6 +139,9 @@ class VenueDetailsFragment : Fragment() {
             Glide.with(requireActivity())
                 .load(venue.imageUrl)
                 .into(binding.mainImage)
+            Glide.with(requireActivity())
+                .load(venue.venueLogoUrl)
+                .into(binding.logo)
 
             observeFavVenues(venue)
             observeVenueDetailsFromRoom(venue)
@@ -163,29 +166,29 @@ class VenueDetailsFragment : Fragment() {
     }
     private fun clickFavIcon(venues:List<Venue>,venue: Venue){
         if (venues.isEmpty()){
-            binding.favImg.setImageResource(R.drawable.heart_outline)
+            binding.favImg.setImageResource(R.drawable.heart_outline_black)
             binding.favBtn.setOnClickListener {
                 // Add venue to favorites
                 venueViewModel.insertFavoriteVenue(venue,"a")
-                binding.favImg.setImageResource(R.drawable.heart_inline)
+                binding.favImg.setImageResource(R.drawable.heart_inline_black)
                 clickFavIcon(venues,venue)
             }
         }else{
             venues.map {favVenue->
                 if (venue.id==favVenue.id){
-                    binding.favImg.setImageResource(R.drawable.heart_inline)
+                    binding.favImg.setImageResource(R.drawable.heart_inline_black)
                     binding.favBtn.setOnClickListener {_->
                         // Remove venue from favorites
                         venueViewModel.deleteFavoriteVenue(favVenue.id,"a")
-                        binding.favImg.setImageResource(R.drawable.heart_outline)
+                        binding.favImg.setImageResource(R.drawable.heart_outline_black)
                         clickFavIcon(venues,venue)
                     }
                 }else{
-                    binding.favImg.setImageResource(R.drawable.heart_outline)
+                    binding.favImg.setImageResource(R.drawable.heart_outline_black)
                     binding.favBtn.setOnClickListener {
                         // Add venue to favorites
                         venueViewModel.insertFavoriteVenue(venue,"a")
-                        binding.favImg.setImageResource(R.drawable.heart_inline)
+                        binding.favImg.setImageResource(R.drawable.heart_inline_black)
                         clickFavIcon(venues,venue)
                     }
                 }

@@ -25,6 +25,7 @@
         android:id="@+id/banner_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:scaleType="fitXY"
         android:src="@drawable/image_area"/>
     <TextView
         android:id="@+id/banner_title_text"

@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.VenueConstants
 import com.imranmelikov.folt.databinding.SearchRvBinding
@@ -46,6 +47,10 @@ class SearchAdapter:RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         holder.binding.ratingText.text=venue.venuePopularity.rating.toString()
         holder.binding.restaurantName.text=venue.venueName
         holder.binding.restaurantText.text=venue.venueText
+        Glide.with(holder.itemView.context)
+            .load(venue.imageUrl)
+            .into(holder.binding.restaurantImage)
+
         "${venue.delivery.deliveryPrice} Azn     ${venue.delivery.deliveryTime} min".also { holder.binding.priceText.text = it }
 
         setRatingIcon(venue,holder.binding.ratingIcon)

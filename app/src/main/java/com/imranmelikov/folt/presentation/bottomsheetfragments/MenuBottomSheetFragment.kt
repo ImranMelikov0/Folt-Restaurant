@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.databinding.FragmentMenuBottomSheetBinding
@@ -40,6 +41,9 @@ class MenuBottomSheetFragment:BottomSheetDialogFragment() {
        binding.menuText.text=venueDetails.about
        binding.menuPriceText.text=venueDetails.price.toDouble().toString()
        binding.countText.text=venueDetails.count.toString()
+       Glide.with(requireActivity())
+           .load(venueDetails.imageUrl)
+           .into(binding.menuImg)
        "Add order ${venueDetails.price.toDouble()} Azn".also { binding.orderBtn.text = it }
 
        venueDetailListFromRoom.map {venueDetail->

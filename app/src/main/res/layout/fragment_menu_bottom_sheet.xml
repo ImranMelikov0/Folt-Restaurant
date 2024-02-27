@@ -11,6 +11,7 @@
         android:id="@+id/menu_img"
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:scaleType="fitXY"
         android:src="@drawable/image_area"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

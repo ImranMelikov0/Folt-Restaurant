@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.VenueCategoryConstants
 import com.imranmelikov.folt.constants.VenueConstants
@@ -47,6 +48,10 @@ class MainCategoryAdapter:RecyclerView.Adapter<MainCategoryAdapter.MainCategoryV
     override fun onBindViewHolder(holder: MainCategoryViewHolder, position: Int) {
         val venueCategory=venueCategoryList[position]
         holder.binding.categoryName.text=venueCategory.title
+
+        Glide.with(holder.itemView.context)
+            .load(venueCategory.imageUrl)
+            .into(holder.binding.categoryImage)
 
         val filteredVenueList=venueList.filter {it.type==venueCategory.title}
 

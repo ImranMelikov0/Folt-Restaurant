@@ -5,15 +5,19 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.AppearanceConstants
 import com.imranmelikov.folt.databinding.ActivityMainBinding
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
+import com.imranmelikov.folt.sharedpreferencesmanager.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,12 +25,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController:NavController
     private lateinit var binding:ActivityMainBinding
     private lateinit var viewModel: VenueDetailsViewModel
+    @Inject lateinit var sharedPreferencesManager: SharedPreferencesManager
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel=ViewModelProvider(this)[VenueDetailsViewModel::class.java]
+
+        controlAppearance()
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bottomNav = binding.bottomNav
@@ -40,6 +47,17 @@ class MainActivity : AppCompatActivity() {
     }
     fun showBottomNav(){
         binding.bottomNav.visibility=View.VISIBLE
+    }
+
+    private fun controlAppearance(){
+        when(sharedPreferencesManager.load(AppearanceConstants.theme,"")){
+            AppearanceConstants.light->{
+            }
+            AppearanceConstants.dark->{
+            }
+            AppearanceConstants.default->{
+            }
+        }
     }
 
     override fun onStop() {

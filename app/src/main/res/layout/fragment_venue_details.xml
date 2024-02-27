@@ -40,6 +40,7 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/image_area"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +48,7 @@
 
                     <ImageView
                         android:id="@+id/logo"
+                        android:scaleType="fitXY"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center"

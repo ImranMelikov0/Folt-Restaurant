@@ -1,15 +1,18 @@
 package com.imranmelikov.folt.data.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.firebase.firestore.FirebaseFirestore
 import com.imranmelikov.folt.constants.APIConstants
 import com.imranmelikov.folt.constants.DbConstant
+import com.imranmelikov.folt.constants.SharedPrefConstant
 import com.imranmelikov.folt.data.local.FoltDao
 import com.imranmelikov.folt.data.local.FoltDataBase
 import com.imranmelikov.folt.data.remote.webservice.CountryApi
 import com.imranmelikov.folt.data.repository.FoltRepositoryImpl
 import com.imranmelikov.folt.domain.repository.FoltRepository
+import com.imranmelikov.folt.sharedpreferencesmanager.SharedPreferencesManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +39,16 @@ object AppModule {
     @Provides
     fun injectFireStore():FirebaseFirestore{
         return FirebaseFirestore.getInstance()
+    }
+    @Provides
+    @Singleton
+    fun injectSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences(SharedPrefConstant.myPref, Context.MODE_PRIVATE)
+    }
+    @Provides
+    @Singleton
+    fun injectSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPreferencesManager {
+        return SharedPreferencesManager(sharedPreferences)
     }
     @Singleton
     @Provides

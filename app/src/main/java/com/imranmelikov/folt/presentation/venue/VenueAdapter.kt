@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.VenuesRvBinding
 import com.imranmelikov.folt.domain.model.Venue
@@ -66,7 +67,9 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
         "${venueArraylist.delivery.deliveryTime} min".also { holder.binding.venuesDeliveryTimeBtn.text = it }
         "${venueArraylist.delivery.deliveryPrice} Azn".also { holder.binding.deliveryText.text = it }
         holder.binding.ratingText.text=venueArraylist.venuePopularity.rating.toDouble().toString()
-
+        Glide.with(holder.itemView.context)
+            .load(venueArraylist.imageUrl)
+            .into(holder.binding.restaurantImage)
         favIconView(venueArraylist,holder.binding.favIcon,holder.binding.progress,holder)
         setRatingIcon(venueArraylist,holder.binding.ratingIcon)
         setDeliveryTextColor(venueArraylist,holder)

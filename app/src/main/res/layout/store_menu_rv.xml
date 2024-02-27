@@ -26,6 +26,7 @@
                 android:id="@+id/menu_image"
                 android:layout_width="198dp"
                 android:layout_gravity="center"
+                android:scaleType="fitXY"
                 android:layout_height="130dp"
                 android:src="@drawable/image_area" />
 
