@@ -79,7 +79,7 @@ class AddressDetailsFragment : Fragment() {
                 Toast.makeText(requireContext(),ErrorMsgConstants.editTextMsg,Toast.LENGTH_SHORT).show()
             }else{
                 val address=Address("",streetName,countryName,buildingEditText.toString(),entranceEditText.toString().toInt(),
-                    floor.toString().toInt(),apartment.toString().toInt(),doorCode.toString(),false)
+                    floor.toString().toInt(),apartment.toString().toInt(),doorCode.toString())
                 when(string){
                     AddressConstants.orderDetail->{
                         val receiveVenue=arguments?.getSerializable(OrderConstants.venueForOrder) as? Venue
@@ -87,12 +87,12 @@ class AddressDetailsFragment : Fragment() {
                             bundle.apply {
                                 putSerializable(OrderConstants.venueForOrder,venue)
                             }
-                            addressViewModel.insertAddress("a",address)
+                            addressViewModel.insertAddress(address)
                             findNavController().navigate(R.id.action_addressDetailsFragment_to_orderDetailFragment,bundle)
                         }
                     }
                     AddressConstants.newAddress->{
-                        addressViewModel.insertAddress("a",address)
+                        addressViewModel.insertAddress(address)
                         findNavController().navigate(R.id.action_addressDetailsFragment_to_addressFragment)
                     }
                 }
@@ -127,7 +127,7 @@ class AddressDetailsFragment : Fragment() {
                     address.floor=floor.text.toString().toInt()
                     address.apartment=apartment.text.toString().toInt()
                     address.doorCode=doorCode.text.toString()
-                    addressViewModel.updateAddress("a", address.id,address)
+                    addressViewModel.updateAddress(address.id,address)
                     findNavController().popBackStack()
                 }
             }
@@ -136,7 +136,7 @@ class AddressDetailsFragment : Fragment() {
     }
     private fun clickDeleteBtn(documentId:String){
         binding.deleteBtn.setOnClickListener {
-            addressViewModel.deleteAddress("a",documentId)
+            addressViewModel.deleteAddress(documentId)
             findNavController().navigate(R.id.action_addressDetailsFragment_to_addressFragment)
         }
     }

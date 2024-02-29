@@ -47,7 +47,7 @@ class StoreFragment : Fragment() {
     private fun getFunctions(){
         onBackPress()
         viewModel.getVenues()
-        viewModel.getFavoriteVenues("a")
+        viewModel.getFavoriteVenues()
         viewModelVenueCategory.getVenueCategories()
         initialiseStoreRv()
         initialiseVenueCategoryRv()

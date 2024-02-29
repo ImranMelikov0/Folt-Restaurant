@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -23,21 +25,26 @@ import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.OrderConstants
 import com.imranmelikov.folt.databinding.FragmentNewAddressBinding
 import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.presentation.account.AccountViewModel
 import com.imranmelikov.folt.presentation.bottomsheetfragments.CountryFragmentBottomSheet
+import com.imranmelikov.folt.util.Status
 
 @Suppress("DEPRECATION")
 class NewAddressFragment : Fragment() {
    private lateinit var binding:FragmentNewAddressBinding
    private lateinit var bundle: Bundle
+   private lateinit var accountViewModel: AccountViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
        binding=FragmentNewAddressBinding.inflate(inflater,container,false)
+        accountViewModel=ViewModelProvider(requireActivity())[AccountViewModel::class.java]
+
+        accountViewModel.getUser()
         bundle= Bundle()
         clickBackBtn()
         controlArguments()
-        selectCountry()
         clickAutoCompleteBtn()
         clickNextBtn()
         observeUser()
@@ -55,14 +62,14 @@ class NewAddressFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-    private fun selectCountry(){
+    private fun selectCountry(countryName:String){
+        binding.countryText.text=countryName
         binding.countryCardView.setOnClickListener {
             val bottomSheetFragment= CountryFragmentBottomSheet()
             if (!bottomSheetFragment.isAdded) {
                 bottomSheetFragment.show((requireActivity() as AppCompatActivity).supportFragmentManager, bottomSheetFragment.tag)
             }
-            /////////
-            bottomSheetFragment.countryName="Azerbaijan"
+            bottomSheetFragment.countryName=countryName
         }
     }
     private fun clickNextBtn(){
@@ -71,8 +78,28 @@ class NewAddressFragment : Fragment() {
         }
     }
     private fun observeUser(){
-        bundle.apply {
-            putString(AddressConstants.country,"a")
+        accountViewModel.userLiveData.observe(viewLifecycleOwner){result->
+            when(result.status){
+                Status.SUCCESS->{
+                    result.data?.let { user->
+                        bundle.apply {
+                            putString(AddressConstants.country,user.country.countryName)
+                        }
+                        selectCountry(user.country.countryName)
+                        binding.progress.visibility=View.GONE
+                        binding.noResultText.visibility=View.GONE
+                    }
+                }
+                Status.LOADING->{
+                    binding.progress.visibility=View.VISIBLE
+                    binding.noResultText.visibility=View.GONE
+                }
+                Status.ERROR->{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+                    binding.progress.visibility=View.GONE
+                    binding.noResultText.visibility=View.VISIBLE
+                }
+            }
         }
     }
     private fun controlArguments(){

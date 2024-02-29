@@ -112,4 +112,14 @@
     <string name="photo_library">Photo library</string>
     <string name="delete_profile_picture">Delete profile picture</string>
     <string name="change_profile_photo">Change profile photo</string>
+    <string name="welcome">Welcome to Folt</string>
+    <string name="signIn_text">Enjoy the best restaurants or get what you need from nearby stores, delivered</string>
+    <string name="getStartedBtn">Get started</string>
+    <string name="example_gmail_com">example@gmail.com</string>
+    <string name="phone_number">Phone number</string>
+    <string name="tel_example">+1-212-456-7890</string>
+    <string name="password">Password</string>
+    <string name="already_account">Already have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
 </resources>

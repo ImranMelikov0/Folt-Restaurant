@@ -25,7 +25,7 @@ class AddressFragment : Fragment() {
     ): View? {
         binding=FragmentAddressBinding.inflate(inflater,container,false)
         viewModel=ViewModelProvider(requireActivity())[AddressViewModel::class.java]
-        viewModel.getAddress("a")
+        viewModel.getAddress()
         clickBackBtn()
         initializeRv()
         observeAddress()

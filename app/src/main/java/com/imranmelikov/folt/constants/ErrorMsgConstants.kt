@@ -6,4 +6,5 @@ object ErrorMsgConstants {
     const val errorViewModel="Error in viewModel"
     const val error="Error:"
     const val editTextMsg="Enter entrance and floor"
+    const val location="Failed to get location:"
 }

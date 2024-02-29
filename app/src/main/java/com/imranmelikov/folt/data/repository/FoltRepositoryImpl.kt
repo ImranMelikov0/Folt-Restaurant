@@ -1,21 +1,27 @@
 package com.imranmelikov.folt.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.imranmelikov.folt.constants.FireStoreConstants
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.FireStoreCollectionConstants
 import com.imranmelikov.folt.data.local.FoltDao
+import com.imranmelikov.folt.data.local.entity.CountryRoom
+import com.imranmelikov.folt.data.local.entity.LanguageRoom
 import com.imranmelikov.folt.data.remote.dto.CountryDto
 import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.data.remote.webservice.CountryApi
 import com.imranmelikov.folt.domain.model.Address
 import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
+import com.imranmelikov.folt.domain.model.Country
 import com.imranmelikov.folt.domain.model.Delivery
+import com.imranmelikov.folt.domain.model.Language
 import com.imranmelikov.folt.domain.model.Location
 import com.imranmelikov.folt.domain.model.Offer
 import com.imranmelikov.folt.domain.model.ParentVenue
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
+import com.imranmelikov.folt.domain.model.User
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueCategory
 import com.imranmelikov.folt.domain.model.VenueDetails
@@ -28,7 +34,8 @@ import retrofit2.Response
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FoltRepositoryImpl(private val fireStore: FirebaseFirestore,private val dao: FoltDao,private val countryApi: CountryApi):FoltRepository {
+class FoltRepositoryImpl(private val fireStore: FirebaseFirestore,private val dao: FoltDao,private val countryApi: CountryApi,
+    private val auth: FirebaseAuth):FoltRepository {
 override suspend fun getOffer(): Resource<List<Offer>> {
     return try {
         suspendCoroutine { continuation ->
@@ -312,62 +319,64 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         }
     }
 
-    override suspend fun getFavoriteVenue(userId:String): Resource<List<Venue>> {
+    override suspend fun getFavoriteVenue(): Resource<List<Venue>> {
         return try {
             suspendCoroutine { continuation ->
-                val venueList= mutableListOf<Venue>()
-                fireStore.collection(FireStoreCollectionConstants.favoriteVenue).document(userId)
-                    .collection(FireStoreCollectionConstants.favVenues).get().addOnSuccessListener {querySnapshot->
-                    if (querySnapshot.isEmpty){
-                        continuation.resume(Resource.success(emptyList()))
-                    }else{
-                    for (document in querySnapshot.documents){
-                        val venuePopularityMap = document[FireStoreConstants.venuePopularity] as HashMap<*, *>
-                        val venuePopularity=VenuePopularity(
-                            exclusively = venuePopularityMap[FireStoreConstants.exclusively] as Boolean,
-                            popularity = venuePopularityMap[FireStoreConstants.popularity] as Boolean,
-                            rating = venuePopularityMap[FireStoreConstants.rating] as Number
-                        )
-                        val venueInformationMap = document[FireStoreConstants.venueInformation] as HashMap<*, *>
-                        val venueInformation=VenueInformation(
-                            address = venueInformationMap[FireStoreConstants.address] as String,
-                            tel =venueInformationMap[FireStoreConstants.tel] as String,
-                            isOpen = venueInformationMap[FireStoreConstants.isOpen] as Boolean,
-                            url = venueInformationMap[FireStoreConstants.url] as String
-                        )
-                        val venueDeliveryMap = document[FireStoreConstants.delivery] as HashMap<*, *>
-                        val delivery=Delivery(
-                            deliveryPrice = venueDeliveryMap[FireStoreConstants.deliveryPrice] as String,
-                            deliveryTime = venueDeliveryMap[FireStoreConstants.deliveryTime] as String
-                        )
-                        val locationMap=document[FireStoreConstants.location] as HashMap<*,*>
-                        val location=Location(
-                            lat = locationMap[FireStoreConstants.lat] as Number,
-                            lng = locationMap[FireStoreConstants.lng] as Number
-                        )
-                        val venue=Venue(
-                            id = document.getString(FireStoreConstants.id) as String,
-                            parentVenueId = document.getString(FireStoreConstants.parentVenueId) as String,
-                            bribe = document.getBoolean(FireStoreConstants.bribe) as Boolean,
-                            imageUrl = document.getString(FireStoreConstants.imageUrl) as String,
-                            restaurant = document.getBoolean(FireStoreConstants.restaurant) as Boolean,
-                            type = document.getString(FireStoreConstants.type) as String,
-                            serviceFee = document.getDouble(FireStoreConstants.serviceFee) as Number,
-                            venueName = document.getString(FireStoreConstants.venueName) as String,
-                            venueText = document.getString(FireStoreConstants.venueText) as String,
-                            venueLogoUrl = document.getString(FireStoreConstants.venueLogoUrl) as String,
-                            venuePopularity = venuePopularity,
-                            venueInformation = venueInformation,
-                            delivery = delivery,
-                            location = location
-                        )
-                        venue.id=document.id
-                        venueList.add(venue)
-                    }
-                    continuation.resume(Resource.success(venueList))
-                    }
-                }.addOnFailureListener {e->
-                    continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
+                auth.currentUser?.let { currentUser->
+                    val venueList= mutableListOf<Venue>()
+                    fireStore.collection(FireStoreCollectionConstants.favoriteVenue).document(currentUser.uid)
+                        .collection(FireStoreCollectionConstants.favVenues).get().addOnSuccessListener {querySnapshot->
+                            if (querySnapshot.isEmpty){
+                                continuation.resume(Resource.success(emptyList()))
+                            }else{
+                                for (document in querySnapshot.documents){
+                                    val venuePopularityMap = document[FireStoreConstants.venuePopularity] as HashMap<*, *>
+                                    val venuePopularity=VenuePopularity(
+                                        exclusively = venuePopularityMap[FireStoreConstants.exclusively] as Boolean,
+                                        popularity = venuePopularityMap[FireStoreConstants.popularity] as Boolean,
+                                        rating = venuePopularityMap[FireStoreConstants.rating] as Number
+                                    )
+                                    val venueInformationMap = document[FireStoreConstants.venueInformation] as HashMap<*, *>
+                                    val venueInformation=VenueInformation(
+                                        address = venueInformationMap[FireStoreConstants.address] as String,
+                                        tel =venueInformationMap[FireStoreConstants.tel] as String,
+                                        isOpen = venueInformationMap[FireStoreConstants.isOpen] as Boolean,
+                                        url = venueInformationMap[FireStoreConstants.url] as String
+                                    )
+                                    val venueDeliveryMap = document[FireStoreConstants.delivery] as HashMap<*, *>
+                                    val delivery=Delivery(
+                                        deliveryPrice = venueDeliveryMap[FireStoreConstants.deliveryPrice] as String,
+                                        deliveryTime = venueDeliveryMap[FireStoreConstants.deliveryTime] as String
+                                    )
+                                    val locationMap=document[FireStoreConstants.location] as HashMap<*,*>
+                                    val location=Location(
+                                        lat = locationMap[FireStoreConstants.lat] as Number,
+                                        lng = locationMap[FireStoreConstants.lng] as Number
+                                    )
+                                    val venue=Venue(
+                                        id = document.getString(FireStoreConstants.id) as String,
+                                        parentVenueId = document.getString(FireStoreConstants.parentVenueId) as String,
+                                        bribe = document.getBoolean(FireStoreConstants.bribe) as Boolean,
+                                        imageUrl = document.getString(FireStoreConstants.imageUrl) as String,
+                                        restaurant = document.getBoolean(FireStoreConstants.restaurant) as Boolean,
+                                        type = document.getString(FireStoreConstants.type) as String,
+                                        serviceFee = document.getDouble(FireStoreConstants.serviceFee) as Number,
+                                        venueName = document.getString(FireStoreConstants.venueName) as String,
+                                        venueText = document.getString(FireStoreConstants.venueText) as String,
+                                        venueLogoUrl = document.getString(FireStoreConstants.venueLogoUrl) as String,
+                                        venuePopularity = venuePopularity,
+                                        venueInformation = venueInformation,
+                                        delivery = delivery,
+                                        location = location
+                                    )
+                                    venue.id=document.id
+                                    venueList.add(venue)
+                                }
+                                continuation.resume(Resource.success(venueList))
+                            }
+                        }.addOnFailureListener {e->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
+                        }
                 }
             }
         }catch (e:Exception){
@@ -512,8 +521,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(emptyList()))
                     }else {
                         for (document in querySnapshot.documents) {
-                            val arrayList =
-                                document.get(FireStoreConstants.venueDetails) as? ArrayList<*>
+                            val arrayList = document.get(FireStoreConstants.venueDetails) as? ArrayList<*>
                             arrayList?.let {
                                 for (venueDetail in it) {
                                     if (venueDetail is HashMap<*, *>) {
@@ -564,14 +572,16 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         }
     }
 
-    override suspend fun insertFavoriteVenue(venue: Venue,userId: String): Resource<CRUD> {
+    override suspend fun insertFavoriteVenue(venue: Venue): Resource<CRUD> {
         return try {
             suspendCoroutine { continuation ->
-                fireStore.collection(FireStoreCollectionConstants.favoriteVenue).document(userId)
-                    .collection(FireStoreCollectionConstants.favVenues).document(venue.id).set(venue).addOnSuccessListener {
-                        continuation.resume(Resource.success(CRUD(venue.id,1)))
-                }.addOnFailureListener {e->
-                    continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
+                auth.currentUser?.let { currentUser->
+                    fireStore.collection(FireStoreCollectionConstants.favoriteVenue).document(currentUser.uid)
+                        .collection(FireStoreCollectionConstants.favVenues).document(venue.id).set(venue).addOnSuccessListener {
+                            continuation.resume(Resource.success(CRUD(venue.id,1)))
+                        }.addOnFailureListener {e->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
+                        }
                 }
             }
         }catch (e:Exception){
@@ -579,15 +589,17 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         }
     }
 
-    override suspend fun deleteFavoriteVenue(documentId: String, userId: String): Resource<CRUD> {
+    override suspend fun deleteFavoriteVenue(documentId: String): Resource<CRUD> {
         return try {
             suspendCoroutine { continuation ->
-                fireStore.collection(FireStoreCollectionConstants.favoriteVenue).document(userId)
-                    .collection(FireStoreCollectionConstants.favVenues).document(documentId).delete().addOnSuccessListener {
-                        continuation.resume(Resource.success(CRUD(documentId,2)))
-                  }.addOnFailureListener {e->
-                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
-                    }
+                auth.currentUser?.let { currentUser->
+                    fireStore.collection(FireStoreCollectionConstants.favoriteVenue).document(currentUser.uid)
+                        .collection(FireStoreCollectionConstants.favVenues).document(documentId).delete().addOnSuccessListener {
+                            continuation.resume(Resource.success(CRUD(documentId,2)))
+                        }.addOnFailureListener {e->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
+                        }
+                }
             }
         }catch (e:Exception){
             Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null)
@@ -637,65 +649,70 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         return countryApi.getCountries()
     }
 
-    override suspend fun getAddress(userId: String): Resource<List<Address>> {
+    override suspend fun getAddress(): Resource<List<Address>> {
         return try {
             suspendCoroutine { continuation ->
-                val addressList= mutableListOf<Address>()
-                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId)
-                    .collection(FireStoreCollectionConstants.address).get().addOnSuccessListener {querySnapshot->
-                        if (querySnapshot.isEmpty){
-                            continuation.resume(Resource.success(emptyList()))
-                        }else{
-                            for (document in querySnapshot.documents){
-                                val address=Address(
-                                    id = document.getString(FireStoreConstants.id) as String,
-                                    addressName = document.getString(FireStoreConstants.addressName) as String,
-                                    buildingName = document.getString(FireStoreConstants.buildingName) as String,
-                                    entrance = document.getLong(FireStoreConstants.entrance) as Number,
-                                    floor = document.getLong(FireStoreConstants.floor) as Number,
-                                    doorCode = document.getString(FireStoreConstants.doorCode) as String,
-                                    apartment = document.getLong(FireStoreConstants.apartment) as Number,
-                                    countryName = document.getString(FireStoreConstants.countryName) as String,
-                                    selected = document.getBoolean(FireStoreConstants.selected) as Boolean
-                                )
-                                address.id=document.id
-                                addressList.add(address)
+                auth.currentUser?.let { currentUser->
+                    val addressList= mutableListOf<Address>()
+                    fireStore.collection(FireStoreCollectionConstants.userAddress).document(currentUser.uid)
+                        .collection(FireStoreCollectionConstants.address).get().addOnSuccessListener {querySnapshot->
+                            if (querySnapshot.isEmpty){
+                                continuation.resume(Resource.success(emptyList()))
+                            }else{
+                                for (document in querySnapshot.documents){
+                                    val address=Address(
+                                        id = document.getString(FireStoreConstants.id) as String,
+                                        addressName = document.getString(FireStoreConstants.addressName) as String,
+                                        buildingName = document.getString(FireStoreConstants.buildingName) as String,
+                                        entrance = document.getLong(FireStoreConstants.entrance) as Number,
+                                        floor = document.getLong(FireStoreConstants.floor) as Number,
+                                        doorCode = document.getString(FireStoreConstants.doorCode) as String,
+                                        apartment = document.getLong(FireStoreConstants.apartment) as Number,
+                                        countryName = document.getString(FireStoreConstants.countryName) as String
+                                    )
+                                    address.id=document.id
+                                    addressList.add(address)
+                                }
+                                continuation.resume(Resource.success(addressList))
                             }
-                            continuation.resume(Resource.success(addressList))
+                        }.addOnFailureListener {e ->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                         }
-                }.addOnFailureListener {e ->
-                   continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
-                    }
+                }
             }
         }catch (e:Exception){
             Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
         }
     }
 
-    override suspend fun insertAddress(userId: String, address: Address): Resource<CRUD> {
+    override suspend fun insertAddress(address: Address): Resource<CRUD> {
         return try {
             suspendCoroutine { continuation ->
-                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId).collection(FireStoreCollectionConstants.address)
-                    .add(address).addOnSuccessListener {
-                        continuation.resume(Resource.success(CRUD(it.id,1)))
-                    }.addOnFailureListener {e ->
-                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
-                    }
+                auth.currentUser?.let { currentUser->
+                    fireStore.collection(FireStoreCollectionConstants.userAddress).document(currentUser.uid).collection(FireStoreCollectionConstants.address)
+                        .add(address).addOnSuccessListener {
+                            continuation.resume(Resource.success(CRUD(it.id,1)))
+                        }.addOnFailureListener {e ->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                        }
+                }
             }
         }catch (e:Exception){
             Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
         }
     }
 
-    override suspend fun deleteAddress(userId: String, documentId: String): Resource<CRUD> {
+    override suspend fun deleteAddress(documentId: String): Resource<CRUD> {
         return try {
             suspendCoroutine { continuation ->
-                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId).collection(FireStoreCollectionConstants.address)
-                    .document(documentId).delete().addOnSuccessListener {
-                        continuation.resume(Resource.success(CRUD(documentId,2)))
-                    }.addOnFailureListener {e ->
-                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
-                    }
+                auth.currentUser?.let { currentUser->
+                    fireStore.collection(FireStoreCollectionConstants.userAddress).document(currentUser.uid).collection(FireStoreCollectionConstants.address)
+                        .document(documentId).delete().addOnSuccessListener {
+                            continuation.resume(Resource.success(CRUD(documentId,2)))
+                        }.addOnFailureListener {e ->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                        }
+                }
             }
         }catch (e:Exception){
             Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
@@ -703,18 +720,211 @@ override suspend fun getOffer(): Resource<List<Offer>> {
     }
 
     override suspend fun updateAddress(
-        userId: String,
         documentId: String,
         address: Address
     ): Resource<CRUD> {
         return try {
             suspendCoroutine { continuation ->
-                fireStore.collection(FireStoreCollectionConstants.userAddress).document(userId).collection(FireStoreCollectionConstants.address)
-                    .document(documentId).set(address).addOnSuccessListener {
-                        continuation.resume(Resource.success(CRUD(documentId,3)))
+                auth.currentUser?.let { currentUser->
+                    fireStore.collection(FireStoreCollectionConstants.userAddress).document(currentUser.uid).collection(FireStoreCollectionConstants.address)
+                        .document(documentId).set(address).addOnSuccessListener {
+                            continuation.resume(Resource.success(CRUD(documentId,3)))
+                        }.addOnFailureListener {e ->
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                        }
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun signUpUser(user: User): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                auth.createUserWithEmailAndPassword(user.email,user.password).addOnSuccessListener {
+                        fireStore.collection(FireStoreCollectionConstants.users).document(user.email).collection(FireStoreCollectionConstants.user)
+                            .add(user).addOnSuccessListener {reference->
+                                continuation.resume(Resource.success(CRUD(reference.id,1)))
+                            }.addOnFailureListener {e ->
+                                continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                            }
+                }.addOnFailureListener {e ->
+                    continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun signInUser(email: String, password: String): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
+                    it.user?.let {user->
+                        user.email?.let {email->
+                            continuation.resume(Resource.success(CRUD(email,4)))
+                        }
+                    }
+                }.addOnFailureListener {e ->
+                    continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun updateUser(user: User): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                auth.currentUser?.let { userFireBase->
+                    userFireBase.email?.let {email->
+                        fireStore.collection(FireStoreCollectionConstants.users).document(email).collection(FireStoreCollectionConstants.user)
+                            .document(user.id).set(user).addOnSuccessListener {
+                                continuation.resume(Resource.success(CRUD(email,3)))
+                            }.addOnFailureListener {e ->
+                                continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                            }
+                    }
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun deleteUser(): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                auth.currentUser?.let { user->
+                    user.delete().addOnSuccessListener {
+                        user.email?.let { email->
+                            fireStore.collection(FireStoreCollectionConstants.users).document(email).delete().addOnSuccessListener {
+                                continuation.resume(Resource.success(CRUD(email,2)))
+                            }.addOnFailureListener {e ->
+                                continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                            }
+                        }
                     }.addOnFailureListener {e ->
                         continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                     }
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun getUser(): Resource<User> {
+        return try {
+            suspendCoroutine { continuation ->
+                var authUser:User?=null
+                auth.currentUser?.let { userFireBase->
+                    userFireBase.email?.let {email->
+                        fireStore.collection(FireStoreCollectionConstants.users).document(email)
+                            .collection(FireStoreCollectionConstants.user)
+                            .get().addOnSuccessListener {querySnapshot->
+                                if (querySnapshot.isEmpty){
+                                    continuation.resume(Resource.success(authUser))
+                                }else{
+                                    for(documentSnapshot in querySnapshot.documents){
+                                        val countryMap=documentSnapshot[FireStoreConstants.country] as HashMap<*,*>
+                                        val country=Country(
+                                            countryName = countryMap[FireStoreConstants.countryName] as String,
+                                            capital = countryMap[FireStoreConstants.capital] as String
+                                        )
+                                        val languageMap =documentSnapshot[FireStoreConstants.language] as HashMap<*, *>
+                                        val language = Language(
+                                            language = languageMap[FireStoreConstants.language] as String,
+                                            languageCode = languageMap[FireStoreConstants.languageCode] as String
+                                        )
+                                        val locationMap=documentSnapshot[FireStoreConstants.location] as HashMap<*,*>
+                                        val location=Location(
+                                            lat = locationMap[FireStoreConstants.lat] as Number,
+                                            lng = locationMap[FireStoreConstants.lng] as Number
+                                        )
+                                        val user=User(
+                                            id = documentSnapshot.getString(FireStoreConstants.id) as String,
+                                            firstName = documentSnapshot.getString(FireStoreConstants.firstName) as String,
+                                            lastName = documentSnapshot.getString(FireStoreConstants.lastName) as String,
+                                            tel = documentSnapshot.getString(FireStoreConstants.tel) as String,
+                                            email = documentSnapshot.getString(FireStoreConstants.email) as String,
+                                            imageUrl = documentSnapshot.getString(FireStoreConstants.imageUrl) as String,
+                                            password = documentSnapshot.getString(FireStoreConstants.password) as String,
+                                            country = country,
+                                            language = language,
+                                            location = location
+                                        )
+                                        user.id=documentSnapshot.id
+                                        user.email=email
+                                        authUser=user
+                                    }
+                                }
+                                continuation.resume(Resource.success(authUser))
+                            }.addOnFailureListener {e ->
+                                continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                            }
+                    }
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun insertCountry(countryRoom: CountryRoom) {
+         dao.insertCountry(countryRoom)
+    }
+
+    override suspend fun deleteAllCountry() {
+        dao.deleteAllCountry()
+    }
+
+    override suspend fun getCountry(): List<CountryRoom> {
+        return dao.getCountry()
+    }
+
+    override suspend fun insertLanguage(languageRoom: LanguageRoom) {
+        dao.insertLanguage(languageRoom)
+    }
+
+    override suspend fun deleteAllLanguage() {
+       dao.deleteAllLanguage()
+    }
+
+    override suspend fun getLanguage(): List<LanguageRoom> {
+        return dao.getLanguage()
+    }
+
+    override suspend fun getLanguages(): Resource<List<Language>> {
+        return try {
+            suspendCoroutine { continuation ->
+                val languageList= mutableListOf<Language>()
+                fireStore.collection(FireStoreCollectionConstants.language).get().addOnSuccessListener {querySnapshot->
+                    if (querySnapshot.isEmpty){
+                        continuation.resume(Resource.success(emptyList()))
+                    }else{
+                        for (document in querySnapshot){
+                           val arrayList= document.get(FireStoreConstants.language) as? ArrayList<*>
+                            arrayList?.let {
+                                for (languageMap in it){
+                                    if (languageMap is HashMap<*,*>){
+                                        val language=Language(
+                                            language = languageMap[FireStoreConstants.language] as String,
+                                            languageCode = languageMap[FireStoreConstants.languageCode] as String
+                                        )
+                                        languageList.add(language)
+                                    }
+                                }
+                            }
+                        }
+                        continuation.resume(Resource.success(languageList))
+                    }
+                }.addOnFailureListener {e ->
+                    continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                }
             }
         }catch (e:Exception){
             Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)

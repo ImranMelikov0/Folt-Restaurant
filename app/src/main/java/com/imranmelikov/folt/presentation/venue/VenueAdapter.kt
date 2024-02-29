@@ -103,7 +103,7 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
                 CoroutineScope(Dispatchers.Main).launch {
                     holder.itemView.setOnClickListener {}
                     favIcon.setOnClickListener {}
-                    viewModel.insertFavoriteVenue(venueArraylist,"a")
+                    viewModel.insertFavoriteVenue(venueArraylist)
                     delay(3000)
                     favIcon.setImageResource(R.drawable.heart_inline)
                     progressBar.visibility=View.GONE
@@ -121,7 +121,7 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
                         CoroutineScope(Dispatchers.Main).launch {
                             holder.itemView.setOnClickListener {}
                             favIcon.setOnClickListener {}
-                            viewModel.deleteFavoriteVenue(it.id,"a")
+                            viewModel.deleteFavoriteVenue(it.id)
                             delay(3000)
                             favIcon.setImageResource(R.drawable.heart_outline)
                             progressBar.visibility=View.GONE
@@ -138,7 +138,7 @@ class VenueAdapter:RecyclerView.Adapter<VenueAdapter.VenueViewHolder>() {
                         CoroutineScope(Dispatchers.Main).launch {
                             holder.itemView.setOnClickListener {}
                             favIcon.setOnClickListener {}
-                            viewModel.insertFavoriteVenue(venueArraylist,"a")
+                            viewModel.insertFavoriteVenue(venueArraylist)
                             delay(3000)
                             favIcon.setImageResource(R.drawable.heart_inline)
                             progressBar.visibility=View.GONE

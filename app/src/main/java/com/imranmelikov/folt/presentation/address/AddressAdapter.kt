@@ -1,6 +1,5 @@
 package com.imranmelikov.folt.presentation.address
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -41,7 +40,6 @@ class AddressAdapter:RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
         return addressList.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
         val address=addressList[position]
         holder.binding.addressText.text=address.addressName

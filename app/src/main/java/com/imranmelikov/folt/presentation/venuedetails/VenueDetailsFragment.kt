@@ -169,7 +169,7 @@ class VenueDetailsFragment : Fragment() {
             binding.favImg.setImageResource(R.drawable.heart_outline_black)
             binding.favBtn.setOnClickListener {
                 // Add venue to favorites
-                venueViewModel.insertFavoriteVenue(venue,"a")
+                venueViewModel.insertFavoriteVenue(venue)
                 binding.favImg.setImageResource(R.drawable.heart_inline_black)
                 clickFavIcon(venues,venue)
             }
@@ -179,7 +179,7 @@ class VenueDetailsFragment : Fragment() {
                     binding.favImg.setImageResource(R.drawable.heart_inline_black)
                     binding.favBtn.setOnClickListener {_->
                         // Remove venue from favorites
-                        venueViewModel.deleteFavoriteVenue(favVenue.id,"a")
+                        venueViewModel.deleteFavoriteVenue(favVenue.id)
                         binding.favImg.setImageResource(R.drawable.heart_outline_black)
                         clickFavIcon(venues,venue)
                     }
@@ -187,7 +187,7 @@ class VenueDetailsFragment : Fragment() {
                     binding.favImg.setImageResource(R.drawable.heart_outline_black)
                     binding.favBtn.setOnClickListener {
                         // Add venue to favorites
-                        venueViewModel.insertFavoriteVenue(venue,"a")
+                        venueViewModel.insertFavoriteVenue(venue)
                         binding.favImg.setImageResource(R.drawable.heart_inline_black)
                         clickFavIcon(venues,venue)
                     }

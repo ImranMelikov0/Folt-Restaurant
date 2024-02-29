@@ -109,10 +109,10 @@
                         android:textStyle="bold"
                         android:textSize="22sp"/>
                     <TextView
-                        android:id="@+id/profile_order_text"
+                        android:id="@+id/profile_email_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/no_orders"
+                        android:text="@string/email"
                         android:fontFamily="@font/arial"
                         android:textSize="18sp"/>
                 </LinearLayout>

@@ -69,7 +69,7 @@ class DiscoveryFragment : Fragment() {
         discoveryViewModel.getSliderImageList()
         venueCategoryViewModel.getVenueCategories()
         venueViewModel.getVenues()
-        venueViewModel.getFavoriteVenues("a")
+        venueViewModel.getFavoriteVenues()
         observeFavVenues()
     }
 

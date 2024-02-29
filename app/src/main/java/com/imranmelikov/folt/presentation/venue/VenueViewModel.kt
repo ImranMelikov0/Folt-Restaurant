@@ -54,10 +54,10 @@ class VenueViewModel @Inject constructor(private val repository: FoltRepository)
             }
         }
     }
-    fun getFavoriteVenues(userId:String) {
+    fun getFavoriteVenues() {
         mutableFavoriteVenueLiveData.value = Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerFavoriteVenue) {
-            val response = repository.getFavoriteVenue(userId)
+            val response = repository.getFavoriteVenue()
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerFavoriteVenue) {
                 response.data?.let {
                     mutableFavoriteVenueLiveData.value = Resource.success(it)
@@ -65,28 +65,28 @@ class VenueViewModel @Inject constructor(private val repository: FoltRepository)
             }
         }
     }
-    fun insertFavoriteVenue(venue: Venue,userId: String){
+    fun insertFavoriteVenue(venue: Venue){
         mutableMessageLiveData.value=Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
-            val response=repository.insertFavoriteVenue(venue,userId)
+            val response=repository.insertFavoriteVenue(venue)
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
                 response.data?.let {
                     mutableMessageLiveData.value=Resource.success(it)
                 }
             }
         }
-        getFavoriteVenues(userId)
+        getFavoriteVenues()
     }
-    fun deleteFavoriteVenue(documentId:String,userId: String){
+    fun deleteFavoriteVenue(documentId:String){
         mutableMessageLiveData.value=Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
-            val response=repository.deleteFavoriteVenue(documentId,userId)
+            val response=repository.deleteFavoriteVenue(documentId)
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
                 response.data?.let {
                     mutableMessageLiveData.value=Resource.success(it)
                 }
             }
         }
-        getFavoriteVenues(userId)
+        getFavoriteVenues()
     }
 }

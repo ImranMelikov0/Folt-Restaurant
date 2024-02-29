@@ -3,6 +3,7 @@ package com.imranmelikov.folt.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.imranmelikov.folt.constants.APIConstants
 import com.imranmelikov.folt.constants.DbConstant
@@ -31,7 +32,7 @@ object AppModule {
     @Provides
     fun injectDataBase(@ApplicationContext context: Context)=Room.databaseBuilder(
         context,FoltDataBase::class.java,DbConstant.foltDb
-    ).build()
+    ).fallbackToDestructiveMigration().build()
     @Singleton
     @Provides
     fun injectDao(foltDataBase: FoltDataBase)=foltDataBase.foltDao()
@@ -39,6 +40,11 @@ object AppModule {
     @Provides
     fun injectFireStore():FirebaseFirestore{
         return FirebaseFirestore.getInstance()
+    }
+    @Provides
+    @Singleton
+    fun injectFireBaseAuth():FirebaseAuth{
+        return FirebaseAuth.getInstance()
     }
     @Provides
     @Singleton
@@ -61,5 +67,5 @@ object AppModule {
     }
     @Singleton
     @Provides
-    fun injectRepo(fireStore: FirebaseFirestore,dao: FoltDao,countryApi: CountryApi)=FoltRepositoryImpl(fireStore,dao,countryApi) as FoltRepository
+    fun injectRepo(fireStore: FirebaseFirestore,dao: FoltDao,countryApi: CountryApi,auth: FirebaseAuth)=FoltRepositoryImpl(fireStore,dao,countryApi,auth) as FoltRepository
 }

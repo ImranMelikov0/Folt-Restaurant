@@ -18,9 +18,11 @@ import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
 import com.imranmelikov.folt.databinding.FragmentOrderDetailBinding
 import com.imranmelikov.folt.domain.model.Address
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
+import com.imranmelikov.folt.domain.model.User
 import com.imranmelikov.folt.domain.model.Venue
 import com.imranmelikov.folt.domain.model.VenueDetailsItem
 import com.imranmelikov.folt.presentation.MainActivity
+import com.imranmelikov.folt.presentation.account.AccountViewModel
 import com.imranmelikov.folt.presentation.address.AddressViewModel
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
 import com.imranmelikov.folt.util.Resource
@@ -33,6 +35,7 @@ class OrderDetailFragment : Fragment() {
   private lateinit var binding:FragmentOrderDetailBinding
   private lateinit var viewModel: VenueDetailsViewModel
   private lateinit var addressViewModel: AddressViewModel
+  private lateinit var accountViewModel: AccountViewModel
     private var isStockUpdated = false
     private lateinit var bundle:Bundle
     override fun onCreateView(
@@ -42,16 +45,19 @@ class OrderDetailFragment : Fragment() {
        binding=FragmentOrderDetailBinding.inflate(inflater,container,false)
         viewModel=ViewModelProvider(requireActivity())[VenueDetailsViewModel::class.java]
         addressViewModel=ViewModelProvider(requireActivity())[AddressViewModel::class.java]
+        accountViewModel=ViewModelProvider(requireActivity())[AccountViewModel::class.java]
+
         bundle= Bundle()
         getFunctions()
         return binding.root
     }
 
     private fun getFunctions(){
+        accountViewModel.getUser()
         viewModel.getVenueDetailsFromRoom()
         viewModel.getVenueMenuList()
         viewModel.getStoreMenuCategoryList()
-        addressViewModel.getAddress("a")
+        addressViewModel.getAddress()
         observeUser()
         observeCRUD()
         clickBackBtn()
@@ -63,7 +69,7 @@ class OrderDetailFragment : Fragment() {
         }
     }
 
-    private fun clickCompleteBtn(venue: Venue,venueDetailList: List<VenueDetailsRoom>,addressList: List<Address>){
+    private fun clickCompleteBtn(venue: Venue,venueDetailList: List<VenueDetailsRoom>,addressList: List<Address>,user: User){
         bundle=Bundle()
         binding.saveBtn.setOnClickListener {
             if (addressList.isEmpty()){
@@ -75,22 +81,22 @@ class OrderDetailFragment : Fragment() {
                 findNavController().navigate(R.id.action_orderDetailFragment_to_newAddressFragment,bundle)
             }else{
                     if (venue.restaurant){
-                        observeMenuList(venue,venueDetailList)
+                        observeMenuList(venue,venueDetailList,user)
                     }else{
-                        observeStoreViewModel(venue,venueDetailList)
+                        observeStoreViewModel(venue,venueDetailList,user)
                     }
             }
         }
     }
 
-    private fun observeVenueDetails(venue: Venue,addressList: List<Address>){
+    private fun observeVenueDetails(venue: Venue,addressList: List<Address>,user: User){
             var itemSubtotalPrice=0.0
             viewModel.venueDetailsLiveData.observe(viewLifecycleOwner){venueDetailList->
                 venueDetailList.map { venueDetail->
                     itemSubtotalPrice += venueDetail.price
                 }
                 updateUIWithVenueDetails(venue,itemSubtotalPrice)
-                clickCompleteBtn(venue,venueDetailList,addressList)
+                clickCompleteBtn(venue,venueDetailList,addressList,user)
             }
     }
     private fun updateUIWithVenueDetails(venue: Venue, itemSubtotalPrice: Double) {
@@ -107,28 +113,28 @@ class OrderDetailFragment : Fragment() {
         "${venue.delivery.deliveryTime} min".also { binding.deliveryTimeText.text = it }
         binding.restaurantName.text=venue.venueName
     }
-    private fun observeMenuList(venue:Venue,venueDetailList: List<VenueDetailsRoom>){
+    private fun observeMenuList(venue:Venue,venueDetailList: List<VenueDetailsRoom>,user: User){
         viewModel.venueMenuLiveData.observe(viewLifecycleOwner){result->
             handleResult(result){venueDetailsItems->
                 val filteredVenueDetailsItems=venueDetailsItems.filter { it.parentId==venue.id }
-                updateStock(filteredVenueDetailsItems,venueDetailList)
+                updateStock(filteredVenueDetailsItems,venueDetailList,user)
             }
         }
     }
-    private fun observeStoreViewModel(venue:Venue,venueDetailList: List<VenueDetailsRoom>){
+    private fun observeStoreViewModel(venue:Venue,venueDetailList: List<VenueDetailsRoom>,user: User){
         viewModel.storeMenuCategoryLiveData.observe(viewLifecycleOwner){result->
             handleResult(result){venueDetailsItems->
                 val filteredStoreMenuCategory=venueDetailsItems.filter { it.parentId==venue.id }
                 filteredStoreMenuCategory.map {venueDetail->
                     venueDetail.storeMenuCategory?.let {
-                        observeMenuListForCategory(it,venueDetailList)
+                        observeMenuListForCategory(it,venueDetailList,user)
                     }
             }
             }
         }
     }
 
-    private fun updateStock(filteredVenueDetailsItems: List<VenueDetailsItem>,venueDetailList:List<VenueDetailsRoom>) {
+    private fun updateStock(filteredVenueDetailsItems: List<VenueDetailsItem>,venueDetailList:List<VenueDetailsRoom>,user: User) {
             filteredVenueDetailsItems.map {menu->
                 menu.venueDetailList?.map {venueDetail->
                     venueDetailList.map {venueDetailRoom->
@@ -150,12 +156,12 @@ class OrderDetailFragment : Fragment() {
                 }
             }
     }
-    private fun observeMenuListForCategory(storeMenuCategoryList:List<StoreMenuCategory>,venueDetailList: List<VenueDetailsRoom>){
+    private fun observeMenuListForCategory(storeMenuCategoryList:List<StoreMenuCategory>,venueDetailList: List<VenueDetailsRoom>,user: User){
         viewModel.venueMenuLiveData.observe(viewLifecycleOwner){result->
             handleResult(result){venueDetailsItems->
                 storeMenuCategoryList.map {storeMenuCategory->
                     val filteredVenueDetailsItems=venueDetailsItems.filter { it.parentId==storeMenuCategory.id }
-                    updateStock(filteredVenueDetailsItems,venueDetailList)
+                    updateStock(filteredVenueDetailsItems,venueDetailList,user)
                 }
             }
         }
@@ -195,7 +201,7 @@ class OrderDetailFragment : Fragment() {
         binding.noResultText.visibility = View.GONE
         binding.progress.visibility = View.GONE
     }
-    private fun observeAddress(){
+    private fun observeAddress(user: User){
         val receivedVenue = arguments?.getSerializable(OrderConstants.venueForOrder) as? Venue
         receivedVenue?.let {venue ->
             addressViewModel.addressLiveData.observe(viewLifecycleOwner){result->
@@ -208,13 +214,17 @@ class OrderDetailFragment : Fragment() {
                             "${AddressTextView.apartment}${address.apartment}, ${AddressTextView.doorCode}${address.doorCode}".also { binding.apartmentText.text = it }
                         }
                     }
-                    observeVenueDetails(venue,addressList)
+                    observeVenueDetails(venue,addressList,user)
                 }
             }
         }
     }
     private fun observeUser(){
-        observeAddress()
+        accountViewModel.userLiveData.observe(viewLifecycleOwner){result->
+            handleResult(result){ user->
+                observeAddress(user)
+            }
+        }
     }
     private fun <T> handleResult(result: Resource<T>, actionOnSuccess: (T) -> Unit) {
         when (result.status) {

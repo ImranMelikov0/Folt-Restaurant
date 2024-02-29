@@ -47,4 +47,12 @@ object FireStoreConstants {
     const val floor="floor"
     const val apartment="apartment"
     const val doorCode="doorCode"
+    const val firstName="firstName"
+    const val lastName="lastName"
+    const val email="email"
+    const val country="country"
+    const val language="language"
+    const val languageCode="languageCode"
+    const val password="password"
+    const val capital="capital"
 }

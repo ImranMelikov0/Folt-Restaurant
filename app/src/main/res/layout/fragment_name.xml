@@ -93,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/last_name"
                 android:fontFamily="@font/arial"
+                android:textStyle="bold"
                 android:textColor="@color/open_blue"
                 android:layout_margin="4dp"/>
             <EditText

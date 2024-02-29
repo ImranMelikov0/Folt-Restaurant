@@ -35,10 +35,10 @@ class AddressViewModel @Inject constructor(private val repository: FoltRepositor
         mutableMessageLiveData.value= Resource.error(ErrorMsgConstants.errorViewModel,null)
     }
 
-    fun getAddress(userId:String){
+    fun getAddress(){
         mutableAddressLiveData.value=Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerAddress){
-            val response=repository.getAddress(userId)
+            val response=repository.getAddress()
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerAddress){
                 response.data?.let {
                     mutableAddressLiveData.value=Resource.success(it)
@@ -46,40 +46,40 @@ class AddressViewModel @Inject constructor(private val repository: FoltRepositor
             }
         }
     }
-    fun insertAddress(userId: String,address: Address){
+    fun insertAddress(address: Address){
         mutableMessageLiveData.value=Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
-           val response= repository.insertAddress(userId,address)
+           val response= repository.insertAddress(address)
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
                 response.data?.let {
                     mutableMessageLiveData.value=Resource.success(it)
                 }
             }
         }
-        getAddress(userId)
+        getAddress()
     }
-    fun updateAddress(userId: String,documentId:String,address: Address){
+    fun updateAddress(documentId:String,address: Address){
         mutableMessageLiveData.value=Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
-            val response=repository.updateAddress(userId,documentId,address)
+            val response=repository.updateAddress(documentId,address)
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
                 response.data?.let {
                     mutableMessageLiveData.value=Resource.success(it)
                 }
             }
         }
-        getAddress(userId)
+        getAddress()
     }
-    fun deleteAddress(userId: String,documentId: String){
+    fun deleteAddress(documentId: String){
         mutableMessageLiveData.value=Resource.loading(null)
         viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
-            val response=repository.deleteAddress(userId,documentId)
+            val response=repository.deleteAddress(documentId)
             viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
                 response.data?.let {
                     mutableMessageLiveData.value=Resource.success(it)
                 }
             }
         }
-        getAddress(userId)
+        getAddress()
     }
 }

@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentProfileBinding
 import com.imranmelikov.folt.domain.model.DiscoveryItem
@@ -18,7 +19,9 @@ import com.imranmelikov.folt.constants.DiscoveryTitles
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.ViewTypeDiscovery
 import com.imranmelikov.folt.presentation.MainActivity
+import com.imranmelikov.folt.presentation.account.AccountViewModel
 import com.imranmelikov.folt.presentation.venue.VenueViewModel
+import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,17 +30,21 @@ class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var viewModelRestaurant: VenueViewModel
     private lateinit var discoveryAdapter: DiscoveryAdapter
+    private lateinit var accountViewModel: AccountViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentProfileBinding.inflate(inflater,container,false)
         viewModelRestaurant= ViewModelProvider(requireActivity())[VenueViewModel::class.java]
+        accountViewModel=ViewModelProvider(requireActivity())[AccountViewModel::class.java]
 
+        accountViewModel.getUser()
         onBackPress()
         clickToFragments()
         initialiseRv()
-        viewModelRestaurant.getFavoriteVenues("a")
+        viewModelRestaurant.getFavoriteVenues()
+        observeUser()
         observeVenues()
         return binding.root
     }
@@ -69,29 +76,56 @@ class ProfileFragment : Fragment() {
 
     private fun observeVenues(){
         viewModelRestaurant.favoriteVenueLiveData.observe(viewLifecycleOwner) {result->
-            when(result.status){
-                Status.ERROR->{
-                    Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
-                    binding.profileProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.VISIBLE
-                }
-                Status.SUCCESS->{
-                    result.data?.let {venues ->
-                        val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Profile,venues)
-                        val discoveryItemList= listOf(discoveryItemRestaurant)
-                        discoveryAdapter.discoveryItemList=discoveryItemList
-                    }
-                    binding.profileProgress.visibility=View.GONE
-                    binding.noResultText.visibility=View.GONE
-                }
-                Status.LOADING->{
-                    binding.profileProgress.visibility=View.VISIBLE
-                    binding.noResultText.visibility=View.GONE
-                }
+            handleResult(result){venues ->
+                val discoveryItemRestaurant=DiscoveryItem(DiscoveryTitles.yourFav,ViewTypeDiscovery.Profile,venues)
+                val discoveryItemList= listOf(discoveryItemRestaurant)
+                discoveryAdapter.discoveryItemList=discoveryItemList
             }
-
         }
 
+    }
+    private fun observeUser(){
+        accountViewModel.userLiveData.observe(viewLifecycleOwner){result->
+            handleResult(result){ user->
+                "Hi ${user.firstName}!".also { binding.profileHiText.text = it }
+                "${user.firstName} ${user.lastName}".also { binding.usernameText.text = it }
+                binding.profileEmailText.text=user.email
+                if (user.imageUrl!=""){
+                    Glide.with(requireActivity())
+                        .load(user.imageUrl)
+                        .into(binding.profileImage)
+                }
+            }
+        }
+    }
+    private fun <T> handleResult(result: Resource<T>, actionOnSuccess: (T) -> Unit) {
+        when (result.status) {
+            Status.ERROR -> {
+                errorResult()
+            }
+            Status.SUCCESS -> {
+                result.data?.let(actionOnSuccess)
+                successResult()
+            }
+            Status.LOADING -> {
+                loadingResult()
+            }
+        }
+    }
+    private fun loadingResult() {
+        binding.profileProgress.visibility=View.VISIBLE
+        binding.noResultText.visibility=View.GONE
+    }
+
+    private fun successResult() {
+        binding.profileProgress.visibility=View.GONE
+        binding.noResultText.visibility=View.GONE
+    }
+
+    private fun errorResult() {
+        Toast.makeText(requireContext(), ErrorMsgConstants.errorForUser, Toast.LENGTH_SHORT).show()
+        binding.profileProgress.visibility=View.GONE
+        binding.noResultText.visibility=View.VISIBLE
     }
     private fun initialiseRv(){
         discoveryAdapter= DiscoveryAdapter()
