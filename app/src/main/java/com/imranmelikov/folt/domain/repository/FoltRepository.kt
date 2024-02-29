@@ -75,6 +75,8 @@ interface FoltRepository {
 
     suspend fun deleteUser():Resource<CRUD>
 
+    suspend fun deleteUserFromFreStore(user: User):Resource<CRUD>
+
     suspend fun getUser():Resource<User>
 
     suspend fun insertCountry(countryRoom: CountryRoom)

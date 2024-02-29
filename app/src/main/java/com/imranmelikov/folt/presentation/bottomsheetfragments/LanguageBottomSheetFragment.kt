@@ -63,8 +63,8 @@ class LanguageBottomSheetFragment:BottomSheetDialogFragment() {
                 languageViewModel.insertLanguage(languageRoom)
             }
             dismiss()
-            accountViewModel.getUser()
             languageViewModel.getLanguage()
+            accountViewModel.getUser()
         }
     }
     private fun observeUser(language: Language){

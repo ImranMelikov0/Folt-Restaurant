@@ -312,7 +312,7 @@
                 android:fontFamily="@font/arial"
                 android:layout_margin="4dp"/>
             <EditText
-                android:inputType="text"
+                android:inputType="number"
                 android:fontFamily="@font/arial"
                 android:id="@+id/tel_edittext"
                 android:layout_width="300dp"

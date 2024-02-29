@@ -122,4 +122,5 @@
     <string name="already_account">Already have an account?</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
+    <string name="dont_account">Don\'t have an account</string>
 </resources>

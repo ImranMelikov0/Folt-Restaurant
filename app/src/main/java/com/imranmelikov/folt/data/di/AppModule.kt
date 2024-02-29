@@ -67,5 +67,7 @@ object AppModule {
     }
     @Singleton
     @Provides
-    fun injectRepo(fireStore: FirebaseFirestore,dao: FoltDao,countryApi: CountryApi,auth: FirebaseAuth)=FoltRepositoryImpl(fireStore,dao,countryApi,auth) as FoltRepository
+    fun injectRepo(fireStore: FirebaseFirestore,dao: FoltDao
+                   ,countryApi: CountryApi,auth: FirebaseAuth
+                   ,@ApplicationContext context: Context)=FoltRepositoryImpl(fireStore,dao,countryApi,auth, context) as FoltRepository
 }

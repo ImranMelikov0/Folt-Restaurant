@@ -12,36 +12,49 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.imranmelikov.folt.R
+import com.imranmelikov.folt.constants.AccountConstants
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.databinding.FragmentAccountBinding
+import com.imranmelikov.folt.presentation.LoginActivity
 import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.bottomsheetfragments.CountryFragmentBottomSheet
 import com.imranmelikov.folt.presentation.bottomsheetfragments.LanguageBottomSheetFragment
 import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
   private lateinit var binding:FragmentAccountBinding
   private lateinit var accountViewModel:AccountViewModel
+  @Inject lateinit var auth: FirebaseAuth
+  private lateinit var bundle: Bundle
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
        binding=FragmentAccountBinding.inflate(inflater,container,false)
         accountViewModel=ViewModelProvider(requireActivity())[AccountViewModel::class.java]
-
+        bundle=Bundle()
         accountViewModel.getUser()
         observeUser()
-        clickEmail()
-        clickName()
         clickBtn()
         clickBackBtn()
+        signOut()
         return binding.root
     }
 
     private fun clickBtn(){
         binding.accountDeleteLinear.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_deleteAccountFragment)
+            findNavController().navigate(R.id.action_accountFragment_to_deleteAccountFragment,bundle)
+        }
+        binding.accountEmailLinear.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_emailFragment,bundle)
+        }
+        binding.accountNameLinear.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_nameFragment,bundle)
         }
         binding.accountAppearanceLinear.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_appearanceFragment)
@@ -54,8 +67,14 @@ class AccountFragment : Fragment() {
             }
             startActivity(Intent.createChooser(shareIntent, "Share"))
         }
-        binding.accountLogOutLinear.setOnClickListener {
 
+    }
+    private fun signOut(){
+        binding.accountLogOutLinear.setOnClickListener {
+            auth.signOut()
+            val intent=Intent(requireActivity(),LoginActivity::class.java)
+            startActivity(intent)
+            (activity as MainActivity).finish()
         }
     }
     private fun clickBackBtn(){
@@ -71,21 +90,14 @@ class AccountFragment : Fragment() {
             (activity as MainActivity).showBottomNav()
         }
     }
-    private fun clickEmail(){
-        binding.accountEmailLinear.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_emailFragment)
-        }
-    }
-    private fun clickName(){
-        binding.accountNameLinear.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_nameFragment)
-        }
-    }
     private fun observeUser(){
         accountViewModel.userLiveData.observe(viewLifecycleOwner){result->
             when(result.status){
                 Status.SUCCESS->{
                     result.data?.let { user->
+                        bundle.apply {
+                            putSerializable(AccountConstants.user,user)
+                        }
                         selectCountry(user.country.countryName)
                         selectLanguage(user.language.language)
                         binding.emailText.text=user.email

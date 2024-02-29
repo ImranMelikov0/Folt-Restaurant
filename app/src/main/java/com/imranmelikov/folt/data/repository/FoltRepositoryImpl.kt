@@ -1,5 +1,8 @@
 package com.imranmelikov.folt.data.repository
 
+import android.content.Context
+import android.widget.Toast
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.imranmelikov.folt.constants.FireStoreConstants
@@ -35,7 +38,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class FoltRepositoryImpl(private val fireStore: FirebaseFirestore,private val dao: FoltDao,private val countryApi: CountryApi,
-    private val auth: FirebaseAuth):FoltRepository {
+    private val auth: FirebaseAuth,private val context: Context):FoltRepository {
 override suspend fun getOffer(): Resource<List<Offer>> {
     return try {
         suspendCoroutine { continuation ->
@@ -61,6 +64,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                     continuation.resume(Resource.success(offerList))
                 }
             }.addOnFailureListener { e ->
+                Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                 }
         }
@@ -91,6 +95,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(bannerList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -122,6 +127,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(parentVenueList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -187,6 +193,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(venueList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -216,6 +223,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(venueCategoryList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -266,6 +274,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(venueDetailsItemList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -311,6 +320,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(venueDetailsItemList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -375,6 +385,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                                 continuation.resume(Resource.success(venueList))
                             }
                         }.addOnFailureListener {e->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                         }
                 }
@@ -442,6 +453,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(venueList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -501,6 +513,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(filteredVenueDetailsItemList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -564,6 +577,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(filteredVenueDetailsItemList))
                     }
                 }.addOnFailureListener {e->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                 }
             }
@@ -580,6 +594,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         .collection(FireStoreCollectionConstants.favVenues).document(venue.id).set(venue).addOnSuccessListener {
                             continuation.resume(Resource.success(CRUD(venue.id,1)))
                         }.addOnFailureListener {e->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                         }
                 }
@@ -597,6 +612,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         .collection(FireStoreCollectionConstants.favVenues).document(documentId).delete().addOnSuccessListener {
                             continuation.resume(Resource.success(CRUD(documentId,2)))
                         }.addOnFailureListener {e->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}",null))
                         }
                 }
@@ -617,6 +633,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                     .update(FireStoreConstants.venueDetails, venueDetailList).addOnSuccessListener {
                         continuation.resume(Resource.success(CRUD(documentId, 3)))
                     }.addOnFailureListener { e ->
+                        Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                         continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                     }
             }
@@ -676,6 +693,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                                 continuation.resume(Resource.success(addressList))
                             }
                         }.addOnFailureListener {e ->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                         }
                 }
@@ -693,6 +711,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         .add(address).addOnSuccessListener {
                             continuation.resume(Resource.success(CRUD(it.id,1)))
                         }.addOnFailureListener {e ->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                         }
                 }
@@ -710,6 +729,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         .document(documentId).delete().addOnSuccessListener {
                             continuation.resume(Resource.success(CRUD(documentId,2)))
                         }.addOnFailureListener {e ->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                         }
                 }
@@ -730,6 +750,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         .document(documentId).set(address).addOnSuccessListener {
                             continuation.resume(Resource.success(CRUD(documentId,3)))
                         }.addOnFailureListener {e ->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                             continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                         }
                 }
@@ -747,9 +768,11 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                             .add(user).addOnSuccessListener {reference->
                                 continuation.resume(Resource.success(CRUD(reference.id,1)))
                             }.addOnFailureListener {e ->
+                                Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                                 continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                             }
                 }.addOnFailureListener {e ->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                 }
             }
@@ -768,6 +791,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         }
                     }
                 }.addOnFailureListener {e ->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                 }
             }
@@ -785,6 +809,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                             .document(user.id).set(user).addOnSuccessListener {
                                 continuation.resume(Resource.success(CRUD(email,3)))
                             }.addOnFailureListener {e ->
+                                Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                                 continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                             }
                     }
@@ -800,14 +825,10 @@ override suspend fun getOffer(): Resource<List<Offer>> {
             suspendCoroutine { continuation ->
                 auth.currentUser?.let { user->
                     user.delete().addOnSuccessListener {
-                        user.email?.let { email->
-                            fireStore.collection(FireStoreCollectionConstants.users).document(email).delete().addOnSuccessListener {
-                                continuation.resume(Resource.success(CRUD(email,2)))
-                            }.addOnFailureListener {e ->
-                                continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
-                            }
+                            continuation.resume(Resource.success(CRUD(user.email.toString(),2)))
                         }
-                    }.addOnFailureListener {e ->
+                    .addOnFailureListener {e ->
+                        Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                         continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                     }
                 }
@@ -817,6 +838,20 @@ override suspend fun getOffer(): Resource<List<Offer>> {
         }
     }
 
+    override suspend fun deleteUserFromFreStore(user: User): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                fireStore.collection(FireStoreCollectionConstants.users).document(user.email).collection(FireStoreCollectionConstants.user).document(user.id).delete().addOnSuccessListener {
+                    continuation.resume(Resource.success(CRUD(user.email,2)))
+                }.addOnFailureListener {e ->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
+                    continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
     override suspend fun getUser(): Resource<User> {
         return try {
             suspendCoroutine { continuation ->
@@ -864,6 +899,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                                 }
                                 continuation.resume(Resource.success(authUser))
                             }.addOnFailureListener {e ->
+                                Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                                 continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                             }
                     }
@@ -923,6 +959,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(languageList))
                     }
                 }.addOnFailureListener {e ->
+                    Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
                 }
             }

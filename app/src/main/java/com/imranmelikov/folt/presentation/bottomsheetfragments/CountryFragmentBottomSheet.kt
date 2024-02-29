@@ -62,9 +62,9 @@ class CountryFragmentBottomSheet:BottomSheetDialogFragment() {
                 val countryRoom=CountryRoom(it.countryName,it.capital)
                 countryViewModel.insertCountry(countryRoom)
             }
-            accountViewModel.getUser()
             dismiss()
             countryViewModel.getCountry()
+            accountViewModel.getUser()
         }
     }
     private fun observeUser(country: Country){

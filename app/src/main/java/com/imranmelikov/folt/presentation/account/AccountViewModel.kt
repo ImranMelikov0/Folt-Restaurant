@@ -69,4 +69,15 @@ class AccountViewModel @Inject constructor(private val repository: FoltRepositor
             }
         }
     }
+    fun deleteUserFromFireStore(user: User){
+        mutableMessageLiveData.value=Resource.loading(null)
+        viewModelScope.launch(Dispatchers.IO + exceptionHandlerMessage){
+            val response=repository.deleteUserFromFreStore(user)
+            viewModelScope.launch(Dispatchers.Main + exceptionHandlerMessage){
+                response.data?.let {
+                    mutableMessageLiveData.value= Resource.success(it)
+                }
+            }
+        }
+    }
 }

@@ -42,7 +42,7 @@ class GetStartedFragment : Fragment() {
         binding=FragmentGetStartedBinding.inflate(inflater,container,false)
 
         if (auth.currentUser!=null){
-            val intent=Intent(requireActivity(),MainActivity::class.java)
+            val intent= Intent(requireActivity(), MainActivity::class.java)
             startActivity(intent)
             (activity as LoginActivity).finish()
         }
@@ -51,7 +51,6 @@ class GetStartedFragment : Fragment() {
         registerLauncher()
         binding.saveBtn.setOnClickListener {
             getLocation()
-//            findNavController().navigate(R.id.action_getStartedFragment_to_signUpFragment,bundle)
         }
         return binding.root
     }
@@ -79,8 +78,9 @@ class GetStartedFragment : Fragment() {
                         putDouble(FireStoreConstants.lat,location.latitude)
                         putDouble(FireStoreConstants.lng,location.longitude)
                     }
-                    println(location.latitude.toString())
                     findNavController().navigate(R.id.action_getStartedFragment_to_signUpFragment,bundle)
+                }else{
+                    Toast.makeText(requireContext(), ErrorMsgConstants.location, Toast.LENGTH_SHORT).show()
                 }
             }
                 .addOnFailureListener { e ->
@@ -101,8 +101,9 @@ class GetStartedFragment : Fragment() {
                                 putDouble(FireStoreConstants.lat,location.latitude)
                                 putDouble(FireStoreConstants.lng,location.longitude)
                             }
-                            println(location.latitude.toString())
                             findNavController().navigate(R.id.action_getStartedFragment_to_signUpFragment,bundle)
+                        }else{
+                            Toast.makeText(requireContext(), ErrorMsgConstants.location, Toast.LENGTH_SHORT).show()
                         }
                     }
                         .addOnFailureListener { e ->
