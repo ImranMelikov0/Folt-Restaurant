@@ -7,4 +7,5 @@ object ErrorMsgConstants {
     const val error="Error:"
     const val editTextMsg="Enter entrance and floor"
     const val location="Failed to get location:"
+    const val noMedia="No media selected"
 }

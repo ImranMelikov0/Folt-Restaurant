@@ -67,6 +67,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.firebase:firebase-firestore:24.10.2")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
 
     //Google places
     implementation ("com.google.android.libraries.places:places:3.3.0")
@@ -90,6 +91,9 @@ dependencies {
 
     //Extensions
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
+    //CircleImageView
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
