@@ -54,18 +54,41 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hi_linear"
+        android:layout_marginStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="40dp">
+
         <TextView
-            android:paddingTop="40dp"
-            android:id="@+id/profile_hi_text"
-            android:layout_width="match_parent"
-            android:layout_marginStart="12dp"
-            android:fontFamily="@font/arial"
+            android:id="@+id/profile_hi"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/arial"
+            android:text="@string/hi"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/profile_hi_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/arial"
             android:text="@string/hi_user"
             android:textSize="30sp"
             android:textColor="@color/black"
             android:textStyle="bold"
-            />
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/profile_hi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+       />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
@@ -74,7 +97,7 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_hi_text"
+        app:layout_constraintTop_toBottomOf="@id/hi_linear"
         app:layout_constraintBottom_toBottomOf="parent"
         >
         <LinearLayout
@@ -563,7 +586,7 @@
             android:id="@+id/no_result_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/no_results_found"
+            android:text="@string/try_again_later"
             android:textColor="@color/black"
             android:fontFamily="@font/arial"
             android:textStyle="bold"

@@ -14,7 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.AppearanceConstants
+import com.imranmelikov.folt.constants.FireStoreCollectionConstants
 import com.imranmelikov.folt.databinding.ActivityMainBinding
+import com.imranmelikov.folt.languagemanager.LanguageManager
 import com.imranmelikov.folt.presentation.venuedetails.VenueDetailsViewModel
 import com.imranmelikov.folt.sharedpreferencesmanager.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         viewModel=ViewModelProvider(this)[VenueDetailsViewModel::class.java]
 
         controlAppearance()
-
+        changeLanguage()
         signOut()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bottomNav = binding.bottomNav
@@ -61,6 +63,11 @@ class MainActivity : AppCompatActivity() {
             AppearanceConstants.default->{
             }
         }
+    }
+
+    private fun changeLanguage(){
+       val languageCode= sharedPreferencesManager.load(FireStoreCollectionConstants.language,"")
+        LanguageManager.updateLanguage(this,languageCode)
     }
 
     private fun signOut(){

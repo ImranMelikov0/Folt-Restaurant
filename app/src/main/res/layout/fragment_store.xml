@@ -46,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:id="@+id/store_category_linear"
                     android:orientation="horizontal">
                     <TextView
                         android:layout_weight="1"
@@ -181,7 +182,7 @@
             android:id="@+id/no_result_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/no_results_found"
+            android:text="@string/try_again_later"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:fontFamily="@font/arial"

@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.imranmelikov.folt.constants.ErrorMsgConstants
+import com.imranmelikov.folt.constants.FireStoreCollectionConstants
 import com.imranmelikov.folt.data.local.entity.LanguageRoom
 import com.imranmelikov.folt.databinding.FragmentLanguageBottomSheetBinding
 import com.imranmelikov.folt.domain.model.Language
+import com.imranmelikov.folt.languagemanager.LanguageManager
 import com.imranmelikov.folt.presentation.account.AccountViewModel
 import com.imranmelikov.folt.presentation.language.LanguageAdapter
 import com.imranmelikov.folt.presentation.language.LanguageViewModel
+import com.imranmelikov.folt.sharedpreferencesmanager.SharedPreferencesManager
 import com.imranmelikov.folt.util.Resource
 import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +31,7 @@ class LanguageBottomSheetFragment:BottomSheetDialogFragment() {
     private lateinit var languageAdapter: LanguageAdapter
     private lateinit var languageViewModel: LanguageViewModel
     private lateinit var accountViewModel:AccountViewModel
+    @Inject lateinit var sharedPreferencesManager: SharedPreferencesManager
     var languageName=""
     @Inject
     lateinit var auth: FirebaseAuth
@@ -62,6 +66,8 @@ class LanguageBottomSheetFragment:BottomSheetDialogFragment() {
                 val languageRoom= LanguageRoom(it.language,it.languageCode)
                 languageViewModel.insertLanguage(languageRoom)
             }
+            sharedPreferencesManager.save(FireStoreCollectionConstants.language,it.languageCode)
+            LanguageManager.updateLanguage(requireContext(), it.languageCode)
             dismiss()
             languageViewModel.getLanguage()
             accountViewModel.getUser()

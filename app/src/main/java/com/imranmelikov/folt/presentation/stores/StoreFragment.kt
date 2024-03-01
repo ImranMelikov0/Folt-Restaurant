@@ -107,6 +107,9 @@ class StoreFragment : Fragment() {
         viewModelVenueCategory.venueCategoryLiveData.observe(viewLifecycleOwner) {result->
             handleResult(result){venueCategoryList ->
                 val filteredCategoryList=venueCategoryList.filter { !it.restaurant }
+                if (filteredCategoryList.isEmpty()){
+                    binding.storeCategoryLinear.visibility=View.GONE
+                }
                 venueCategoryAdapter.venueCategoryList=filteredCategoryList
                 venueCategoryAdapter.viewType= VenueCategoryConstants.Store
                 bundle.apply {

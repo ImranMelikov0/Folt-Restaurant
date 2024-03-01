@@ -87,7 +87,7 @@ class ProfileFragment : Fragment() {
     private fun observeUser(){
         accountViewModel.userLiveData.observe(viewLifecycleOwner){result->
             handleResult(result){ user->
-                "Hi ${user.firstName}!".also { binding.profileHiText.text = it }
+                "${user.firstName}!".also { binding.profileHiText.text = it }
                 "${user.firstName} ${user.lastName}".also { binding.usernameText.text = it }
                 binding.profileEmailText.text=user.email
                 if (user.imageUrl!=""){
