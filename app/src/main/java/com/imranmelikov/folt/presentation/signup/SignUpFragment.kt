@@ -132,7 +132,7 @@ class SignUpFragment : Fragment() {
                 password.text.isEmpty()->{
                     Toast.makeText(requireContext(),EditTextEmptyConstants.passwordEmpty,Toast.LENGTH_SHORT).show()
                 }
-                tel.text.length>11 || tel.text.length>11->{
+                tel.text.length>11 || tel.text.length<11->{
                     Toast.makeText(requireContext(),EditTextEmptyConstants.telLength,Toast.LENGTH_SHORT).show()
                 }
                 email.text.isEmpty()->{

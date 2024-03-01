@@ -22,6 +22,7 @@ import com.imranmelikov.folt.domain.model.Delivery
 import com.imranmelikov.folt.domain.model.Language
 import com.imranmelikov.folt.domain.model.Location
 import com.imranmelikov.folt.domain.model.Offer
+import com.imranmelikov.folt.domain.model.Order
 import com.imranmelikov.folt.domain.model.ParentVenue
 import com.imranmelikov.folt.domain.model.StoreMenuCategory
 import com.imranmelikov.folt.domain.model.User
@@ -242,8 +243,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                         continuation.resume(Resource.success(emptyList()))
                     }else {
                         for (document in querySnapshot.documents) {
-                            val arrayList =
-                                document.get(FireStoreConstants.venueDetails) as? ArrayList<*>
+                            val arrayList = document.get(FireStoreConstants.venueDetails) as? ArrayList<*>
                             arrayList?.let {
                                 for (venueDetail in it) {
                                     if (venueDetail is HashMap<*, *>) {
@@ -897,7 +897,9 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                                         authUser=user
                                     }
                                 }
-                                continuation.resume(Resource.success(authUser))
+                                authUser?.let {
+                                    continuation.resume(Resource.success(it))
+                                }
                             }.addOnFailureListener {e ->
                                 Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                                 continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
@@ -961,6 +963,97 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                 }.addOnFailureListener {e ->
                     Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
                     continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun insertOrder(order: Order): Resource<CRUD> {
+        return try {
+            suspendCoroutine { continuation ->
+                auth.currentUser?.let {user->
+                    fireStore.collection(FireStoreCollectionConstants.orders).document(user.uid).collection(FireStoreCollectionConstants.order).add(order)
+                        .addOnSuccessListener {
+                            continuation.resume(Resource.success(CRUD(it.id,1)))
+                        }.addOnFailureListener {e ->
+                            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
+                            continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                        }
+                }
+            }
+        }catch (e:Exception){
+            Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null)
+        }
+    }
+
+    override suspend fun getOrder(): Resource<List<Order>> {
+        return try {
+            suspendCoroutine { continuation ->
+                auth.currentUser?.let { user->
+                    val orderList= mutableListOf<Order>()
+                    val venueDetailsList= mutableListOf<VenueDetails>()
+                    fireStore.collection(FireStoreCollectionConstants.orders).document(user.uid).collection(FireStoreCollectionConstants.order).get().addOnSuccessListener {querySnapshot->
+                        if (querySnapshot.isEmpty){
+                            continuation.resume(Resource.success(emptyList()))
+                        }else{
+                            for (document in querySnapshot.documents){
+                                val addressMap=document[FireStoreConstants.address] as HashMap<*,*>
+                                val address=Address(
+                                    id=addressMap[FireStoreConstants.id] as String,
+                                    addressName = addressMap[FireStoreConstants.addressName] as String,
+                                    buildingName = addressMap[FireStoreConstants.buildingName] as String,
+                                    apartment = addressMap[FireStoreConstants.apartment] as Number,
+                                    floor = addressMap[FireStoreConstants.floor] as Number,
+                                    doorCode = addressMap[FireStoreConstants.doorCode] as String,
+                                    entrance = addressMap[FireStoreConstants.entrance] as Number,
+                                    countryName = addressMap[FireStoreConstants.countryName] as String
+                                )
+                                val arrayList = document.get(FireStoreConstants.venueDetails) as? ArrayList<*>
+                                arrayList?.let {
+                                    for (venueDetail in it) {
+                                        if (venueDetail is HashMap<*, *>) {
+                                            val venueDetails = VenueDetails(
+                                                id = venueDetail[FireStoreConstants.id] as String,
+                                                imageUrl = venueDetail[FireStoreConstants.imageUrl] as String,
+                                                about = venueDetail[FireStoreConstants.about] as String,
+                                                price = venueDetail[FireStoreConstants.price] as Number,
+                                                popularity = venueDetail[FireStoreConstants.popularity] as Boolean,
+                                                selected = venueDetail[FireStoreConstants.selected] as Boolean,
+                                                count = venueDetail[FireStoreConstants.count] as Number,
+                                                stock = venueDetail[FireStoreConstants.stock] as Number,
+                                                menuName = venueDetail[FireStoreConstants.menuName] as String
+                                            )
+                                            venueDetailsList.add(venueDetails)
+                                        }
+                                    }
+                                }
+                                val order=Order(
+                                    id = document.getString(FireStoreConstants.id) as String,
+                                    venueName = document.getString(FireStoreConstants.venueName) as String,
+                                    firstName = document.getString(FireStoreConstants.firstName) as String,
+                                    lastName = document.getString(FireStoreConstants.lastName) as String,
+                                    email = document.getString(FireStoreConstants.email) as String,
+                                    tel=document.getString(FireStoreConstants.tel) as String,
+                                    userId = document.getString(FireStoreConstants.userId) as String,
+                                    contactDelivery = document.getString(FireStoreConstants.contactDelivery) as String,
+                                    deliveryTime = document.getString(FireStoreConstants.deliveryTime) as String,
+                                    history = document.getString(FireStoreConstants.history) as String,
+                                    itemSubtotal = document.getString(FireStoreConstants.itemSubtotal) as String,
+                                    totalPrice = document.getString(FireStoreConstants.totalPrice) as String,
+                                    address = address,
+                                    venueDetailsList = venueDetailsList
+                                )
+                                order.id=document.id
+                                orderList.add(order)
+                            }
+                            continuation.resume(Resource.success(orderList))
+                        }
+                    }.addOnFailureListener {e ->
+                        Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
+                        continuation.resume(Resource.error("${ErrorMsgConstants.errorFromFirebase} ${e.localizedMessage}", null))
+                    }
                 }
             }
         }catch (e:Exception){

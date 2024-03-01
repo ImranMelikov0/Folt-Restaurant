@@ -1,6 +1,7 @@
 package com.imranmelikov.folt.presentation
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.AppearanceConstants
 import com.imranmelikov.folt.databinding.ActivityMainBinding
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var viewModel: VenueDetailsViewModel
     @Inject lateinit var sharedPreferencesManager: SharedPreferencesManager
+    @Inject lateinit var auth: FirebaseAuth
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         controlAppearance()
 
+        signOut()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bottomNav = binding.bottomNav
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -57,6 +61,15 @@ class MainActivity : AppCompatActivity() {
             }
             AppearanceConstants.default->{
             }
+        }
+    }
+
+    private fun signOut(){
+        if (auth.currentUser==null){
+            auth.signOut()
+            val intent=Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

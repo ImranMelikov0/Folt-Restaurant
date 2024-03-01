@@ -9,6 +9,7 @@ import com.imranmelikov.folt.domain.model.Banner
 import com.imranmelikov.folt.domain.model.CRUD
 import com.imranmelikov.folt.domain.model.Language
 import com.imranmelikov.folt.domain.model.Offer
+import com.imranmelikov.folt.domain.model.Order
 import com.imranmelikov.folt.domain.model.ParentVenue
 import com.imranmelikov.folt.domain.model.User
 import com.imranmelikov.folt.domain.model.Venue
@@ -92,5 +93,9 @@ interface FoltRepository {
     suspend fun getLanguage():List<LanguageRoom>
 
     suspend fun getLanguages():Resource<List<Language>>
+
+    suspend fun insertOrder(order: Order):Resource<CRUD>
+
+    suspend fun getOrder():Resource<List<Order>>
 
 }

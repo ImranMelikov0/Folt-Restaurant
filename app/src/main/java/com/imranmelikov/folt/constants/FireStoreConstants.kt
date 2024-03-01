@@ -55,4 +55,9 @@ object FireStoreConstants {
     const val languageCode="languageCode"
     const val password="password"
     const val capital="capital"
+    const val userId="userId"
+    const val contactDelivery="contactDelivery"
+    const val history="history"
+    const val itemSubtotal="itemSubtotal"
+    const val totalPrice="totalPrice"
 }

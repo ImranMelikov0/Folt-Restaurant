@@ -56,12 +56,4 @@ class ItemSearchViewModel @Inject constructor(private val repository: FoltReposi
             }
         }
     }
-    fun clearVenueMenuMutableList(){
-        venueMenuMutableLiveData.value=Resource.success(null)
-        venueMenuMutableLiveData=MutableLiveData<Resource<List<VenueDetailsItem>>>()
-    }
-    fun clearStoreMenuMutableList(){
-        storeMenuCategoryMutableLiveData.value=Resource.success(null)
-        storeMenuCategoryMutableLiveData=MutableLiveData<Resource<List<VenueDetailsItem>>>()
-    }
 }

@@ -35,8 +35,4 @@ class SearchViewModel @Inject constructor(private val repository: FoltRepository
             }
         }
     }
-    fun clearMutableList(){
-        mutableVenueLiveData.value=Resource.success(null)
-        mutableVenueLiveData=MutableLiveData<Resource<List<Venue>>>()
-    }
 }

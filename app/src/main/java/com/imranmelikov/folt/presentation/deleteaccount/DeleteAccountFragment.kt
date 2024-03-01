@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.imranmelikov.folt.constants.AccountConstants
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.databinding.FragmentDeleteAccountBinding
@@ -18,10 +19,14 @@ import com.imranmelikov.folt.presentation.LoginActivity
 import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.account.AccountViewModel
 import com.imranmelikov.folt.util.Status
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DeleteAccountFragment : Fragment() {
   private lateinit var binding:FragmentDeleteAccountBinding
   private lateinit var accountViewModel: AccountViewModel
+  @Inject lateinit var auth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +42,10 @@ class DeleteAccountFragment : Fragment() {
             binding.saveBtn.setOnClickListener {
                 accountViewModel.deleteUserFromFireStore(user)
                 accountViewModel.deleteUser()
+                auth.signOut()
+                val intent= Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+                (activity as MainActivity).finish()
             }
         }
         return binding.root
@@ -46,9 +55,6 @@ class DeleteAccountFragment : Fragment() {
             when(result.status){
                 Status.SUCCESS->{
                     result.data?.let {
-                        val intent= Intent(requireActivity(), LoginActivity::class.java)
-                        startActivity(intent)
-                        (activity as MainActivity).finish()
                         Log.d(it.message,it.success.toString())
                     }
                 }

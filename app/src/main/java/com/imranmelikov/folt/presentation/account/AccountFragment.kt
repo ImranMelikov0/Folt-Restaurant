@@ -100,6 +100,7 @@ class AccountFragment : Fragment() {
                         }
                         selectCountry(user.country.countryName)
                         selectLanguage(user.language.language)
+                        changePhoto()
                         binding.emailText.text=user.email
                         binding.telText.text=user.tel
                         "${user.firstName} ${user.lastName}".also { binding.nameText.text = it }
@@ -122,6 +123,12 @@ class AccountFragment : Fragment() {
                     binding.noResultText.visibility=View.VISIBLE
                 }
             }
+        }
+    }
+
+    private fun changePhoto(){
+        binding.profileImage.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_photoFragment,bundle)
         }
     }
 
