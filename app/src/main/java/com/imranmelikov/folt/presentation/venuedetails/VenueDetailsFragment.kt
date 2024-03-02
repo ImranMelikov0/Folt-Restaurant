@@ -198,7 +198,13 @@ class VenueDetailsFragment : Fragment() {
         viewModelVenueDetails.venueMenuLiveData.observe(viewLifecycleOwner){result->
             handleResult(result){venueDetailsItems->
                 val filteredVenueDetailsItems=venueDetailsItems.filter { it.parentId==venue.id }
+                venueDetailsItems.map {
+                    println(it.venueDetailList)
+                }
                 if (filteredVenueDetailsItems.isNotEmpty()){
+                    filteredVenueDetailsItems.map {
+                        println(it.venueDetailList)
+                    }
                     venueDetailsAdapter.viewType=VenueMenuConstants.RestaurantMenu
                     venueDetailsAdapter.venueDetailsItemList=filteredVenueDetailsItems
                 }
