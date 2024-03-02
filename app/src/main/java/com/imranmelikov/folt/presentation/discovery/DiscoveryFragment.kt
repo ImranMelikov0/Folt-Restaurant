@@ -134,8 +134,8 @@ class DiscoveryFragment : Fragment() {
     private fun observeOffers(stores: List<Venue>, restaurants: List<Venue>){
         discoveryViewModel.offersLiveData.observe(viewLifecycleOwner){result->
             handleResult(result){offerList->
-                val filteredFoltMarket=offerList.filter { it.parentVenue=="Stores"}
-                val filteredKfc=offerList.filter { it.parentVenue=="Restaurant"}
+                val filteredFoltMarket=offerList.filter { it.parentVenue=="Folt Market"}
+                val filteredKfc=offerList.filter { it.parentVenue=="KFC"}
                 discoveryItemOfferRestaurant=DiscoveryItem(DiscoveryTitles.restaurantOffers,ViewTypeDiscovery.Offer,filteredKfc,restaurants,0)
                 discoveryItemOfferStore=DiscoveryItem(DiscoveryTitles.foltMarketOffers,ViewTypeDiscovery.Offer,filteredFoltMarket,stores,0)
                 initialiseMainCategoryRv(stores,restaurants)

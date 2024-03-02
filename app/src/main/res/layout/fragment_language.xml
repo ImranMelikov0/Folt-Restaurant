@@ -34,12 +34,16 @@
         android:textColor="@color/black"
         android:layout_margin="10dp"
         />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="8dp"
         android:id="@+id/language_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/add_new_address_textview"/>
+        android:layout_below="@id/add_new_address_textview"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp" />
     <LinearLayout
         android:id="@+id/progress_linear"
         android:layout_width="match_parent"

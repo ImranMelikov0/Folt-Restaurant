@@ -6,10 +6,8 @@ object FireStoreCollectionConstants {
     const val ParentVenue="ParentVenue"
     const val venue="Venue"
     const val venueCategory="VenueCategory"
-    //////////
-    const val venueDetailsItemRestaurant="VenueDetailsItemRestaurant"
+    const val venueDetailsItemVenue="VenueDetailsItemVenue"
     const val venueDetailsItemStore="VenueDetailsItemStore"
-    //////////
     const val favoriteVenue="Favorites"
     const val favVenues="Venues"
     const val userAddress="UserAddress"

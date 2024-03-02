@@ -237,7 +237,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
             suspendCoroutine { continuation ->
                 val venueDetailsItemList= mutableListOf<VenueDetailsItem>()
                 val venueDetailsList= mutableListOf<VenueDetails>()
-                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemRestaurant).get().addOnSuccessListener {querySnapshot->
+                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemVenue).get().addOnSuccessListener {querySnapshot->
                     if (querySnapshot.isEmpty){
                         continuation.resume(Resource.success(emptyList()))
                     }else {
@@ -528,7 +528,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
                 val venueDetailsList= mutableListOf<VenueDetails>()
                 var filteredVenueDetailsItemList= listOf<VenueDetailsItem>()
                 var filteredVenueDetailsList: List<VenueDetails>
-                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemRestaurant).get().addOnSuccessListener {querySnapshot->
+                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemVenue).get().addOnSuccessListener {querySnapshot->
                     if (querySnapshot.isEmpty){
                         continuation.resume(Resource.success(emptyList()))
                     }else {
@@ -627,7 +627,7 @@ override suspend fun getOffer(): Resource<List<Offer>> {
     ):Resource<CRUD> {
         return try {
             suspendCoroutine { continuation ->
-                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemRestaurant)
+                fireStore.collection(FireStoreCollectionConstants.venueDetailsItemVenue)
                     .document(documentId)
                     .update(FireStoreConstants.venueDetails, venueDetailList).addOnSuccessListener {
                         continuation.resume(Resource.success(CRUD(documentId, 3)))

@@ -99,8 +99,9 @@ class AccountFragment : Fragment() {
                             putSerializable(AccountConstants.user,user)
                         }
                         selectCountry(user.country.countryName)
-                        selectLanguage(user.language.language)
+                        selectLanguage()
                         changePhoto()
+                        binding.languageText.text=user.language.language
                         binding.emailText.text=user.email
                         binding.telText.text=user.tel
                         "${user.firstName} ${user.lastName}".also { binding.nameText.text = it }
@@ -132,14 +133,9 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun selectLanguage(language:String){
-        binding.languageText.text=language
+    private fun selectLanguage(){
         binding.accountLanguageLinear.setOnClickListener {
-            val languageBottomSheetFragment=LanguageBottomSheetFragment()
-            if (!languageBottomSheetFragment.isAdded) {
-                languageBottomSheetFragment.show((requireActivity() as AppCompatActivity).supportFragmentManager, languageBottomSheetFragment.tag)
-            }
-            languageBottomSheetFragment.languageName=language
+           findNavController().navigate(R.id.action_accountFragment_to_languageFragment,bundle)
         }
     }
 

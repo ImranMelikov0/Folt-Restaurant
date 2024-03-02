@@ -35,7 +35,7 @@ object FireStoreConstants {
     const val stock="stock"
     const val count="count"
     const val menuName="menuName"
-    const val storeMenuCategoryList="storeMenuCategoryList"
+    const val storeMenuCategoryList="storeMenuCategory"
     const val dummy="dummy"
     const val parentId="parentId"
     const val lat="lat"

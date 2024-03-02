@@ -2,6 +2,8 @@ package com.imranmelikov.folt.presentation.newaddress
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,10 +23,12 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.AddressConstants
+import com.imranmelikov.folt.constants.ApiKeyConstants
 import com.imranmelikov.folt.constants.ErrorMsgConstants
 import com.imranmelikov.folt.constants.OrderConstants
 import com.imranmelikov.folt.databinding.FragmentNewAddressBinding
 import com.imranmelikov.folt.domain.model.Venue
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.presentation.account.AccountViewModel
 import com.imranmelikov.folt.presentation.bottomsheetfragments.CountryFragmentBottomSheet
 import com.imranmelikov.folt.util.Status
@@ -124,9 +128,14 @@ class NewAddressFragment : Fragment() {
         }
     }
     private fun clickAutoCompleteBtn(){
-        ///////
+
+        val ai: ApplicationInfo = (activity as MainActivity).applicationContext.packageManager
+            .getApplicationInfo((activity as MainActivity).applicationContext.packageName, PackageManager.GET_META_DATA)
+        val value = ai.metaData[ApiKeyConstants.googlePlaces]
+
+        val apiKey=value.toString()
         if (!Places.isInitialized()){
-            Places.initialize(requireActivity(),"AIzaSyAt-Pd9uesPj8NeL-Ie9UqgNY1XryCHCj4")
+            Places.initialize(requireActivity(),apiKey)
         }
         binding.autoCompleteCardView.setOnClickListener {
             // Set the fields to specify which types of place data to

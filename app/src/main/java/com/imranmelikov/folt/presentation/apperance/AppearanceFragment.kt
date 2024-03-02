@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.AppearanceConstants
 import com.imranmelikov.folt.databinding.FragmentAppearanceBinding
+import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.sharedpreferencesmanager.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -65,15 +67,18 @@ class AppearanceFragment : Fragment() {
     private fun controlTheme(){
         binding.customImageButton.setOnClickListener {
             sharedPreferencesManager.save(AppearanceConstants.theme,AppearanceConstants.light)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
              light()
         }
         binding.customImageButton2.setOnClickListener {
             sharedPreferencesManager.save(AppearanceConstants.theme,AppearanceConstants.dark)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             dark()
         }
 
         binding.switchCompat.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 sharedPreferencesManager.save(AppearanceConstants.theme,AppearanceConstants.default)
                 default()
             }
