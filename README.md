@@ -31,7 +31,9 @@ By leveraging these technologies and methodologies, my project aims to deliver a
 
 Watch video:https://youtu.be/flnq2Ya2AGo
 
-# Download APK
+# Get icons,images,animations and APK
+
+Get all:https://drive.google.com/drive/folders/1p3ixyilGmMBkhhwfAwH_SHAYtI4x4_H0?usp=drive_link
 
 
 
