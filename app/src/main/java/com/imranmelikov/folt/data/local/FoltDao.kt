@@ -9,7 +9,6 @@ import androidx.room.Update
 import com.imranmelikov.folt.data.local.entity.CountryRoom
 import com.imranmelikov.folt.data.local.entity.LanguageRoom
 import com.imranmelikov.folt.data.local.entity.VenueDetailsRoom
-import com.imranmelikov.folt.domain.model.Language
 
 @Dao
 interface FoltDao {

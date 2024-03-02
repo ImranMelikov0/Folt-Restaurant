@@ -1,7 +1,6 @@
 package com.imranmelikov.folt.domain.use_case
 
 import com.imranmelikov.folt.constants.ErrorMsgConstants
-import com.imranmelikov.folt.data.remote.dto.CountryDto
 import com.imranmelikov.folt.data.remote.dto.toCountry
 import com.imranmelikov.folt.domain.model.Country
 import com.imranmelikov.folt.domain.repository.FoltRepository

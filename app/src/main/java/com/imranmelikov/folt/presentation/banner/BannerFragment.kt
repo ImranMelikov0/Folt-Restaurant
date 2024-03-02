@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.imranmelikov.folt.R
 import com.imranmelikov.folt.databinding.FragmentBannerBinding
 
 class BannerFragment : Fragment() {

@@ -86,7 +86,6 @@ class VenueDetailsFragment : Fragment() {
         }
     }
     private fun clickDeliveryBtn(){
-        // !!!!!!
         binding.deliveryBtn.setOnClickListener {
         }
     }

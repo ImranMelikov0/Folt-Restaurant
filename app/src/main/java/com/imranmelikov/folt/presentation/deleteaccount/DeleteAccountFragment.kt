@@ -22,6 +22,7 @@ import com.imranmelikov.folt.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class DeleteAccountFragment : Fragment() {
   private lateinit var binding:FragmentDeleteAccountBinding

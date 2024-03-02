@@ -56,7 +56,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/hi_linear"
-        android:layout_marginStart="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="40dp">
@@ -67,8 +66,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/arial"
             android:text="@string/hi"
-            android:textSize="30sp"
             android:textColor="@color/black"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,16 +76,15 @@
             android:id="@+id/profile_hi_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:fontFamily="@font/arial"
             android:text="@string/hi_user"
-            android:textSize="30sp"
             android:textColor="@color/black"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_marginStart="12dp"
-            app:layout_constraintStart_toEndOf="@id/profile_hi"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-       />
+            app:layout_constraintStart_toEndOf="@id/profile_hi"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

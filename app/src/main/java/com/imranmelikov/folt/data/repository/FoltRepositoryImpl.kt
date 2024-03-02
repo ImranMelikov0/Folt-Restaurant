@@ -2,7 +2,6 @@ package com.imranmelikov.folt.data.repository
 
 import android.content.Context
 import android.widget.Toast
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.imranmelikov.folt.constants.FireStoreConstants

@@ -5,18 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.imranmelikov.folt.R
 import com.imranmelikov.folt.constants.AppearanceConstants
 import com.imranmelikov.folt.databinding.FragmentAppearanceBinding
-import com.imranmelikov.folt.presentation.MainActivity
 import com.imranmelikov.folt.sharedpreferencesmanager.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

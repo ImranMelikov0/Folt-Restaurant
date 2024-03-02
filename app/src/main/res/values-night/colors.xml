@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FFF</color>
+    <color name="white">#000</color>
+    <color name="gray">#e9ecef</color>
+    <color name="dark_gray">#757780</color>
+    <color name="open_blue">#2196f3</color>
+    <color name="open_blue_shadow">#172196F3</color>
+    <color name="night_black">#1B1B1B</color>
+    <color name="delete_btn_bg_color">#fff0f3</color>
+    <color name="delete_btn_text_color">#d00000</color>
+    <color name="delete_btn_text_disabled_color">#74D00000</color>
+    <color name="switch_color_green">#29bf12</color>
+</resources>
